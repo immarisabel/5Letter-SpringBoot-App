@@ -5,11 +5,11 @@
     <title>Guess the Word</title>
 </head>
 <body>
+<h1>Hello <span th:text="${player}"></span> !</h1>
+<h2>Guess the word:</h2>
 <form th:action="@{/result}" th:object="${guessDTO}" method="post">
-
     <div>
-        <label>Word:</label>
-        <input type="text" th:field="*{guess}" placeholder="5letters" />
+        <p> <label>Word:</label><input type="text" th:field="*{guess}" placeholder="5letters" /></p>
     </div>
     <input type="submit" value="Submit"/>
 </form>

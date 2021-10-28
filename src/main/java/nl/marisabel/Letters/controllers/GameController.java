@@ -1,6 +1,7 @@
 package nl.marisabel.Letters.controllers;
 
 import nl.marisabel.Letters.dto.GuessDTO;
+import nl.marisabel.Letters.dto.PlayerDTO;
 import nl.marisabel.Letters.dto.WordDTO;
 import nl.marisabel.Letters.services.RandomWordService;
 import nl.marisabel.Letters.services.WordCheckService;
@@ -21,17 +22,25 @@ public class GameController {
     @Autowired
     private WordCheckService check;
 
-    @GetMapping("/guess")
-    public String guess(Model model, GuessDTO guess) {
+    @GetMapping("/welcome")
+    public String name(Model model, PlayerDTO player) {
+        model.addAttribute("player", new PlayerDTO());
+        return "welcome";
+    }
+
+    @PostMapping("/guess")
+    public String guess(Model model, WordDTO wordDTO, GuessDTO guess, PlayerDTO playerDTO) throws IOException {
+        wordDTO.setWord(random.selectRandomWord());
+        model.addAttribute("player", playerDTO.getPlayer());
         model.addAttribute("guess", new GuessDTO());
         return "guess";
     }
 
     @PostMapping("/result")
-    public String hello(Model model, WordDTO wordDTO, GuessDTO guessDTO) throws IOException {
-        wordDTO.setWord(random.selectRandomWord());
+    public String hello(Model model, WordDTO wordDTO, GuessDTO guessDTO, PlayerDTO playerDTO) {
         model.addAttribute("word", wordDTO.getWord());
         model.addAttribute("guess", guessDTO.getGuess());
+        model.addAttribute("player", playerDTO.getPlayer());
         model.addAttribute("result", check.resultWord(wordDTO.getWord(), guessDTO.getGuess()));
 
         return "index";

@@ -3,17 +3,16 @@ package nl.marisabel.Letters.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-public class WordDTO {
+public class PlayerDTO {
 
     @Getter
     @Setter
-    private String word;
-
+    private String player;
 
     @Override
     public String toString() {
-        return "WordDTO{" +
-                "word='" + word + '\'' +
+        return "PlayerDTO{" +
+                "player='" + player + '\'' +
                 '}';
     }
 }
