@@ -1,0 +1,47 @@
+package nl.marisabel.Letters.services;
+
+import org.springframework.stereotype.Service;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.logging.Logger;
+
+@Service
+public class RandomWordService {
+
+    Logger LOGGER = Logger.getLogger(RandomWordService.class.getName());
+
+    // TODO make it work with class path
+
+    private String word;
+
+    public String getWord() throws IOException {
+        return word;
+    }
+
+    public void setWord(String word){
+        this.word = word;
+    }
+
+    public String selectRandomWord() throws IOException {
+        String file = "src/main/resources/words.dic";
+        List<String> words = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(String.valueOf(file)))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] wordline = line.split("\\s+");
+                for (String word : wordline) {
+                    words.add(word);
+                }
+            }
+        }
+        Random rand = new Random();
+        String word = words.get(rand.nextInt(words.size()));
+        LOGGER.info(":::::::::: Generated word: "+ word +" ::::::::::");
+        return word;
+    }
+}
