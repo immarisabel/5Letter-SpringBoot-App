@@ -1,20 +1,13 @@
 package nl.marisabel.Letters.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class GuessDTO {
 
+    @Setter
+    @Getter
     private String guess;
-
-    public String getGuess() {
-        return guess;
-    }
-
-    public String getGuess(String words) {
-        return guess;
-    }
-
-    public void setGuess(String guess) {
-        this.guess = guess;
-    }
 
     @Override
     public String toString() {

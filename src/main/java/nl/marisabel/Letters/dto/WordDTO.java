@@ -1,15 +1,13 @@
 package nl.marisabel.Letters.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class WordDTO {
+
+    @Getter
+    @Setter
     private String word;
-
-    public String getWord() {
-        return word;
-    }
-
-    public void setWord(String word) {
-        this.word = word;
-    }
 
     @Override
     public String toString() {

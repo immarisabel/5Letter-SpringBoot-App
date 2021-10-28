@@ -13,7 +13,7 @@ import java.io.IOException;
 
 
 @Controller
-public class TestController {
+public class GameController {
 
     @Autowired
     private RandomWordService random;
@@ -21,13 +21,18 @@ public class TestController {
     @Autowired
     private WordCheckService check;
 
-    @GetMapping("/hello")
+    @GetMapping("/guess")
+    public String guess(Model model, GuessDTO guess) {
+        model.addAttribute("guess", new GuessDTO());
+        return "guess";
+    }
+
+    @PostMapping("/result")
     public String hello(Model model, WordDTO wordDTO, GuessDTO guessDTO) throws IOException {
         wordDTO.setWord(random.selectRandomWord());
-        guessDTO.setGuess("words");
         model.addAttribute("word", wordDTO.getWord());
         model.addAttribute("guess", guessDTO.getGuess());
-        model.addAttribute("result", check.resultWord(wordDTO.getWord(),guessDTO.getGuess()));
+        model.addAttribute("result", check.resultWord(wordDTO.getWord(), guessDTO.getGuess()));
 
         return "index";
     }
