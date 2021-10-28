@@ -1,0 +1,12 @@
+Fields needed for DOTs:
+
+word guessing ->
+word generated <-
+result word ->
+
+name <-
+location -> via API
+
+tries <->
+attempts <->
+credits <->
