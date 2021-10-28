@@ -1,12 +1,12 @@
 Fields needed for DOTs:
 
-word guessing ->
-word generated <-
-result word ->
+✔ word guessing ➡ input
+✔ word generated ⬅ output
+✔ result word ⬅ output
 
-name <-
-location -> via API
+name ➡ input
+location ⬅ via API output : not visible, just for database stats
 
-tries <->
-attempts <->
-credits <->
+tries ↔ dynamic
+attempts ↔ dynamic
+credits ↔ dynamic

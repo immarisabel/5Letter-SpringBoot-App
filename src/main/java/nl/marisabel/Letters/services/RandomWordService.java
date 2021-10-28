@@ -23,6 +23,8 @@ public class RandomWordService {
         return word;
     }
 
+    // TODO create a class path for the file
+
     public void setWord(String word){
         this.word = word;
     }
