@@ -14,6 +14,7 @@ import java.io.IOException;
 
 
 @Controller
+@SessionAttributes("word")
 public class GameController {
 
     @Autowired
@@ -22,22 +23,22 @@ public class GameController {
     @Autowired
     private WordCheckService check;
 
-    @GetMapping("/welcome")
-    public String name(Model model, PlayerDTO player) {
-        model.addAttribute("player", new PlayerDTO());
+    @RequestMapping("/welcome")
+    public String name(Model model) {
         return "welcome";
     }
 
-    @PostMapping("/guess")
-    public String guess(Model model, WordDTO wordDTO, GuessDTO guess, PlayerDTO playerDTO) throws IOException {
-        wordDTO.setWord(random.selectRandomWord());
+    @RequestMapping("/guess")
+    public String guess(Model model, @ModelAttribute("word") WordDTO wordDTO, GuessDTO guess, @ModelAttribute("player") PlayerDTO playerDTO) {
         model.addAttribute("player", playerDTO.getPlayer());
         model.addAttribute("guess", new GuessDTO());
         return "guess";
     }
 
-    @PostMapping("/result")
-    public String hello(Model model, WordDTO wordDTO, GuessDTO guessDTO, PlayerDTO playerDTO) {
+    @RequestMapping("/result")
+    public String hello(Model model, @ModelAttribute("word") WordDTO wordDTO, GuessDTO guessDTO, @ModelAttribute("player") PlayerDTO playerDTO) throws IOException {
+        wordDTO.setWord(random.selectRandomWord());
+
         model.addAttribute("word", wordDTO.getWord());
         model.addAttribute("guess", guessDTO.getGuess());
         model.addAttribute("player", playerDTO.getPlayer());
@@ -45,6 +46,18 @@ public class GameController {
 
         return "index";
     }
+
+    // create beans
+    @ModelAttribute("word")
+    public WordDTO words() {
+        return new WordDTO();
+    }
+
+    @ModelAttribute("player")
+    public PlayerDTO player() {
+        return new PlayerDTO();
+    }
+
 
 //    @ResponseBody
 //    @GetMapping("/hello/{name}")
