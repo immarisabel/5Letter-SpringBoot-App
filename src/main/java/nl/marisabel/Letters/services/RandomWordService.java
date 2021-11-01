@@ -1,5 +1,9 @@
 package nl.marisabel.Letters.services;
 
+import nl.marisabel.Letters.dto.GuessDTO;
+import nl.marisabel.Letters.util.LogFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -8,12 +12,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Logger;
 
 @Service
 public class RandomWordService {
 
-    Logger LOGGER = Logger.getLogger(RandomWordService.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(GuessDTO.class);
 
     // TODO make it work with class path
 
@@ -43,7 +46,7 @@ public class RandomWordService {
         }
         Random rand = new Random();
         String word = words.get(rand.nextInt(words.size()));
-        LOGGER.info(":::::::::: Generated word: "+ word +" ::::::::::");
+        LOGGER.info(LogFormat.log() + "Generated word: "+ word);
         return word;
     }
 }

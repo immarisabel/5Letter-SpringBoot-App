@@ -1,13 +1,24 @@
 package nl.marisabel.Letters.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import nl.marisabel.Letters.util.LogFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GuessDTO {
 
-    @Setter
-    @Getter
+    private static final Logger LOGGER = LoggerFactory.getLogger(GuessDTO.class);
+
     private String guess;
+
+    public String getGuess() {
+        LOGGER.info(LogFormat.log()+" Your guess was " + guess);
+        return guess;
+    }
+
+    public void setGuess(String guess) {
+        LOGGER.info(LogFormat.log() +" Setting guess");
+        this.guess = guess;
+    }
 
     @Override
     public String toString() {
