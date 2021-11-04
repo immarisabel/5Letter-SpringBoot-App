@@ -4,6 +4,7 @@ import nl.marisabel.Letters.dto.AttemptsDTO;
 import nl.marisabel.Letters.dto.GuessDTO;
 import nl.marisabel.Letters.dto.ResultDTO;
 import nl.marisabel.Letters.dto.WordDTO;
+import nl.marisabel.Letters.services.GameAttemptsService;
 import nl.marisabel.Letters.services.RandomWordService;
 import nl.marisabel.Letters.services.WordCheckService;
 import nl.marisabel.Letters.util.LogFormat;
@@ -31,9 +32,13 @@ public class GameController {
 
     @Autowired
     private RandomWordService randomWord;
-
     @Autowired
     private WordCheckService checkGuess;
+    @Autowired
+    private GameAttemptsService attempts;
+
+
+    // TODO need to separate when requesting a game + word, and the results in order to not deduct attempts with teh first load
 
     @GetMapping(value = "/index")
     public String home(final Model model, final HttpSession session, final HttpServletRequest request, WordDTO wordDTO, GuessDTO guessDTO, ResultDTO resultDTO, AttemptsDTO attemptsDTO) throws IOException {
@@ -57,19 +62,17 @@ public class GameController {
     }
 
     @PostMapping(value = "/guess")
-    public String guessWord(final Model model, final HttpServletRequest request, GuessDTO guessDTO) throws IOException {
+    public String guessWord(final Model model, final HttpServletRequest request, GuessDTO guessDTO, AttemptsDTO attemptsDTO) throws IOException {
 
         String words = (String) request.getSession().getAttribute(WORD_TO_GUESS_CONSTANT);
+
         request.getSession().setAttribute(GUESSED_WORD_CONSTANT, guessDTO.getGuess());
 
         String resultWord = checkGuess.resultWord(words, guessDTO.getGuess());
         request.getSession().setAttribute(RESULT_CONSTANT, resultWord);
 
-        LOGGER.info(LogFormat.log() + " RESULT: " + resultWord );
-
-        int attempt = 10;
-
-        request.getSession().setAttribute(ATTEMPTS_CONSTANT , String.valueOf(attempt--));
+        attemptsDTO.setAttempts(10);
+        request.getSession().setAttribute(ATTEMPTS_CONSTANT, attempts.reduceAttemptsForWrongGuess(words,resultWord));
 
         return "redirect:/index";
     }

@@ -21,7 +21,7 @@ public class GameAttemptsTest {
     @Autowired
     private WordCheckService wordCheckService;
     @Autowired
-    private GameAttemptsService attempts;
+    private GameAttemptsService attemptsService;
 
     @Test
     public void checkResultDTO() {
@@ -41,26 +41,24 @@ public class GameAttemptsTest {
     @Test
     public void testDataManipulation() {
         AttemptsDTO attemptsDTO = new AttemptsDTO();
-        attemptsDTO.setAttempts(10);
+        int attempt = 10;
+        attemptsDTO.setAttempts(attempt);
+        LOGGER.info(LogFormat.log() + " Set: " + attemptsDTO.getAttempts());
 
-        int attempts = attemptsDTO.getAttempts();
-        LOGGER.info(LogFormat.log() + " Set: " + attempts);
-        
-        attemptsDTO.setAttempts(attempts--);
-        System.out.println(attemptsDTO.getAttempts());
+        attemptsDTO.setAttempts(--attempt);
         assertEquals(9, attemptsDTO.getAttempts());
+        LOGGER.info(LogFormat.log() + " Final: " + attemptsDTO.getAttempts());
     }
+
 
     @Test
     public void reduceAttempts() {
         AttemptsDTO attemptsDTO = new AttemptsDTO();
-        attemptsDTO.setAttempts(10);
         LOGGER.info(LogFormat.log() + " Set: " + attemptsDTO.getAttempts());
-
-        System.out.println(attempts.reduceAttemptsForWrongGuess("apple", "appl?"));
-        LOGGER.info(LogFormat.log() + " Now: " + attemptsDTO.getAttempts());
-
+        int attempt = Integer.valueOf(attemptsService.reduceAttemptsForWrongGuess("apple", "appl?"));
+        attemptsDTO.setAttempts(attempt);
         assertEquals(9, attemptsDTO.getAttempts());
+        LOGGER.info(LogFormat.log() + " Final: " + attemptsDTO.getAttempts());
     }
 
     @Test
@@ -69,12 +67,11 @@ public class GameAttemptsTest {
         attemptsDTO.setAttempts(10);
         LOGGER.info(LogFormat.log() + " Set: " + attemptsDTO.getAttempts());
 
-        System.out.println((attempts.reduceAttemptsForWrongGuess("apple", "apple")));
+        System.out.println((attemptsService.reduceAttemptsForWrongGuess("apple", "apple")));
         LOGGER.info(LogFormat.log() + " Now: " + attemptsDTO.getAttempts());
 
         assertEquals(10, attemptsDTO.getAttempts());
     }
-
 
 }
 

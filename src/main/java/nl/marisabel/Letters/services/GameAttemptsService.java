@@ -13,16 +13,15 @@ public class GameAttemptsService {
 
     private AttemptsDTO attempts = new AttemptsDTO();
 
-    private int attempt = 0;
-    public int reduceAttemptsForWrongGuess(String word, String result) {
-        this.attempt = attempts.getAttempts();
+    public String reduceAttemptsForWrongGuess(String word, String result) {
+        int attempt = 10;
         LOGGER.info(LogFormat.log() + "original attempts: " + attempt);
         if (word != result) {
-            attempt--;
+            attempts.setAttempts(attempt--);
             LOGGER.info(LogFormat.log() + "attempt is now " + attempt);
-            return attempt;
+            return String.valueOf(attempt);
         }
-        return attempt;
+        return String.valueOf(attempt);
     }
 
 }
