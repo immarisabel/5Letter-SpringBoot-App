@@ -46,7 +46,7 @@ public class RandomWordService {
         }
         Random rand = new Random();
         String word = words.get(rand.nextInt(words.size()));
-        LOGGER.info(LogFormat.log() + "Generated word: "+ word);
+        LOGGER.info(LogFormat.log() + " random word: "+ word);
         return word;
     }
 }

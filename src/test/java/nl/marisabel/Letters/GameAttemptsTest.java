@@ -2,7 +2,6 @@ package nl.marisabel.Letters;
 
 import nl.marisabel.Letters.dto.AttemptsDTO;
 import nl.marisabel.Letters.dto.ResultDTO;
-import nl.marisabel.Letters.services.GameAttemptsService;
 import nl.marisabel.Letters.services.WordCheckService;
 import nl.marisabel.Letters.util.LogFormat;
 import org.junit.jupiter.api.DisplayName;
@@ -21,8 +20,6 @@ public class GameAttemptsTest {
 
     @Autowired
     private WordCheckService wordCheckService;
-    @Autowired
-    private GameAttemptsService attemptsService;
 
     @Test
     @DisplayName("result transfers via DTO")

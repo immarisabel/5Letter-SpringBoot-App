@@ -15,11 +15,6 @@ body{
     color: #FFEEBD;
 }
 
-#word
-{
-    color: #FFEEBD;
-}
-
 #result
 {
     color: #FFEEBD;
@@ -49,8 +44,7 @@ margin-left: auto;
 
 
     <h2><span th:text="${attempt}"></span> / <span th:text="${attemptStart}"></span></h2>
-    <h2>Random Word: <span id="word" th:text="${word}"></span></h2>
-    <h2>Word of choice: <span id="guess" th:text="${guess}"></span></h2>
+    <h2>Your guess: <span id="guess" th:text="${guess}"></span></h2>
     <h2>Result: <span id="result" th:text="${result}"></span></h2>
 
 

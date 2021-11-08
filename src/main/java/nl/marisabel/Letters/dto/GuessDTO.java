@@ -11,6 +11,8 @@ public class GuessDTO {
 
     private String guess;
 
+
+
     public String getGuess() {
         LOGGER.info(LogFormat.log()+" Your guess was " + guess);
         return guess;

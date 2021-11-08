@@ -4,7 +4,6 @@ package nl.marisabel.Letters.controllers;
 import nl.marisabel.Letters.dto.AttemptsDTO;
 import nl.marisabel.Letters.dto.GuessDTO;
 import nl.marisabel.Letters.dto.WordDTO;
-import nl.marisabel.Letters.services.GameAttemptsService;
 import nl.marisabel.Letters.services.RandomWordService;
 import nl.marisabel.Letters.services.WordCheckService;
 import nl.marisabel.Letters.util.LogFormat;
@@ -24,7 +23,7 @@ import java.io.IOException;
 
 @SuppressWarnings("unchecked")
 @Controller
-@SessionAttributes({"guess", "word", "result", "attempt"})
+@SessionAttributes({"guess", "result", "attempt"})
 public class GameController {
 
     private static final String WORD_TO_GUESS_CONSTANT = "WORD_TO_GUESS";
@@ -37,14 +36,6 @@ public class GameController {
     private RandomWordService randomWord;
     @Autowired
     private WordCheckService checkGuess;
-    @Autowired
-    private GameAttemptsService attempts;
-
-
-
-
-
-
 
 
     @GetMapping(value = "/index")
@@ -59,7 +50,6 @@ public class GameController {
         int beginAttempts = attemptsDTO.getAttempts();
 
         model.addAttribute("guess", guess);
-        model.addAttribute("word", words);
         model.addAttribute("result", result);
         model.addAttribute("attempt", attempt);
         model.addAttribute("attemptStart", beginAttempts);
@@ -68,17 +58,12 @@ public class GameController {
     }
 
 
-
-
-
-
-
-
     @PostMapping(value = "/loadgame")
     public String loadWord(final HttpServletRequest request, WordDTO wordDTO, AttemptsDTO attemptsDTO) throws IOException {
-        attemptsDTO.setAttempts(10);
+
         String words = (String) request.getSession().getAttribute(WORD_TO_GUESS_CONSTANT);
         String attempts = String.valueOf(attemptsDTO.getAttempts());
+
         if (words == null) {
             wordDTO.setWord(randomWord.selectRandomWord());
             request.getSession().setAttribute(WORD_TO_GUESS_CONSTANT, wordDTO.getWord());
@@ -89,36 +74,25 @@ public class GameController {
     }
 
 
-
-
-
-
-
-
     @PostMapping(value = "/guess")
-    public String guessWord(Model model, final HttpSession session, final HttpServletRequest request, AttemptsDTO attemptsDTO, GuessDTO guessDTO, WordDTO wordDTO) throws IOException {
+    public String guessWord(Model model, final HttpSession session, final HttpServletRequest request,  GuessDTO guessDTO, WordDTO wordDTO) throws IOException {
 
         String words = (String) request.getSession().getAttribute(WORD_TO_GUESS_CONSTANT);
         String result = checkGuess.resultWord(words, guessDTO.getGuess());
-        int attempt = attemptsDTO.getAttempts();
 
+        int attempt = Integer.parseInt(String.valueOf(request.getSession().getAttribute(ATTEMPTS_CONSTANT)));
         if (words != result) {
-            attemptsDTO.setAttempts(--attempt);
+            attempt = --attempt;
             request.getSession().setAttribute(ATTEMPTS_CONSTANT, attempt);
+            LOGGER.info(LogFormat.log()+" wrong answer");
         }
-
         request.getSession().setAttribute(ATTEMPTS_CONSTANT, attempt);
+
         request.getSession().setAttribute(RESULT_CONSTANT, result);
         request.getSession().setAttribute(GUESSED_WORD_CONSTANT, guessDTO.getGuess());
 
         return "redirect:/index";
     }
-
-
-
-
-
-
 
 
     @PostMapping(value = "/destroy")
