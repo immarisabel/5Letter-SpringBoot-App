@@ -5,6 +5,7 @@ import nl.marisabel.Letters.dto.ResultDTO;
 import nl.marisabel.Letters.services.GameAttemptsService;
 import nl.marisabel.Letters.services.WordCheckService;
 import nl.marisabel.Letters.util.LogFormat;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,25 +25,20 @@ public class GameAttemptsTest {
     private GameAttemptsService attemptsService;
 
     @Test
+    @DisplayName("result transfers via DTO")
     public void checkResultDTO() {
         ResultDTO result = new ResultDTO();
         result.setResult(wordCheckService.resultWord("apple", "appls"));
         assertEquals("appl?", result.getResult());
     }
 
-    @Test
-    public void testDataTransfer() {
-        AttemptsDTO attemptsDTO = new AttemptsDTO();
-        attemptsDTO.setAttempts(10);
-        LOGGER.info(LogFormat.log() + " Set: " + attemptsDTO.getAttempts());
-        assertEquals(10, attemptsDTO.getAttempts());
-    }
 
     @Test
+    @DisplayName("attempts are set and deducted")
     public void testDataManipulation() {
         AttemptsDTO attemptsDTO = new AttemptsDTO();
-        int attempt = 10;
-        attemptsDTO.setAttempts(attempt);
+        attemptsDTO.setAttempts(10);
+        int attempt = attemptsDTO.getAttempts();
         LOGGER.info(LogFormat.log() + " Set: " + attemptsDTO.getAttempts());
 
         attemptsDTO.setAttempts(--attempt);
@@ -52,6 +48,7 @@ public class GameAttemptsTest {
 
 
     @Test
+    @DisplayName("attempt is deducted if word is incorrect")
     public void reduceAttempts() {
         AttemptsDTO attemptsDTO = new AttemptsDTO();
         LOGGER.info(LogFormat.log() + " Set: " + attemptsDTO.getAttempts());
@@ -62,6 +59,7 @@ public class GameAttemptsTest {
     }
 
     @Test
+    @DisplayName("attempt remains if word is correct")
     public void mantainAttempts() {
         AttemptsDTO attemptsDTO = new AttemptsDTO();
         attemptsDTO.setAttempts(10);
