@@ -53,7 +53,7 @@ public class GameController {
         final String words = (String) session.getAttribute(WORD_TO_GUESS_CONSTANT);
         final String guess = (String) session.getAttribute(GUESSED_WORD_CONSTANT);
         final String result = (String) session.getAttribute(RESULT_CONSTANT);
-        final String attempt = (String) session.getAttribute(ATTEMPTS_CONSTANT);
+        final String attempt = String.valueOf(session.getAttribute(ATTEMPTS_CONSTANT));
 
         attemptsDTO.setAttempts(10);
         int beginAttempts = attemptsDTO.getAttempts();
