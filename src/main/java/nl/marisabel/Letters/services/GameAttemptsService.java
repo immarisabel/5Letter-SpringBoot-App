@@ -10,18 +10,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class GameAttemptsService {
     private static final Logger LOGGER = LoggerFactory.getLogger(nl.marisabel.Letters.services.GameAttemptsService.class);
-
     private AttemptsDTO attempts = new AttemptsDTO();
 
-    public String reduceAttemptsForWrongGuess(String word, String result) {
+
+
+
+
+
+
+
+    public int reduceAttemptsForWrongGuess(String word, String result) {
         int attempt = 10;
-        LOGGER.info(LogFormat.log() + "original attempts: " + attempt);
+        LOGGER.info(LogFormat.log() + "attempts: " + attempt);
         if (word != result) {
-            attempts.setAttempts(attempt--);
-            LOGGER.info(LogFormat.log() + "attempt is now " + attempt);
-            return String.valueOf(attempt);
+            attempt = attempt--;
+            return attempt;
         }
-        return String.valueOf(attempt);
+        return attempt;
     }
 
 }

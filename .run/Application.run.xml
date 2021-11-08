@@ -1,9 +1,9 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Application" type="Application" factoryName="Application" nameIsGenerated="true">
-    <option name="ALTERNATIVE_JRE_PATH" value="adopt-openjdk-14" />
+    <option name="ALTERNATIVE_JRE_PATH" value="openjdk-16" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <option name="MAIN_CLASS_NAME" value="nl.marisabel.Letters.Application" />
-    <module name="5Letters" />
+    <module name="5Letter-SpringBoot-App" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="nl.marisabel.Letters.*" />

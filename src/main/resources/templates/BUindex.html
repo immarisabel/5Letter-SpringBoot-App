@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<h2>Attempts left: <span th:text="${attempt}"></span></h2>
+<h2>Random Word: <span th:text="${word}" style="color:red;"></span></h2>
+<h2>Word of choice: <span th:text="${guess}" style="color: blue;"></span></h2>
+<h2>Result: <span th:text="${result}" style="color: green;"></span></h2>
+<!--<h1>Try Again!</h1>-->
+<form method="post" th:action="@{/guess}">
+    <input type="text" name="guess" th:field="*{guess}" placeholder="5letters" />
+    <input type="submit" value="Load Word"/>
+</form>
+<p></p>
+<form method="post" th:action="@{/destroy}">
+    <input type="submit" value="Clear"/>
+</form>
+
+</body>
+</html>

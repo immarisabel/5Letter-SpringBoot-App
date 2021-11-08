@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100&display=swap');
+body{
+    background-color: #8763a2;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    }
+
+#guess
+{
+    color: #FFEEBD;
+}
+
+#word
+{
+    color: #FFEEBD;
+}
+
+#result
+{
+    color: #FFEEBD;
+}
+
+#container {
+width: 50%;
+text-align: center;
+margin-right: auto;
+margin-left: auto;
+}
+
+
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+
+<body>
+<div id="container">
+    <p>
+    <form method="post" th:action="@{/loadgame}">
+        <input type="submit" value="Play"/>
+    </form>
+    </p>
+
+
+    <h2><span th:text="${attempt}"></span> / <span th:text="${attemptStart}"></span></h2>
+    <h2>Random Word: <span id="word" th:text="${word}"></span></h2>
+    <h2>Word of choice: <span id="guess" th:text="${guess}"></span></h2>
+    <h2>Result: <span id="result" th:text="${result}"></span></h2>
+
+
+    <p>
+    <form method="post" th:action="@{/guess}" th:object="${guessDTO}">
+        <input type="text" th:field="*{guess}" placeholder="5letters"/>
+        <input type="submit" value="Guess"/>
+    </form>
+    </p>
+
+
+    <p>
+    <form method="post" th:action="@{/destroy}">
+        <input type="submit" value="Clear"/>
+    </form>
+    </p>
+</div>
+
+</body>
+</html>
