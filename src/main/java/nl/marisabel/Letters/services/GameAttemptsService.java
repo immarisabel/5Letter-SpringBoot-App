@@ -19,14 +19,18 @@ public class GameAttemptsService {
 
 
 
-    public int reduceAttemptsForWrongGuess(String word, String result) {
-        int attempt = 10;
-        LOGGER.info(LogFormat.log() + "attempts: " + attempt);
+    public String reduceAttemptsForWrongGuess(String word, String result) {
+
+        int attempt = attempts.getAttempts();
+
         if (word != result) {
-            attempt = attempt--;
-            return attempt;
+            attempts.setAttempts(--attempt);
+            LOGGER.info(LogFormat.log() + "attempts: " + attempts.getAttempts());
+            return String.valueOf(attempts.getAttempts());
         }
-        return attempt;
+
+        LOGGER.info(LogFormat.log() + "attempts: " + attempts.getAttempts());
+        return String.valueOf(attempts.getAttempts());
     }
 
 }

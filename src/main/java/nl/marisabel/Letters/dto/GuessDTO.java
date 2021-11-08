@@ -1,5 +1,6 @@
 package nl.marisabel.Letters.dto;
 
+import lombok.NoArgsConstructor;
 import nl.marisabel.Letters.util.LogFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +17,6 @@ public class GuessDTO {
     }
 
     public void setGuess(String guess) {
-        LOGGER.info(LogFormat.log() +" Setting guess");
         this.guess = guess;
     }
 

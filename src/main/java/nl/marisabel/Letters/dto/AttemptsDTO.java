@@ -1,16 +1,19 @@
 package nl.marisabel.Letters.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class AttemptsDTO {
 
+    @Getter
+    @Setter
     private int attempts;
 
-    public int getAttempts() {
-        System.out.println("Getter");
-        return attempts;
-    }
+    @Override
+    public String toString() {
 
-    public void setAttempts(int attempts) {
-        System.out.println("Setter");
-        this.attempts = attempts;
+        return "AttemptsDTO{" +
+                "attempts=" + attempts +
+                '}';
     }
 }

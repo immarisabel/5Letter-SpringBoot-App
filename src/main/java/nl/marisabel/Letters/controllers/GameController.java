@@ -7,6 +7,7 @@ import nl.marisabel.Letters.dto.WordDTO;
 import nl.marisabel.Letters.services.GameAttemptsService;
 import nl.marisabel.Letters.services.RandomWordService;
 import nl.marisabel.Letters.services.WordCheckService;
+import nl.marisabel.Letters.util.LogFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,21 +50,19 @@ public class GameController {
     @GetMapping(value = "/index")
     public String home(final Model model, final HttpServletRequest request, final HttpSession session, GuessDTO guessDTO, AttemptsDTO attemptsDTO) {
 
-
         final String words = (String) session.getAttribute(WORD_TO_GUESS_CONSTANT);
         final String guess = (String) session.getAttribute(GUESSED_WORD_CONSTANT);
         final String result = (String) session.getAttribute(RESULT_CONSTANT);
-        // final String attempt = (String) session.getAttribute(ATTEMPTS_CONSTANT);
+        final String attempt = (String) session.getAttribute(ATTEMPTS_CONSTANT);
 
         attemptsDTO.setAttempts(10);
-
-        int begingAttempts = attemptsDTO.getAttempts();
+        int beginAttempts = attemptsDTO.getAttempts();
 
         model.addAttribute("guess", guess);
         model.addAttribute("word", words);
         model.addAttribute("result", result);
-        model.addAttribute("attempt", attemptsDTO.getAttempts());
-        model.addAttribute("attemptStart", begingAttempts);
+        model.addAttribute("attempt", attempt);
+        model.addAttribute("attemptStart", beginAttempts);
 
         return "index";
     }
@@ -76,13 +75,16 @@ public class GameController {
 
 
     @PostMapping(value = "/loadgame")
-    public String loadWord(final HttpServletRequest request, WordDTO wordDTO) throws IOException {
-
+    public String loadWord(final HttpServletRequest request, WordDTO wordDTO, AttemptsDTO attemptsDTO) throws IOException {
+        attemptsDTO.setAttempts(10);
         String words = (String) request.getSession().getAttribute(WORD_TO_GUESS_CONSTANT);
+        String attempts = String.valueOf(attemptsDTO.getAttempts());
         if (words == null) {
             wordDTO.setWord(randomWord.selectRandomWord());
             request.getSession().setAttribute(WORD_TO_GUESS_CONSTANT, wordDTO.getWord());
+            request.getSession().setAttribute(ATTEMPTS_CONSTANT, attempts);
         }
+
         return "redirect:/index";
     }
 
@@ -94,14 +96,18 @@ public class GameController {
 
 
     @PostMapping(value = "/guess")
-    public String guessWord(Model model, final HttpSession session, final HttpServletRequest request, GuessDTO guessDTO, WordDTO wordDTO, AttemptsDTO attemptsDTO) throws IOException {
+    public String guessWord(Model model, final HttpSession session, final HttpServletRequest request, AttemptsDTO attemptsDTO, GuessDTO guessDTO, WordDTO wordDTO) throws IOException {
 
         String words = (String) request.getSession().getAttribute(WORD_TO_GUESS_CONSTANT);
         String result = checkGuess.resultWord(words, guessDTO.getGuess());
-        String guess = (String) request.getSession().getAttribute(GUESSED_WORD_CONSTANT);
+        int attempt = attemptsDTO.getAttempts();
 
-        attemptsDTO.setAttempts(attempts.reduceAttemptsForWrongGuess(words, result));
-        request.getSession().setAttribute(ATTEMPTS_CONSTANT, attemptsDTO.getAttempts());
+        if (words != result) {
+            attemptsDTO.setAttempts(--attempt);
+            request.getSession().setAttribute(ATTEMPTS_CONSTANT, attempt);
+        }
+
+        request.getSession().setAttribute(ATTEMPTS_CONSTANT, attempt);
         request.getSession().setAttribute(RESULT_CONSTANT, result);
         request.getSession().setAttribute(GUESSED_WORD_CONSTANT, guessDTO.getGuess());
 
