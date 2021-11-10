@@ -42,10 +42,12 @@ margin-left: auto;
     </form>
     </p>
 
+   <b><spam th:text="${message}"></spam></b>
 
     <h2><span th:text="${attempt}"></span> / <span th:text="${attemptStart}"></span></h2>
-    <h2>Your guess: <span id="guess" th:text="${guess}"></span></h2>
-    <h2>Result: <span id="result" th:text="${result}"></span></h2>
+    <b><spam th:text="${guess_message}"></spam></b>
+  <h2 id="guess" th:text="${guess}"></h2>
+    <h2 id="result" th:text="${result}"></h2>
 
 
     <p>
