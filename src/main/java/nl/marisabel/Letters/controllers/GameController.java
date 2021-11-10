@@ -19,6 +19,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+//TODO look into switch case Thymeleaf for the messages!
+// if guess = null: guess the word!
+// if result != words, "wrong!
+// if word = null: press play to start!
+// if result = word = You won!
+
 
 @SuppressWarnings("unchecked")
 @Controller
