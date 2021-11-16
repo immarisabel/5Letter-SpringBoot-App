@@ -38,12 +38,12 @@ margin-left: auto;
 <div id="container">
     <p>
     <form method="post" th:action="@{/loadgame}">
-        <input type="submit" value="Play"/>
+        <input type="submit" value="Load Word"/>
     </form>
     </p>
 
-
-    <h2><span th:text="${attempt}"></span> / <span th:text="${attemptStart}"></span></h2>
+    <h2 th:text="'Credits : '+ ${credits}"  th:hidden="${attempt == null}" ></h2>
+    <h2 th:text="${attempt} + ' / ' + ${attemptStart}"  th:hidden="${attempt == null}"></h2>
     <b><spam th:text="${guess_message}"></spam></b>
   <h2 id="guess" th:text="${guess}"></h2>
     <b><spam th:text="${message}"></spam></b>
@@ -53,14 +53,14 @@ margin-left: auto;
     <p>
     <form method="post" th:action="@{/guess}" th:object="${guessDTO}">
         <input type="text" th:field="*{guess}" placeholder="5letters"/>
-        <input type="submit" value="Guess"/>
+    <input type="submit" value="Guess" th:disabled="${attempt == 10}"/>
     </form>
     </p>
 
 
     <p>
     <form method="post" th:action="@{/destroy}">
-        <input type="submit" value="Clear"/>
+        <input type="submit" value="Play Again"/>
     </form>
     </p>
 </div>
