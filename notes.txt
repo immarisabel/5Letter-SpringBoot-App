@@ -4,8 +4,8 @@ Fields needed for DOTs:
 ✔ word generated ⬅ output
 ✔ result word ⬅ output
 ✔ attempts and credits
-[ ] credits loop
-[ ] new word loaded when failed word with + credits
+✔  credits loop
+✔  new word loaded when failed word with + credits
 
 name ➡ input
 location ⬅ via API output : not visible, just for database stats
@@ -13,6 +13,8 @@ location ⬅ via API output : not visible, just for database stats
 tries ↔ dynamic
 attempts ↔ dynamic
 credits ↔ dynamic
+
+Later: is there a pattern I can use for all the conditionals?
 
 Example game:
 https://www.vertabelo.com/blog/tutorial-how-to-develop-a-simple-tic-tac-toe-game-with-spring-boot-and-angularjs/

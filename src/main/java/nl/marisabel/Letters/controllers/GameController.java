@@ -20,11 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-//TODO look into switch case Thymeleaf for the messages!
-// if guess = null: guess the word!
-// if result != words, "wrong!
-// if word = null: press play to start!
-// if result = word = You won!
 
 
 @SuppressWarnings("unchecked")
@@ -115,13 +110,24 @@ public class GameController {
         }
 
         if (wordToGuess.equals(result)) {
-            session.setAttribute(MESSAGE_CONSTANT, "Correct! Well done!");
+            session.setAttribute(MESSAGE_CONSTANT, "Correct! Well done! Guess a new word.");
+            wordDTO.setWord(randomWord.selectRandomWord());
+            request.getSession().setAttribute(WORD_TO_GUESS_CONSTANT, wordDTO.getWord());
+            request.getSession().setAttribute(ATTEMPTS_CONSTANT, 0);
         }
 
         if (attempt == 10) {
-            session.setAttribute(MESSAGE_CONSTANT, "Game over! The word was: " + wordToGuess);
+            session.setAttribute(MESSAGE_CONSTANT, "Sorry, the word was: " + wordToGuess);
+            wordDTO.setWord(randomWord.selectRandomWord());
             request.getSession().setAttribute(CREDITS_CONSTANT, --credits);
+            request.getSession().setAttribute(ATTEMPTS_CONSTANT, 0);
+            request.getSession().setAttribute(WORD_TO_GUESS_CONSTANT, wordDTO.getWord());
         }
+
+        if (credits == 0){
+            session.setAttribute(MESSAGE_CONSTANT, "Game over! The word was: " + wordToGuess);
+        }
+
 
 
         request.getSession().setAttribute(RESULT_CONSTANT, result);
