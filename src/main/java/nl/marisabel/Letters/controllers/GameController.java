@@ -20,11 +20,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-
+//TODO boolean parameter for when word is correct, so we can use this to hide the div block if true
 
 @SuppressWarnings("unchecked")
 @Controller
-@SessionAttributes({"guess", "result", "attempt", "message", "guess_message", "credits"})
+@SessionAttributes({"guess", "result", "attempt", "message", "credits"})
 public class GameController {
 
     private static final String WORD_TO_GUESS_CONSTANT = "WORD_TO_GUESS";
@@ -101,7 +101,6 @@ public class GameController {
         int attempt = (Integer) request.getSession().getAttribute(ATTEMPTS_CONSTANT);
         int credits = (Integer) request.getSession().getAttribute(CREDITS_CONSTANT);
 
-        model.addAttribute("guess_message", "your guess was: ");
 
         if (wordToGuess != result) {
             ++attempt;

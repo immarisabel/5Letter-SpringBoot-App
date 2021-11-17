@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="www.thymeleaf.org">
+<html lang="en" xmlns:th="www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100&display=swap');
@@ -20,6 +20,11 @@ body{
     color: #FFEEBD;
 }
 
+#fields
+{
+    color: #333333;
+}
+
 #container {
 width: 50%;
 text-align: center;
@@ -28,41 +33,48 @@ margin-left: auto;
 }
 
 
+
+
 </style>
 <head>
-    <meta charset="UTF-8">
-    <title></title>
+  <meta charset="UTF-8">
+  <title></title>
 </head>
 
 <body>
 <div id="container">
-    <p>
-    <form method="post" th:action="@{/loadgame}">
-        <input type="submit" value="Load Word"/>
-    </form>
-    </p>
+  <p>
+  <form method="post" th:action="@{/loadgame}">
+    <input type="submit" value="Load Word"/>
+  </form>
+  </p>
+<div id="container-two" th:hidden="${correct} == true">
+  <h2 th:text="'Credits : '+ ${credits}" th:hidden="${attempt == null}"></h2>
+  <h2 th:text="${attempt} + ' / ' + ${attemptStart}" th:hidden="${attempt == null}"></h2>
 
-    <h2 th:text="'Credits : '+ ${credits}"  th:hidden="${attempt == null}" ></h2>
-    <h2 th:text="${attempt} + ' / ' + ${attemptStart}"  th:hidden="${attempt == null}"></h2>
-    <b><spam th:text="${guess_message}"></spam></b>
+  <spam th:text="'Your guess was:'" th:hidden="${guess} == null"></spam>
   <h2 id="guess" th:text="${guess}"></h2>
-    <b><spam th:text="${message}"></spam></b>
-    <h2 id="result" th:text="${result}"></h2>
+</div>
+  <b>
+    <spam th:text="${message}"></spam>
+  </b>
+
+  <h2 id="result" th:text="${result}" th:hidden="${credits} == 0"></h2>
 
 
-    <p>
-    <form method="post" th:action="@{/guess}" th:object="${guessDTO}">
-        <input type="text" th:field="*{guess}" placeholder="5letters"/>
+  <p>
+  <form method="post" th:action="@{/guess}" th:object="${guessDTO}" th:hidden="${credits == 0}">
+    <input id="fields" type="text" th:field="*{guess}" placeholder="5letters"/>
     <input type="submit" value="Guess" th:disabled="${credits == 0}"/>
-    </form>
-    </p>
+  </form>
+  </p>
 
 
-    <p>
-    <form method="post" th:action="@{/destroy}">
-        <input type="submit" value="Play Again"/>
-    </form>
-    </p>
+  <p>
+  <form method="post" th:action="@{/destroy}">
+    <input type="submit" value="Play Again"/>
+  </form>
+  </p>
 </div>
 
 </body>
