@@ -1,20 +1,24 @@
 package nl.marisabel.Letters.dto;
 
-import lombok.NoArgsConstructor;
 import nl.marisabel.Letters.util.LogFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 
 public class GuessDTO {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GuessDTO.class);
 
+    //@NotEmpty(message = "User's name cannot be empty.")
+    @Size(min = 5, max = 5, message= "NO!")
     private String guess;
 
 
-
     public String getGuess() {
-        LOGGER.info(LogFormat.log()+" Your guess was " + guess);
+        LOGGER.info(LogFormat.log()+" Your guess was: [ " + guess+" ]");
         return guess;
     }
 

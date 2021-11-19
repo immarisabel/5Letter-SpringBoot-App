@@ -32,49 +32,57 @@ margin-right: auto;
 margin-left: auto;
 }
 
+ .error {
+        color: red;
+    }
+
+
 
 
 
 </style>
 <head>
-  <meta charset="UTF-8">
-  <title></title>
+    <meta charset="UTF-8">
+    <title></title>
 </head>
 
 <body>
 <div id="container">
-  <p>
-  <form method="post" th:action="@{/loadgame}">
-    <input type="submit" value="Load Word"/>
-  </form>
-  </p>
-<div id="container-two" th:hidden="${correct} == true">
-  <h2 th:text="'Credits : '+ ${credits}" th:hidden="${attempt == null}"></h2>
-  <h2 th:text="${attempt} + ' / ' + ${attemptStart}" th:hidden="${attempt == null}"></h2>
+    <p>
+    <form method="post" th:action="@{/loadgame}">
+        <input type="submit" value="Load Word"/>
+    </form>
+    </p>
+    <div id="container-two" th:hidden="${correct} == true">
+        <h2 th:text="'Credits : '+ ${credits}" th:hidden="${attempt == null}"></h2>
+        <h2 th:text="${attempt} + ' / ' + ${attemptStart}" th:hidden="${attempt == null}"></h2>
 
-  <spam th:text="'Your guess was:'" th:hidden="${guess} == null"></spam>
-  <h2 id="guess" th:text="${guess}"></h2>
-</div>
-  <b>
-    <spam th:text="${message}"></spam>
-  </b>
+        <spam th:text="'Your guess was:'" th:hidden="${guess} == null"></spam>
+        <h2 id="guess" th:text="${guess}"></h2>
+    </div>
+    <b>
+        <spam th:text="${message}"></spam>
+    </b>
 
-  <h2 id="result" th:text="${result}" th:hidden="${credits} == 0"></h2>
+    <h2 id="result" th:text="${result}" th:hidden="${credits} == 0"></h2>
 
 
-  <p>
-  <form method="post" th:action="@{/guess}" th:object="${guessDTO}" th:hidden="${credits == 0}">
-    <input id="fields" type="text" th:field="*{guess}" placeholder="5letters"/>
+    <p>
+    <form method="post" th:action="@{/guess}" th:object="${guessDTO}" th:hidden="${credits == 0}">
+        <input id="fields" type="text" th:field="*{guess}" placeholder="5letters"/>
+    <ul>
+        <li th:each="err : ${#fields.errors('guess')}" th:text="${err}" />
+    </ul>
     <input type="submit" value="Guess" th:disabled="${credits == 0}"/>
-  </form>
-  </p>
+    </form>
+    </p>
 
 
-  <p>
-  <form method="post" th:action="@{/destroy}">
-    <input type="submit" value="Play Again"/>
-  </form>
-  </p>
+    <p>
+    <form method="post" th:action="@{/destroy}">
+        <input type="submit" value="Play Again"/>
+    </form>
+    </p>
 </div>
 
 </body>
