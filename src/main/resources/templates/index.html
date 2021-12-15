@@ -1,49 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100&display=swap');
-body{
-    background-color: #8763a2;
-    color: white;
-    font-family: 'Poppins', sans-serif;
-    font-size: 16px;
-    }
-
-#guess
-{
-    color: #FFEEBD;
-}
-
-#result
-{
-    color: #FFEEBD;
-}
-
-#fields
-{
-    color: #333333;
-}
-
-#container {
-width: 50%;
-text-align: center;
-margin-right: auto;
-margin-left: auto;
-}
-
- .error {
-        color: red;
-    }
-
-
-
-
-
-</style>
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>5Letters</title>
+    <link th:href="@{/style.css}" rel="stylesheet" />
+
 </head>
 
 <body>

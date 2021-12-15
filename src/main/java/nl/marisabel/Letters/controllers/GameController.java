@@ -47,9 +47,24 @@ public class GameController {
     @Autowired
     private WordCheckService checkGuess;
 
+//    @ExceptionHandler(value = Exception.class)
+//    public String handleAnyException() {
+//        return "ExceptionPage";
+//    }
 
-    @ExceptionHandler(value = Exception.class)
-    public String handleAnyException() {
+    @ExceptionHandler(value = ArrayIndexOutOfBoundsException.class)
+    public String handleArrayIndexOutOfBoundsException(final Model model) {
+
+        String text = "ArrayIndexOutOfBoundsException: Index 0 out of bounds for length 0. Could not Check empty Guess.";
+        model.addAttribute("text", text);
+        return "ExceptionPage";
+    }
+
+    @ExceptionHandler(value = NullPointerException.class)
+    public String handleNullPointerException(final Model model) {
+
+        String text = "NullPointerException: Cannot compare words because <<word>> is null";
+        model.addAttribute("text", text);
         return "ExceptionPage";
     }
 
@@ -65,88 +80,89 @@ public class GameController {
             return "index";
 
         }
-            attemptsDTO.setAttempts(10);
-            int beginAttempts = attemptsDTO.getAttempts();
+        attemptsDTO.setAttempts(2);
+        int beginAttempts = attemptsDTO.getAttempts();
 
-            model.addAttribute("guess", session.getAttribute(GUESSED_WORD_CONSTANT));
-            model.addAttribute("result", session.getAttribute(RESULT_CONSTANT));
-            model.addAttribute("attempt", request.getSession().getAttribute(ATTEMPTS_CONSTANT));
-            model.addAttribute("attemptStart", beginAttempts);
-            model.addAttribute("message", request.getSession().getAttribute(MESSAGE_CONSTANT));
-            model.addAttribute("credits", request.getSession().getAttribute(CREDITS_CONSTANT));
+        model.addAttribute("guess", session.getAttribute(GUESSED_WORD_CONSTANT));
+        model.addAttribute("result", session.getAttribute(RESULT_CONSTANT));
+        model.addAttribute("attempt", request.getSession().getAttribute(ATTEMPTS_CONSTANT));
+        model.addAttribute("attemptStart", beginAttempts);
+        model.addAttribute("message", request.getSession().getAttribute(MESSAGE_CONSTANT));
+        model.addAttribute("credits", request.getSession().getAttribute(CREDITS_CONSTANT));
 
-            return "index";
-        }
-
-
-        @PostMapping(value = "/loadgame")
-        public String loadWord (Model model,final HttpSession session, final HttpServletRequest request, WordDTO
-        wordDTO, AttemptsDTO attemptsDTO, CreditsDTO creditsDTO) throws IOException {
-
-            String words = (String) request.getSession().getAttribute(WORD_TO_GUESS_CONSTANT);
-            session.setAttribute(MESSAGE_CONSTANT, "Guess the word!");
-
-            if (words == null) {
-                wordDTO.setWord(randomWord.selectRandomWord());
-                request.getSession().setAttribute(WORD_TO_GUESS_CONSTANT, wordDTO.getWord());
-                request.getSession().setAttribute(ATTEMPTS_CONSTANT, attemptsDTO.getAttempts());
-                request.getSession().setAttribute(CREDITS_CONSTANT, creditsDTO.getCredit());
-            }
-
-            return "redirect:/index";
-        }
-
-
-        @PostMapping(value = "/guess")
-        public String guessWord (Model model,final HttpSession session, final HttpServletRequest request, GuessDTO
-        guessDTO, WordDTO wordDTO) throws IOException {
-
-            String wordToGuess = (String) request.getSession().getAttribute(WORD_TO_GUESS_CONSTANT);
-            String result = checkGuess.resultWord(wordToGuess, guessDTO.getGuess());
-            int attempt = (Integer) request.getSession().getAttribute(ATTEMPTS_CONSTANT);
-            int credits = (Integer) request.getSession().getAttribute(CREDITS_CONSTANT);
-
-
-            if (wordToGuess != result) {
-                ++attempt;
-                request.getSession().setAttribute(ATTEMPTS_CONSTANT, attempt);
-                session.setAttribute(MESSAGE_CONSTANT, "Wrong! Try again.");
-            }
-
-            if (wordToGuess.equals(result)) {
-                session.setAttribute(MESSAGE_CONSTANT, "Correct! Well done! Guess a new word.");
-                wordDTO.setWord(randomWord.selectRandomWord());
-                request.getSession().setAttribute(WORD_TO_GUESS_CONSTANT, wordDTO.getWord());
-                request.getSession().setAttribute(ATTEMPTS_CONSTANT, 0);
-            }
-
-            if (attempt == 10) {
-                session.setAttribute(MESSAGE_CONSTANT, "Sorry, the word was: " + wordToGuess);
-                wordDTO.setWord(randomWord.selectRandomWord());
-                request.getSession().setAttribute(CREDITS_CONSTANT, --credits);
-                request.getSession().setAttribute(ATTEMPTS_CONSTANT, 0);
-                request.getSession().setAttribute(WORD_TO_GUESS_CONSTANT, wordDTO.getWord());
-            }
-
-            if (credits == 0) {
-                session.setAttribute(MESSAGE_CONSTANT, "Game over! The word was: " + wordToGuess);
-            }
-
-
-            request.getSession().setAttribute(RESULT_CONSTANT, result);
-            request.getSession().setAttribute(GUESSED_WORD_CONSTANT, guessDTO.getGuess());
-
-            return "redirect:/index";
-        }
-
-
-        @PostMapping(value = "/destroy")
-        public String restartGame ( final HttpServletRequest request){
-
-
-            LOGGER.info("Session closing. Removing the data.");
-            request.getSession().invalidate();
-            return "redirect:/index";
-        }
-
+        return "index";
     }
+
+
+    @PostMapping(value = "/loadgame")
+    public String loadWord(Model model, final HttpSession session, final HttpServletRequest request, WordDTO
+            wordDTO, AttemptsDTO attemptsDTO, CreditsDTO creditsDTO) throws IOException {
+
+        String words = (String) request.getSession().getAttribute(WORD_TO_GUESS_CONSTANT);
+        session.setAttribute(MESSAGE_CONSTANT, "Guess the word!");
+
+        if (words == null) {
+            wordDTO.setWord(randomWord.selectRandomWord());
+            request.getSession().setAttribute(WORD_TO_GUESS_CONSTANT, wordDTO.getWord());
+            request.getSession().setAttribute(ATTEMPTS_CONSTANT, attemptsDTO.getAttempts());
+            request.getSession().setAttribute(CREDITS_CONSTANT, creditsDTO.getCredit());
+        }
+
+        return "redirect:/index";
+    }
+
+
+    @PostMapping(value = "/guess")
+    public String guessWord(Model model, final HttpSession session, final HttpServletRequest request, GuessDTO
+            guessDTO, WordDTO wordDTO, AttemptsDTO attemptsDTO) throws IOException {
+
+        String wordToGuess = (String) request.getSession().getAttribute(WORD_TO_GUESS_CONSTANT);
+        String result = checkGuess.resultWord(wordToGuess, guessDTO.getGuess());
+
+//        int attempt = (Integer) request.getSession().getAttribute(ATTEMPTS_CONSTANT);
+        int credits = (Integer) request.getSession().getAttribute(CREDITS_CONSTANT);
+
+
+        if (wordToGuess != result) {
+            --attempt;
+            request.getSession().setAttribute(ATTEMPTS_CONSTANT, attempt);
+            session.setAttribute(MESSAGE_CONSTANT, "Wrong! Try again.");
+        }
+
+        if (wordToGuess.equals(result)) {
+            session.setAttribute(MESSAGE_CONSTANT, "Correct! Well done! Guess a new word.");
+            wordDTO.setWord(randomWord.selectRandomWord());
+            request.getSession().setAttribute(WORD_TO_GUESS_CONSTANT, wordDTO.getWord());
+            request.getSession().setAttribute(ATTEMPTS_CONSTANT, 0);
+        }
+
+        if (attempt == 0) {
+            session.setAttribute(MESSAGE_CONSTANT, "Sorry, the word was: " + wordToGuess);
+            wordDTO.setWord(randomWord.selectRandomWord());
+            request.getSession().setAttribute(CREDITS_CONSTANT, --credits);
+            request.getSession().setAttribute(ATTEMPTS_CONSTANT, 0);
+            request.getSession().setAttribute(WORD_TO_GUESS_CONSTANT, wordDTO.getWord());
+        }
+
+        if (credits == 0) {
+            session.setAttribute(MESSAGE_CONSTANT, "Game over! The word was: " + wordToGuess);
+        }
+
+
+        request.getSession().setAttribute(RESULT_CONSTANT, result);
+        request.getSession().setAttribute(GUESSED_WORD_CONSTANT, guessDTO.getGuess());
+
+        return "redirect:/index";
+    }
+
+
+    @PostMapping(value = "/destroy")
+    public String restartGame(final HttpServletRequest request) {
+
+
+        LOGGER.info("Session closing. Removing the data.");
+        request.getSession().invalidate();
+        return "redirect:/index";
+    }
+
+}
