@@ -1,30 +1,31 @@
-package nl.marisabel.Letters.dto;
+package nl.marisabel.Letters.services.words;
 
+import lombok.Setter;
 import nl.marisabel.Letters.util.LogFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 
+@Service
 public class GuessDTO {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GuessDTO.class);
 
-    //@NotEmpty(message = "User's name cannot be empty.")
-    @Size(min = 5, max = 5, message= "NO!")
+    @NotEmpty(message = "Please type a 5 letters word.")
+    @Size(min = 5, max = 5, message = "Please type a 5 letters word.")
+    @Setter
     private String guess;
 
 
     public String getGuess() {
-        LOGGER.info(LogFormat.log()+" Your guess was: [ " + guess+" ]");
+        LOGGER.info(LogFormat.log() + " Your guess was: [ " + guess + " ]");
         return guess;
     }
 
-    public void setGuess(String guess) {
-        this.guess = guess;
-    }
 
     @Override
     public String toString() {

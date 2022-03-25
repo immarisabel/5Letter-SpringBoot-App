@@ -1,9 +1,9 @@
 package nl.marisabel.Letters;
 
 
-import nl.marisabel.Letters.dto.GuessDTO;
-import nl.marisabel.Letters.dto.WordDTO;
-import nl.marisabel.Letters.services.WordCheckService;
+import nl.marisabel.Letters.services.words.GuessDTO;
+import nl.marisabel.Letters.services.words.WordDTO;
+import nl.marisabel.Letters.services.words.WordCheckService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

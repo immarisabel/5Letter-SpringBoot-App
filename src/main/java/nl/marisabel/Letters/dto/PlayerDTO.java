@@ -1,16 +1,17 @@
 package nl.marisabel.Letters.dto;
 
+import lombok.Getter;
 import lombok.Setter;
 
 public class PlayerDTO {
 
 
     @Setter
+    @Getter
     private String player;
 
-    public String getPlayer() {
-        System.out.println("Player name loaded");
-        return player;
+    public PlayerDTO(String player) {
+        this.player = player;
     }
 
     @Override

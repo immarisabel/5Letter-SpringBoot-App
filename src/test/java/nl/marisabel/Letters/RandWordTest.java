@@ -1,17 +1,14 @@
 package nl.marisabel.Letters;
 
-import nl.marisabel.Letters.services.RandomWordService;
+import nl.marisabel.Letters.services.words.RandomWordService;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class RandWordTest {
 
@@ -20,8 +17,11 @@ public class RandWordTest {
 
     @Test
     public void testRandWordService() throws IOException {
-       word.setWord(word.selectRandomWord());
-       assertNotNull(word.getWord());
+        word.setWord(word.selectRandomWord());
+        assertNotNull(word.getWord());
         System.out.println(word.getWord());
-           }
+    }
+
+
+
 }

@@ -1,6 +1,6 @@
 package nl.marisabel.Letters.validator;
 
-import nl.marisabel.Letters.dto.GuessDTO;
+import nl.marisabel.Letters.services.words.GuessDTO;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -13,7 +13,7 @@ public class WordValidator implements Validator {
 
     @Override
     public void validate(Object object, Errors errors) {
-// TODO find a way to make the lenght error only show when there is something typed. And empty only when empty.
+// TODO (C) find a way to make the lenght error only show when there is something typed. And empty only when empty.
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "guess", "guess.empty", "Please type a word.");
 
         String guess = ((GuessDTO)object).getGuess();

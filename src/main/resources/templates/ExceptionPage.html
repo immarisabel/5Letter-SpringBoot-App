@@ -1,50 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100&display=swap');
-body{
-    background-color: #8763a2;
-    color: white;
-    font-family: 'Poppins', sans-serif;
-    font-size: 16px;
-    }
-
-#guess
-{
-    color: #FFEEBD;
-}
-
-#result
-{
-    color: #FFEEBD;
-}
-
-#fields
-{
-    color: #333333;
-}
-
-#container {
-width: 50%;
-text-align: center;
-margin-right: auto;
-margin-left: auto;
-}
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400&family=Poppins:wght@100&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 
-
-
-</style>
 <head>
-  <meta charset="UTF-8">
-  <title></title>
+    <meta charset="UTF-8">
+    <title></title>
 </head>
 
 <body>
-<div id="container">
-  <spam th:text="${text}"></spam>
-</div>
+    <div id="container">
+        <spam th:text="${text}"></spam>
+    </div>
+
 
 </body>
+
 </html>

@@ -4,48 +4,58 @@
 <head>
     <meta charset="UTF-8">
     <title>5Letters</title>
-    <link th:href="@{/style.css}" rel="stylesheet" />
+    <link th:href="@{/bootstrap.css}" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
 
 </head>
 
 <body>
-<div id="container">
-    <p>
-    <form method="post" th:action="@{/loadgame}">
-        <input type="submit" value="Load Word"/>
-    </form>
-    </p>
-    <div id="container-two" th:hidden="${correct} == true">
-        <h2 th:text="'Credits : '+ ${credits}" th:hidden="${attempt == null}"></h2>
-        <h2 th:text="${attempt} + ' / ' + ${attemptStart}" th:hidden="${attempt == null}"></h2>
+    <div id="container">
 
-        <spam th:text="'Your guess was:'" th:hidden="${guess} == null"></spam>
-        <h2 id="guess" th:text="${guess}"></h2>
+        <h1 style="margin-top:10vh;">5Letter Word Game</h1>
+        <h5>AKA: Lingo.</h5>
+        <hr>
+        <div th:hidden="${credits} != null">
+        <form method="get" th:action="@{/loadgame}" >
+            <p></p>
+            <p><input type="submit" value="Start" /></p>
+            </form>
+        </div>
+
+        <div id="container-two" th:hidden="${correct} == true">
+            <h2 th:text="'Credits : '+ ${credits}" th:hidden="${credits} == null"></h2>
+            <h2 th:text="${attempt} + ' / ' + ${attemptStart}" th:hidden="${credits} == null"></h2>
+
+            <spam th:text="'Your guess was:'" th:hidden="${guess} == null"></spam>
+            <h2 id="guess" th:text="${guess}"></h2>
+        </div>
+        <b>
+            <spam th:text="${message}"></spam>
+        </b>
+
+        <h2 id="result" th:text="${result}" th:hidden="${credits} == 0"></h2>
+
+
+        <p>
+            <form method="post" th:action="@{/guess}" th:object="${guessDTO}" th:hidden="${credits} == 0">
+                <input id="fields" type="text" th:field="*{guess}" placeholder="5letters" />
+                <ul>
+                    <li th:each="err : ${#fields.errors('guess')}" th:text="${err}" />
+                </ul>
+                <input type="submit" value="Guess" th:disabled="${credits} == 0" />
+            </form>
+        </p>
+
+
+        <p>
+            <form method="post" th:action="@{/destroy}">
+                <input type="submit" value="Play Again" />
+            </form>
+        </p>
     </div>
-    <b>
-        <spam th:text="${message}"></spam>
-    </b>
-
-    <h2 id="result" th:text="${result}" th:hidden="${credits} == 0"></h2>
-
-
-    <p>
-    <form method="post" th:action="@{/guess}" th:object="${guessDTO}" th:hidden="${credits == 0}">
-        <input id="fields" type="text" th:field="*{guess}" placeholder="5letters"/>
-    <ul>
-        <li th:each="err : ${#fields.errors('guess')}" th:text="${err}" />
-    </ul>
-    <input type="submit" value="Guess" th:disabled="${credits == 0}"/>
-    </form>
-    </p>
-
-
-    <p>
-    <form method="post" th:action="@{/destroy}">
-        <input type="submit" value="Play Again"/>
-    </form>
-    </p>
-</div>
 
 </body>
+
 </html>

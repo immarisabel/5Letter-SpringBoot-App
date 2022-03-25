@@ -1,15 +1,16 @@
 package nl.marisabel.Letters.controllers;
 
 
-import nl.marisabel.Letters.dto.AttemptsDTO;
-import nl.marisabel.Letters.dto.CreditsDTO;
-import nl.marisabel.Letters.dto.GuessDTO;
-import nl.marisabel.Letters.dto.WordDTO;
-import nl.marisabel.Letters.services.RandomWordService;
-import nl.marisabel.Letters.services.WordCheckService;
+import nl.marisabel.Letters.services.attempts.AttemptsDTO;
+import nl.marisabel.Letters.services.attempts.AttemptsService;
+import nl.marisabel.Letters.services.attempts.CreditsDTO;
+import nl.marisabel.Letters.services.words.GuessDTO;
+import nl.marisabel.Letters.services.words.RandomWordService;
+import nl.marisabel.Letters.services.words.WordCheckService;
+import nl.marisabel.Letters.services.words.WordDTO;
+import nl.marisabel.Letters.util.LogFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,13 +26,14 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
-//TODO boolean parameter for when word is correct, so we can use this to hide the div block if true
-//TODO why is it loading the guess x4 every time it loads index? Then error if null always shows.
-//TODO how to get the error to display on Thymeleaf? Code seems right...
+//TODO (C) FIX why is it loading the guess x4 every time it loads index? Then error if null always shows.
+//Update 22/2/22 error is showing when @Valid is added to first method, and not loading NULL. This is desired, so now I need to figure out how to NOT load it.
+//TODO (B) FIX how to get the error to display on Thymeleaf? Code seems right...
 
 @SuppressWarnings("unchecked")
 @Controller
-@SessionAttributes({"guess", "result", "attempt", "message", "credits"})
+@SessionAttributes({"guess", "result", "attempt", "message", "credits", "word"})
+
 public class GameController {
 
     private static final String WORD_TO_GUESS_CONSTANT = "WORD_TO_GUESS";
@@ -42,35 +44,35 @@ public class GameController {
     private static final String CREDITS_CONSTANT = "CREDITS";
     private static final Logger LOGGER = LoggerFactory.getLogger(GameController.class);
 
-    @Autowired
-    private RandomWordService randomWord;
-    @Autowired
-    private WordCheckService checkGuess;
+    private final RandomWordService randomWord;
+    private final WordCheckService checkGuess;
+    private final AttemptsService attemptsService;
 
-//    @ExceptionHandler(value = Exception.class)
-//    public String handleAnyException() {
-//        return "ExceptionPage";
-//    }
 
-    @ExceptionHandler(value = ArrayIndexOutOfBoundsException.class)
-    public String handleArrayIndexOutOfBoundsException(final Model model) {
 
-        String text = "ArrayIndexOutOfBoundsException: Index 0 out of bounds for length 0. Could not Check empty Guess.";
-        model.addAttribute("text", text);
-        return "ExceptionPage";
+
+    public GameController(RandomWordService randomWord, WordCheckService checkGuess, AttemptsService attempts, AttemptsDTO attemptsDTO) {
+
+        this.randomWord = randomWord;
+        this.checkGuess = checkGuess;
+        this.attemptsService = attempts;
     }
 
-    @ExceptionHandler(value = NullPointerException.class)
-    public String handleNullPointerException(final Model model) {
 
-        String text = "NullPointerException: Cannot compare words because <<word>> is null";
-        model.addAttribute("text", text);
-        return "ExceptionPage";
-    }
+    // GAME METHODS
+
+
 
 
     @GetMapping(value = "/index")
-    public String home(@Valid final Model model, final HttpServletRequest request, final HttpSession session, @Valid GuessDTO guessDTO, AttemptsDTO attemptsDTO, CreditsDTO creditsDTO, BindingResult result) {
+    public String home(@Valid final Model model,
+                       final HttpServletRequest request,
+                       final HttpSession session,
+                       GuessDTO guessDTO,
+                       AttemptsDTO attemptsDTO,
+                       CreditsDTO creditsDTO, BindingResult result) {
+
+
         if (result.hasErrors()) {
 
             List<ObjectError> allErrors = result.getAllErrors();
@@ -80,87 +82,125 @@ public class GameController {
             return "index";
 
         }
-        attemptsDTO.setAttempts(2);
-        int beginAttempts = attemptsDTO.getAttempts();
+        int beginAttempts = (Integer) request.getSession().getAttribute(ATTEMPTS_CONSTANT);
 
         model.addAttribute("guess", session.getAttribute(GUESSED_WORD_CONSTANT));
         model.addAttribute("result", session.getAttribute(RESULT_CONSTANT));
-        model.addAttribute("attempt", request.getSession().getAttribute(ATTEMPTS_CONSTANT));
+        model.addAttribute("attempt", session.getAttribute(ATTEMPTS_CONSTANT));
         model.addAttribute("attemptStart", beginAttempts);
-        model.addAttribute("message", request.getSession().getAttribute(MESSAGE_CONSTANT));
-        model.addAttribute("credits", request.getSession().getAttribute(CREDITS_CONSTANT));
+        model.addAttribute("message", session.getAttribute(MESSAGE_CONSTANT));
+        model.addAttribute("credits", session.getAttribute(CREDITS_CONSTANT));
 
         return "index";
     }
 
 
-    @PostMapping(value = "/loadgame")
-    public String loadWord(Model model, final HttpSession session, final HttpServletRequest request, WordDTO
-            wordDTO, AttemptsDTO attemptsDTO, CreditsDTO creditsDTO) throws IOException {
+    // When Load Word is clicked: sets a new random word. Then load attempts, credits and word to guess.
 
-        String words = (String) request.getSession().getAttribute(WORD_TO_GUESS_CONSTANT);
-        session.setAttribute(MESSAGE_CONSTANT, "Guess the word!");
 
-        if (words == null) {
-            wordDTO.setWord(randomWord.selectRandomWord());
-            request.getSession().setAttribute(WORD_TO_GUESS_CONSTANT, wordDTO.getWord());
-            request.getSession().setAttribute(ATTEMPTS_CONSTANT, attemptsDTO.getAttempts());
+
+
+    @GetMapping(value = "/loadgame")
+    public String loadWord(Model model, final HttpSession session, final HttpServletRequest request,
+                           WordDTO wordDTO,
+                           AttemptsDTO attemptsDTO,
+                           CreditsDTO creditsDTO) throws IOException {
+
+        String word = (String) request.getSession().getAttribute(WORD_TO_GUESS_CONSTANT);
+
+        if (word == null) {
+            request.getSession().setAttribute(ATTEMPTS_CONSTANT, attemptsService.setAttemptsPerLevel());
+            request.getSession().setAttribute(WORD_TO_GUESS_CONSTANT, randomWord.selectRandomWord());
             request.getSession().setAttribute(CREDITS_CONSTANT, creditsDTO.getCredit());
+            request.getSession().setAttribute(MESSAGE_CONSTANT, "Guess the word!");
         }
+        model.addAttribute("message", "");
+        LOGGER.info(LogFormat.log() + " 1. attempts initialized: " + attemptsDTO.getAttempts());
 
         return "redirect:/index";
     }
+
+
 
 
     @PostMapping(value = "/guess")
-    public String guessWord(Model model, final HttpSession session, final HttpServletRequest request, GuessDTO
-            guessDTO, WordDTO wordDTO, AttemptsDTO attemptsDTO) throws IOException {
+    public String guessWord(Model model,
+                            final HttpSession session,
+                            final HttpServletRequest request,
+                            GuessDTO guessDTO,
+                            WordDTO wordDTO,
+                            CreditsDTO creditsDTO,
+                            AttemptsDTO attemptsDTO) throws IOException {
 
-        String wordToGuess = (String) request.getSession().getAttribute(WORD_TO_GUESS_CONSTANT);
-        String result = checkGuess.resultWord(wordToGuess, guessDTO.getGuess());
+        int attempts = (int) session.getAttribute(ATTEMPTS_CONSTANT);
+        int credits = (int) session.getAttribute(CREDITS_CONSTANT);
+        String wordToGuess = (String) session.getAttribute(WORD_TO_GUESS_CONSTANT);
+        String guess = guessDTO.getGuess();
+        String result = checkGuess.resultWord(wordToGuess, guess);
 
-//        int attempt = (Integer) request.getSession().getAttribute(ATTEMPTS_CONSTANT);
-        int credits = (Integer) request.getSession().getAttribute(CREDITS_CONSTANT);
+        // TODO are attempts needed here?
+        boolean game = attemptsService.isTheWordCorrect(result, wordToGuess, attempts, credits);
 
-
-        if (wordToGuess != result) {
-            --attempt;
-            request.getSession().setAttribute(ATTEMPTS_CONSTANT, attempt);
-            session.setAttribute(MESSAGE_CONSTANT, "Wrong! Try again.");
-        }
-
-        if (wordToGuess.equals(result)) {
-            session.setAttribute(MESSAGE_CONSTANT, "Correct! Well done! Guess a new word.");
+        if (game) {
+            String message = "Correct! Guess another word!";
+            request.getSession().setAttribute(MESSAGE_CONSTANT, message);
             wordDTO.setWord(randomWord.selectRandomWord());
             request.getSession().setAttribute(WORD_TO_GUESS_CONSTANT, wordDTO.getWord());
-            request.getSession().setAttribute(ATTEMPTS_CONSTANT, 0);
+            request.getSession().setAttribute(ATTEMPTS_CONSTANT, attemptsService.setAttemptsPerLevel());
         }
 
-        if (attempt == 0) {
-            session.setAttribute(MESSAGE_CONSTANT, "Sorry, the word was: " + wordToGuess);
-            wordDTO.setWord(randomWord.selectRandomWord());
-            request.getSession().setAttribute(CREDITS_CONSTANT, --credits);
-            request.getSession().setAttribute(ATTEMPTS_CONSTANT, 0);
-            request.getSession().setAttribute(WORD_TO_GUESS_CONSTANT, wordDTO.getWord());
+        else {
+            String message = "Wrong! Try again!";
+
+            request.getSession().setAttribute(MESSAGE_CONSTANT, message);
+            request.getSession().setAttribute(ATTEMPTS_CONSTANT, --attempts);
+
+            attemptsService.areAttemptsOver(!game);
+            attemptsService.areCreditsOver(!game);
         }
 
-        if (credits == 0) {
-            session.setAttribute(MESSAGE_CONSTANT, "Game over! The word was: " + wordToGuess);
-        }
-
-
+        request.getSession().setAttribute(ATTEMPTS_CONSTANT, attempts);
+        request.getSession().setAttribute(GUESSED_WORD_CONSTANT, guess);
+        request.getSession().setAttribute(CREDITS_CONSTANT, creditsDTO.getCredit());
         request.getSession().setAttribute(RESULT_CONSTANT, result);
-        request.getSession().setAttribute(GUESSED_WORD_CONSTANT, guessDTO.getGuess());
+
 
         return "redirect:/index";
     }
+
+
+    // EXCEPTION HANDLERS
+
+
+
+
+    @ExceptionHandler(value = ArrayIndexOutOfBoundsException.class)
+    public String handleArrayIndexOutOfBoundsException(final Model model) {
+
+        String text = "ERROR: Could not check empty <<guess>>.";
+        model.addAttribute("text", text);
+        return "ExceptionPage";
+    }
+
+
+
+
+    @ExceptionHandler(value = NullPointerException.class)
+    public String handleNullPointerException(final Model model) {
+
+        String text = "ERROR: Cannot compare words because <<word>> is null";
+        model.addAttribute("text", text);
+        return "ExceptionPage";
+    }
+
+
 
 
     @PostMapping(value = "/destroy")
     public String restartGame(final HttpServletRequest request) {
 
 
-        LOGGER.info("Session closing. Removing the data.");
+        LOGGER.info(LogFormat.log() + " Session closing. Removing the data.");
         request.getSession().invalidate();
         return "redirect:/index";
     }
