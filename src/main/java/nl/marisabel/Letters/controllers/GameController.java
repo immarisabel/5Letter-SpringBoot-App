@@ -49,6 +49,9 @@ public class GameController {
     private final AttemptsService attemptsService;
 
 
+//TODO at the end: clean up all sessions requests into variables for readability
+
+
 
 
     public GameController(RandomWordService randomWord, WordCheckService checkGuess, AttemptsService attempts, AttemptsDTO attemptsDTO) {
