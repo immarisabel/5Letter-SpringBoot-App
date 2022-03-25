@@ -1,6 +1,13 @@
 # 5Letter-SpringBoot-App
  Spring Boot Version from scratch
 
+Start date: OCTOBER 2021
+
+### Progress 3/25/22:
+After practicing a lot with the Twitter project. I decided to jump on this again. It took me a while to understand how to use DTO vs Sessions. But after playing around and looking at other code, I started to understand.
+
+I then created a new list on things I need to work on as of today:
+
 ## Implementations and features
 - [ ] add level choice
 - [ ] add name field for scoring purposes
