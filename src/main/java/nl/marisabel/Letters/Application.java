@@ -20,8 +20,9 @@ public class Application {
 
     // Other things to work on:
     //TODO add "guess new word" to view
+    //TODO fix the tests
     //TODO (B) FIX how to get the error to display on Thymeleaf? Code seems right...
-    // TODO (C) find a way to make the lenght error only show when there is something typed.
+    //TODO (C) find a way to make the lenght error only show when there is something typed.
     //  And empty only when empty.
     //TODO (C) FIX why is it loading the guess x4 every time it loads index? Then error if null always shows.
     // Update 22/2/22 error is showing when @Valid is added to first method, and not loading NULL.
