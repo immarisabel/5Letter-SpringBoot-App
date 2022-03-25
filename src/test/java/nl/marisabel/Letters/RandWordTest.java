@@ -1,6 +1,6 @@
 package nl.marisabel.Letters;
 
-import nl.marisabel.Letters.services.words.RandomWordService;
+import nl.marisabel.Letters.services.RandomWordService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

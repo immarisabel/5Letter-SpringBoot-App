@@ -1,9 +1,9 @@
 package nl.marisabel.Letters;
 
-import nl.marisabel.Letters.services.attempts.AttemptsDTO;
-import nl.marisabel.Letters.services.attempts.CreditsDTO;
-import nl.marisabel.Letters.services.words.GuessDTO;
-import nl.marisabel.Letters.services.words.WordDTO;
+import nl.marisabel.Letters.dto.AttemptsDTO;
+import nl.marisabel.Letters.dto.CreditsDTO;
+import nl.marisabel.Letters.dto.GuessDTO;
+import nl.marisabel.Letters.dto.WordDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

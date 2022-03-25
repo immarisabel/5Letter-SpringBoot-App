@@ -1,4 +1,4 @@
-package nl.marisabel.Letters.services.words;
+package nl.marisabel.Letters.dto;
 
 import lombok.Setter;
 import nl.marisabel.Letters.util.LogFormat;

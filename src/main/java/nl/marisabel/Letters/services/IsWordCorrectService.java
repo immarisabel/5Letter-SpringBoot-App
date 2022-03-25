@@ -1,7 +1,5 @@
-package nl.marisabel.Letters.services.attempts;
+package nl.marisabel.Letters.services;
 
-import nl.marisabel.Letters.services.words.RandomWordService;
-import nl.marisabel.Letters.services.words.WordCheckService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -35,11 +33,5 @@ public class IsWordCorrectService {
     }
 
 
-
-
-    public int setAttemptsPerLevel() {
-
-        return 2;
-    }
 
 }

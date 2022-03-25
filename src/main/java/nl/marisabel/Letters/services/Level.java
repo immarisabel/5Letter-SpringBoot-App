@@ -1,10 +1,10 @@
-package nl.marisabel.Letters.services.gameProperties;
+package nl.marisabel.Letters.services;
 
 public enum Level {
 
-    EASY ("easy", 20),
-    MEDIUM ("medium", 10),
-    HARD ("hard", 5);
+    EASY("easy", 20),
+    MEDIUM("medium", 10),
+    HARD("hard", 5);
 
     private final String levelName;
     private final int attempts;
@@ -16,18 +16,21 @@ public enum Level {
     }
 
 
-    public String getLevelName( ) {
+    public String getLevelName() {
         return levelName;
     }
 
-
-    public int getAttempts( ) {
+    public int getAttempts() {
         return attempts;
+    }
+
+    public static int setAttemptsPerLevel() {
+        return 10;
     }
 
 
     @Override
-    public String toString( ) {
+    public String toString() {
         return "Level{" +
                 "levelName='" + levelName + '\'' +
                 '}';

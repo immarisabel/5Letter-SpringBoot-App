@@ -28,5 +28,6 @@ public class Application {
     // This is desired, so now I need to figure out how to NOT load it.
     //TODO (D) at the end: clean up all sessions requests into variables for readability
     //TODO (D) move all text to a property file for easy update and implementation
+    //TODO fix the attempts service
 
 }

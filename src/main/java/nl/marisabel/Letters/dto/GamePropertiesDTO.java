@@ -1,4 +1,6 @@
-package nl.marisabel.Letters.services.gameProperties;
+package nl.marisabel.Letters.dto;
+
+import nl.marisabel.Letters.services.Level;
 
 public class GamePropertiesDTO {
 

@@ -1,4 +1,4 @@
-package nl.marisabel.Letters.services.words;
+package nl.marisabel.Letters.services;
 
 import org.springframework.stereotype.Service;
 

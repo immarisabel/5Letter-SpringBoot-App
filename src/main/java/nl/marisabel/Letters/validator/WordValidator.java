@@ -1,6 +1,6 @@
 package nl.marisabel.Letters.validator;
 
-import nl.marisabel.Letters.services.words.GuessDTO;
+import nl.marisabel.Letters.dto.GuessDTO;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;

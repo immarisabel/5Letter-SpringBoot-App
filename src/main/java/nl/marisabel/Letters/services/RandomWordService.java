@@ -1,4 +1,4 @@
-package nl.marisabel.Letters.services.words;
+package nl.marisabel.Letters.services;
 
 import nl.marisabel.Letters.util.LogFormat;
 import org.slf4j.Logger;

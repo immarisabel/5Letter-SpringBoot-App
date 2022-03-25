@@ -1,4 +1,4 @@
-package nl.marisabel.Letters.services.attempts;
+package nl.marisabel.Letters.dto;
 
 import lombok.Getter;
 import lombok.Setter;
