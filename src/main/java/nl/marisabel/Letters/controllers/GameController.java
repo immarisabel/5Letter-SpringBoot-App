@@ -163,6 +163,7 @@ public class GameController {
                 // TODO FIX: Sorry, the word was: null
                 message = "Sorry, the word was: " + session.getAttribute(WORD_TO_GUESS_CONSTANT + "Guess a new word!");
                 request.getSession().setAttribute(MESSAGE_CONSTANT, message);
+                request.getSession().setAttribute(ATTEMPTS_CONSTANT, attemptsService.setAttemptsPerLevel());
                 request.getSession().setAttribute(WORD_TO_GUESS_CONSTANT, randomWord.selectRandomWord());
             }
 
