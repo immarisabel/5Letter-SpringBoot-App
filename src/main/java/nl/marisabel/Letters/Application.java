@@ -19,7 +19,6 @@ public class Application {
     //TODO add highscores to view (top 5)
 
     // Other things to work on:
-    //TODO add "guess new word" to view
     //TODO fix the tests
     //TODO (B) FIX how to get the error to display on Thymeleaf? Code seems right...
     //TODO (C) find a way to make the lenght error only show when there is something typed.
@@ -28,5 +27,6 @@ public class Application {
     // Update 22/2/22 error is showing when @Valid is added to first method, and not loading NULL.
     // This is desired, so now I need to figure out how to NOT load it.
     //TODO (D) at the end: clean up all sessions requests into variables for readability
+    //TODO (D) move all text to a property file for easy update and implementation
 
 }
