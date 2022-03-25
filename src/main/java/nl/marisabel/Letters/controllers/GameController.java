@@ -26,9 +26,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
-//TODO (C) FIX why is it loading the guess x4 every time it loads index? Then error if null always shows.
-//Update 22/2/22 error is showing when @Valid is added to first method, and not loading NULL. This is desired, so now I need to figure out how to NOT load it.
-//TODO (B) FIX how to get the error to display on Thymeleaf? Code seems right...
+
 
 @SuppressWarnings("unchecked")
 @Controller
@@ -49,7 +47,6 @@ public class GameController {
     private final AttemptsService attemptsService;
 
 
-//TODO at the end: clean up all sessions requests into variables for readability
 
 
 
@@ -154,13 +151,11 @@ public class GameController {
 
         else {
             String message = "Wrong! Try again!";
-
             request.getSession().setAttribute(MESSAGE_CONSTANT, message);
             request.getSession().setAttribute(ATTEMPTS_CONSTANT, --attempts);
             if (attempts == 0) {
                 request.getSession().setAttribute(CREDITS_CONSTANT, --credits);
-                // TODO FIX: Sorry, the word was: null
-                message = "Sorry, the word was: " + session.getAttribute(WORD_TO_GUESS_CONSTANT + "Guess a new word!");
+                message = "Sorry, the word was: [" + session.getAttribute(WORD_TO_GUESS_CONSTANT) + " ]";
                 request.getSession().setAttribute(MESSAGE_CONSTANT, message);
                 request.getSession().setAttribute(ATTEMPTS_CONSTANT, attemptsService.setAttemptsPerLevel());
                 request.getSession().setAttribute(WORD_TO_GUESS_CONSTANT, randomWord.selectRandomWord());

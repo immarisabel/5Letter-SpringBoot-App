@@ -13,7 +13,6 @@ public class WordValidator implements Validator {
 
     @Override
     public void validate(Object object, Errors errors) {
-// TODO (C) find a way to make the lenght error only show when there is something typed. And empty only when empty.
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "guess", "guess.empty", "Please type a word.");
 
         String guess = ((GuessDTO)object).getGuess();
