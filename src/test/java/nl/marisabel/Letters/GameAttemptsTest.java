@@ -1,7 +1,7 @@
 package nl.marisabel.Letters;
 
 import nl.marisabel.Letters.services.attempts.AttemptsDTO;
-import nl.marisabel.Letters.services.attempts.AttemptsService;
+import nl.marisabel.Letters.services.attempts.IsWordCorrectService;
 import nl.marisabel.Letters.services.words.GuessDTO;
 import nl.marisabel.Letters.services.words.WordCheckService;
 import nl.marisabel.Letters.services.words.WordDTO;
@@ -29,7 +29,7 @@ public class GameAttemptsTest {
     public void setAttemptsTest() {
 
         AttemptsDTO attemptsDTO = new AttemptsDTO();
-        AttemptsService service = new AttemptsService();
+        IsWordCorrectService service = new IsWordCorrectService();
         attemptsDTO.setAttempts(service.setAttemptsPerLevel());
         int attempts = attemptsDTO.getAttempts();
         LOGGER.info(LogFormat.log() + " attempts in DTO: " + attempts);
@@ -53,10 +53,10 @@ public class GameAttemptsTest {
         String word = wordDTO.getWord();
         String result = wordCheckService.resultWord(wordDTO.getWord(), guessDTO.getGuess());
 
-        AttemptsService attemptsService = new AttemptsService();
+        IsWordCorrectService isWordCorrectService = new IsWordCorrectService();
 
         AttemptsDTO attemptsDTO = new AttemptsDTO();
-        attemptsDTO.setAttempts(attemptsService.setAttemptsPerLevel());
+        attemptsDTO.setAttempts(isWordCorrectService.setAttemptsPerLevel());
         System.out.println(attemptsDTO.getAttempts());
 
    //     boolean attempts = attemptsService.isTheWordCorrect(result, word, attemptsDTO.getAttempts(), 3);
@@ -73,9 +73,9 @@ public class GameAttemptsTest {
         AttemptsDTO attemptsDTO = new AttemptsDTO();
         System.out.println(attemptsDTO.getAttempts());
 
-        AttemptsService attemptsService = new AttemptsService();
+        IsWordCorrectService isWordCorrectService = new IsWordCorrectService();
 
-        attemptsDTO.setAttempts(attemptsService.setAttemptsPerLevel());
+        attemptsDTO.setAttempts(isWordCorrectService.setAttemptsPerLevel());
         System.out.println(attemptsDTO.getAttempts());
 
         //boolean attempts = attemptsService.isTheWordCorrect("hou?e", "house", attemptsDTO.getAttempts(), 3);

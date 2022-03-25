@@ -2,7 +2,7 @@ package nl.marisabel.Letters.controllers;
 
 
 import nl.marisabel.Letters.services.attempts.AttemptsDTO;
-import nl.marisabel.Letters.services.attempts.AttemptsService;
+import nl.marisabel.Letters.services.attempts.IsWordCorrectService;
 import nl.marisabel.Letters.services.attempts.CreditsDTO;
 import nl.marisabel.Letters.services.words.GuessDTO;
 import nl.marisabel.Letters.services.words.RandomWordService;
@@ -44,18 +44,18 @@ public class GameController {
 
     private final RandomWordService randomWord;
     private final WordCheckService checkGuess;
-    private final AttemptsService attemptsService;
+    private final IsWordCorrectService isWordCorrectService;
 
 
 
 
 
 
-    public GameController(RandomWordService randomWord, WordCheckService checkGuess, AttemptsService attempts, AttemptsDTO attemptsDTO) {
+    public GameController(RandomWordService randomWord, WordCheckService checkGuess, IsWordCorrectService attempts, AttemptsDTO attemptsDTO) {
 
         this.randomWord = randomWord;
         this.checkGuess = checkGuess;
-        this.attemptsService = attempts;
+        this.isWordCorrectService = attempts;
     }
 
 
@@ -83,7 +83,7 @@ public class GameController {
 
         }
 
-        int beginAttempts = attemptsService.setAttemptsPerLevel();
+        int beginAttempts = isWordCorrectService.setAttemptsPerLevel();
         model.addAttribute("guess", session.getAttribute(GUESSED_WORD_CONSTANT));
         model.addAttribute("result", session.getAttribute(RESULT_CONSTANT));
         model.addAttribute("attempt", session.getAttribute(ATTEMPTS_CONSTANT));
@@ -109,7 +109,7 @@ public class GameController {
         String word = (String) request.getSession().getAttribute(WORD_TO_GUESS_CONSTANT);
 
         if (word == null) {
-            request.getSession().setAttribute(ATTEMPTS_CONSTANT, attemptsService.setAttemptsPerLevel());
+            request.getSession().setAttribute(ATTEMPTS_CONSTANT, isWordCorrectService.setAttemptsPerLevel());
             request.getSession().setAttribute(WORD_TO_GUESS_CONSTANT, randomWord.selectRandomWord());
             request.getSession().setAttribute(CREDITS_CONSTANT, creditsDTO.getCredit());
             request.getSession().setAttribute(MESSAGE_CONSTANT, "Guess the word!");
@@ -139,14 +139,14 @@ public class GameController {
         String guess = guessDTO.getGuess();
         String result = checkGuess.resultWord(wordToGuess, guess);
 
-        boolean game = attemptsService.isTheWordCorrect(result, wordToGuess);
+        boolean game = isWordCorrectService.isTheWordCorrect(result, wordToGuess);
 
         if (game) {
             String message = "Correct! Guess another word!";
             request.getSession().setAttribute(MESSAGE_CONSTANT, message);
             wordDTO.setWord(randomWord.selectRandomWord());
             request.getSession().setAttribute(WORD_TO_GUESS_CONSTANT, wordDTO.getWord());
-            request.getSession().setAttribute(ATTEMPTS_CONSTANT, attemptsService.setAttemptsPerLevel());
+            request.getSession().setAttribute(ATTEMPTS_CONSTANT, isWordCorrectService.setAttemptsPerLevel());
         }
 
         else {
@@ -157,7 +157,7 @@ public class GameController {
                 request.getSession().setAttribute(CREDITS_CONSTANT, --credits);
                 message = "Sorry, the word was: [" + session.getAttribute(WORD_TO_GUESS_CONSTANT) + " ]";
                 request.getSession().setAttribute(MESSAGE_CONSTANT, message);
-                request.getSession().setAttribute(ATTEMPTS_CONSTANT, attemptsService.setAttemptsPerLevel());
+                request.getSession().setAttribute(ATTEMPTS_CONSTANT, isWordCorrectService.setAttemptsPerLevel());
                 request.getSession().setAttribute(WORD_TO_GUESS_CONSTANT, randomWord.selectRandomWord());
             }
 

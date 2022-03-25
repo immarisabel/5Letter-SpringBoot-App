@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import java.util.Objects;
 
 @Service
-public class AttemptsService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AttemptsService.class);
+public class IsWordCorrectService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(IsWordCorrectService.class);
 
     private WordCheckService checkGuess;
     private RandomWordService randomWord;
