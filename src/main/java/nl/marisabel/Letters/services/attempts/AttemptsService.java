@@ -2,12 +2,10 @@ package nl.marisabel.Letters.services.attempts;
 
 import nl.marisabel.Letters.services.words.RandomWordService;
 import nl.marisabel.Letters.services.words.WordCheckService;
-import nl.marisabel.Letters.util.LogFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.Objects;
 
 @Service
@@ -16,19 +14,12 @@ public class AttemptsService {
 
     private WordCheckService checkGuess;
     private RandomWordService randomWord;
-    private int updatedCredits;
-    private int updatedAttempts;
 
 
 
 
     public boolean isTheWordCorrect(String result,
-                                    String wordToGuess,
-                                    int attempts,
-                                    int credits) throws IOException {
-
-        updatedAttempts = attempts;
-        updatedCredits = credits;
+                                    String wordToGuess) {
 
 
         if (Objects.equals(wordToGuess, result)) {
@@ -41,23 +32,6 @@ public class AttemptsService {
             return false;
         }
 
-    }
-
-
-
-
-
-    public int getUpdatedAttempts() {
-
-        return updatedAttempts;
-    }
-
-
-
-
-    public int getUpdatedCredits() {
-
-        return updatedCredits;
     }
 
 

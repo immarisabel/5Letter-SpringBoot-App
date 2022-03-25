@@ -142,8 +142,7 @@ public class GameController {
         String guess = guessDTO.getGuess();
         String result = checkGuess.resultWord(wordToGuess, guess);
 
-        // TODO are attempts needed here?
-        boolean game = attemptsService.isTheWordCorrect(result, wordToGuess, attempts, credits);
+        boolean game = attemptsService.isTheWordCorrect(result, wordToGuess);
 
         if (game) {
             String message = "Correct! Guess another word!";
