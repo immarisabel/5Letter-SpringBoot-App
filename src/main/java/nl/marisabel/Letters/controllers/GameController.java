@@ -82,8 +82,8 @@ public class GameController {
             return "index";
 
         }
-        int beginAttempts = (Integer) request.getSession().getAttribute(ATTEMPTS_CONSTANT);
 
+        int beginAttempts = attemptsService.setAttemptsPerLevel();
         model.addAttribute("guess", session.getAttribute(GUESSED_WORD_CONSTANT));
         model.addAttribute("result", session.getAttribute(RESULT_CONSTANT));
         model.addAttribute("attempt", session.getAttribute(ATTEMPTS_CONSTANT));
@@ -113,9 +113,10 @@ public class GameController {
             request.getSession().setAttribute(WORD_TO_GUESS_CONSTANT, randomWord.selectRandomWord());
             request.getSession().setAttribute(CREDITS_CONSTANT, creditsDTO.getCredit());
             request.getSession().setAttribute(MESSAGE_CONSTANT, "Guess the word!");
+            LOGGER.info(LogFormat.log() + " 1. attempts initialized: " + session.getAttribute(ATTEMPTS_CONSTANT));
+
         }
         model.addAttribute("message", "");
-        LOGGER.info(LogFormat.log() + " 1. attempts initialized: " + attemptsDTO.getAttempts());
 
         return "redirect:/index";
     }
@@ -154,15 +155,25 @@ public class GameController {
 
             request.getSession().setAttribute(MESSAGE_CONSTANT, message);
             request.getSession().setAttribute(ATTEMPTS_CONSTANT, --attempts);
+            if (attempts == 0) {
+                request.getSession().setAttribute(CREDITS_CONSTANT, --credits);
+                // TODO FIX: Sorry, the word was: null
+                message = "Sorry, the word was: " + session.getAttribute(WORD_TO_GUESS_CONSTANT + "Guess a new word!");
+                request.getSession().setAttribute(MESSAGE_CONSTANT, message);
+                request.getSession().setAttribute(WORD_TO_GUESS_CONSTANT, randomWord.selectRandomWord());
+            }
 
-            attemptsService.areAttemptsOver(!game);
-            attemptsService.areCreditsOver(!game);
+            if (credits == 0) {
+                message = "Game over!";
+                request.getSession().setAttribute(MESSAGE_CONSTANT, message);
+            }
+
         }
 
-        request.getSession().setAttribute(ATTEMPTS_CONSTANT, attempts);
         request.getSession().setAttribute(GUESSED_WORD_CONSTANT, guess);
-        request.getSession().setAttribute(CREDITS_CONSTANT, creditsDTO.getCredit());
         request.getSession().setAttribute(RESULT_CONSTANT, result);
+
+        LOGGER.info(LogFormat.log() + "Attempts are now: " + session.getAttribute(ATTEMPTS_CONSTANT));
 
 
         return "redirect:/index";

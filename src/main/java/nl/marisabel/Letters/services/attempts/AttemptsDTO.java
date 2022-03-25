@@ -10,12 +10,10 @@ public class AttemptsDTO {
     private int attempts;
 
     public int getAttempts() {
-        System.out.println("get attempts " + attempts);
         return attempts;
     }
 
     public void setAttempts(int attempts) {
-        System.out.println("set attempts " + attempts);
         this.attempts = attempts;
     }
 

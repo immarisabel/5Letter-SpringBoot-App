@@ -30,38 +30,19 @@ public class AttemptsService {
         updatedAttempts = attempts;
         updatedCredits = credits;
 
-        LOGGER.info(LogFormat.log() + " Attempts from method:" + updatedAttempts);
 
         if (Objects.equals(wordToGuess, result)) {
-            updatedAttempts = setAttemptsPerLevel();
             System.out.println("Correct! Well done! Guess the next word.");
             return true;
         }
+
         {
-            --updatedAttempts;
             System.out.println("Wrong! Try again.");
-            LOGGER.info(LogFormat.log() + " Attempts from method:" + updatedAttempts);
             return false;
         }
 
     }
 
-
-
-
-    public boolean areAttemptsOver(boolean over) {
-        --updatedCredits;
-        updatedAttempts = setAttemptsPerLevel();
-        return true;
-    }
-
-
-
-
-    public boolean areCreditsOver(boolean over) {
-
-        return true;
-    }
 
 
 
