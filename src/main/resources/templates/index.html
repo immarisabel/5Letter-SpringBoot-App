@@ -14,22 +14,28 @@
 <body>
 <div id="container">
 
+<!--    HEADER  -->
     <h1 style="margin-top:10vh;">5Letter Word Game</h1>
     <h5>AKA: Lingo.</h5>
     <hr>
+
+<!--    Section to initialize game  -->
+
     <div th:hidden="${credits} != null">
-        <form method="post" th:action="@{/loadgame}">
+        <form method="post" th:action="@{/loadgame}" th:object="${gameDTO}" >
             <p>
                 <select class="form-group" th:field="*{level}" id="dropDownList">
                     <option value="0">select level</option>
                     <option th:each="level : ${level}"
-                            th:text="${level.levelName}"
-                            th:value="${level.attempts}"></option>
+                            th:text="${level.level}"
+                            th:value="${level.level}"></option>
                 </select>
             </p>
             <p><input type="submit" value="Start"/></p>
         </form>
     </div>
+
+<!--    Section to update according to guess    -->
 
     <div id="container-two" th:hidden="${correct} == true">
         <div id="creditsNull" th:hidden="${credits} == null">
@@ -47,7 +53,7 @@
 
     <h2 id="result" th:text="${result}" th:hidden="${credits} == 0"></h2>
 
-
+<!--    FORM TO GUESS THE WORD  -->
     <p>
     <form method="post" th:action="@{/guess}" th:object="${guessDTO}" th:hidden="${credits} == null">
         <input id="fields" type="text" th:field="*{guess}" placeholder="5letters"/>
@@ -58,9 +64,11 @@
     </form>
     </p>
 
+
+<!--    PLAY AGAIN BUTTON - deletes session -->
     <p>
-    <form method="post" th:action="@{/destroy}">
-        <input type="submit" value="Play Again"/>
+    <form method="post" th:action="@{/destroy}" >
+        <input type="submit" value="Play Again" th:hidden="${credits} == null"/>
     </form>
     </p>
 </div>

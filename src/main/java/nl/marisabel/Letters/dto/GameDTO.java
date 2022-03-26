@@ -2,23 +2,21 @@ package nl.marisabel.Letters.dto;
 
 import nl.marisabel.Letters.services.Level;
 
-public class GamePropertiesDTO {
+public class GameDTO {
 
-    private Level levelSelected;
+    private Level level;
     private int attempts;
 
-
-    public Level getLevelSelected( ) {
-        return levelSelected;
+    public Level getLevel() {
+        return level;
     }
 
 
-    public void setLevelSelected(Level levelSelected) {
-        this.levelSelected = levelSelected;
+    public void setLevel(Level level) {
+        this.level = level;
     }
 
-
-    public int getAttempts( ) {
+    public int getAttempts() {
         return attempts;
     }
 
@@ -29,9 +27,9 @@ public class GamePropertiesDTO {
 
 
     @Override
-    public String toString( ) {
+    public String toString() {
         return "GamePropertiesDTO{" +
-                "level=" + levelSelected +
+                "level=" + level +
                 ", attempts=" + attempts +
                 '}';
     }

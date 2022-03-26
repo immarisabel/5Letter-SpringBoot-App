@@ -1,14 +1,11 @@
 package nl.marisabel.Letters.controllers;
 
 
-import nl.marisabel.Letters.dto.AttemptsDTO;
-import nl.marisabel.Letters.dto.CreditsDTO;
+import nl.marisabel.Letters.dto.*;
 import nl.marisabel.Letters.services.IsWordCorrectService;
 import nl.marisabel.Letters.services.Level;
-import nl.marisabel.Letters.dto.GuessDTO;
 import nl.marisabel.Letters.services.RandomWordService;
 import nl.marisabel.Letters.services.WordCheckService;
-import nl.marisabel.Letters.dto.WordDTO;
 import nl.marisabel.Letters.util.LogFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,7 +60,9 @@ public class GameController {
                        final HttpSession session,
                        GuessDTO guessDTO,
                        AttemptsDTO attemptsDTO,
-                       CreditsDTO creditsDTO, BindingResult result) {
+                       CreditsDTO creditsDTO,
+                       GameDTO gameDTO,
+                       BindingResult result) {
 
 
         if ( result.hasErrors() ) {
@@ -76,7 +75,7 @@ public class GameController {
 
         }
 
-        int beginAttempts = Level.setAttemptsPerLevel();
+        int beginAttempts = gameDTO.getAttempts();
         model.addAttribute( "guess", session.getAttribute( GUESSED_WORD_CONSTANT ) );
         model.addAttribute( "result", session.getAttribute( RESULT_CONSTANT ) );
         model.addAttribute( "attempt", session.getAttribute( ATTEMPTS_CONSTANT ) );
@@ -97,19 +96,22 @@ public class GameController {
     public String loadWord(Model model, final HttpSession session, final HttpServletRequest request,
                            WordDTO wordDTO,
                            AttemptsDTO attemptsDTO,
-                           CreditsDTO creditsDTO) throws IOException {
+                           CreditsDTO creditsDTO,
+                           GameDTO gameDTO
+                           ) throws IOException {
 
 
         String word = ( String ) request.getSession().getAttribute( WORD_TO_GUESS_CONSTANT );
-        request.getSession().setAttribute( LEVEL_CONSTANT, Level.values());
+        request.getSession().setAttribute( LEVEL_CONSTANT, gameDTO.getLevel());
         if ( word == null ) {
-            request.getSession().setAttribute( ATTEMPTS_CONSTANT, Level.setAttemptsPerLevel() );
+            request.getSession().setAttribute( ATTEMPTS_CONSTANT, gameDTO.getAttempts());
             request.getSession().setAttribute( WORD_TO_GUESS_CONSTANT, randomWord.selectRandomWord() );
             request.getSession().setAttribute( CREDITS_CONSTANT, creditsDTO.getCredit() );
 
         }
         model.addAttribute( "message", "" );
-        model.addAttribute( "levelSelected", Level.values() );
+
+        model.addAttribute( "levelSelected", gameDTO.getLevel() );
 
         return "redirect:/index";
     }
@@ -122,8 +124,8 @@ public class GameController {
                             GuessDTO guessDTO,
                             WordDTO wordDTO,
                             CreditsDTO creditsDTO,
-                            AttemptsDTO attemptsDTO) throws IOException {
-
+                            AttemptsDTO attemptsDTO,
+                            GameDTO gameDTO) throws IOException {
         int attempts = ( int ) session.getAttribute( ATTEMPTS_CONSTANT );
         int credits = ( int ) session.getAttribute( CREDITS_CONSTANT );
         String wordToGuess = ( String ) session.getAttribute( WORD_TO_GUESS_CONSTANT );
@@ -137,7 +139,7 @@ public class GameController {
             request.getSession().setAttribute( MESSAGE_CONSTANT, message );
             wordDTO.setWord( randomWord.selectRandomWord() );
             request.getSession().setAttribute( WORD_TO_GUESS_CONSTANT, wordDTO.getWord() );
-            request.getSession().setAttribute( ATTEMPTS_CONSTANT, Level.setAttemptsPerLevel() );
+            request.getSession().setAttribute( ATTEMPTS_CONSTANT,gameDTO.getAttempts() );
         }
 
         else {
@@ -148,7 +150,7 @@ public class GameController {
                 request.getSession().setAttribute( CREDITS_CONSTANT, --credits );
                 message = "Sorry, the word was: [ " + session.getAttribute( WORD_TO_GUESS_CONSTANT ) + " ]";
                 request.getSession().setAttribute( MESSAGE_CONSTANT, message );
-                request.getSession().setAttribute( ATTEMPTS_CONSTANT, Level.setAttemptsPerLevel() );
+                request.getSession().setAttribute( ATTEMPTS_CONSTANT, gameDTO.getAttempts() );
                 request.getSession().setAttribute( WORD_TO_GUESS_CONSTANT, randomWord.selectRandomWord() );
 
             }

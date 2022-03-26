@@ -1,39 +1,57 @@
 package nl.marisabel.Letters.services;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public enum Level {
 
-    EASY("easy", 20),
-    MEDIUM("medium", 10),
-    HARD("hard", 5);
+    EASY("EASY", 20),
+    MEDIUM("MEDIUM", 10),
+    HARD("HARD", 5);
 
-    private final String levelName;
+    private final String level;
     private final int attempts;
 
+    private static final Map<String, Level> BY_LEVEL = new HashMap<>();
+    private static final Map<Integer, Level> BY_ATTEMPTS= new HashMap<>();
 
-    Level(String levelName, int attempts) {
-        this.levelName = levelName;
+    Level(String level, int attempts) {
+        this.level = level;
         this.attempts = attempts;
     }
 
-    public String getLevelName() {
-        return levelName;
+    static {
+        for(Level lvl : values()){
+            BY_LEVEL.put(lvl.level, lvl);
+            BY_ATTEMPTS.put(lvl.attempts, lvl);
+        }
+    }
+    @JsonValue
+    public String getLevel() {
+        return level;
     }
 
+    @JsonValue
     public int getAttempts() {
         return attempts;
     }
 
-    public static int setAttemptsPerLevel() {
+    public static Level valueOfLevel(String level){
+        return BY_LEVEL.get(level);
+    }
 
-            return Level.EASY.getAttempts();
-
+    public static Level valueOfAttempts(int attempts) {
+        return BY_ATTEMPTS.get(attempts);
     }
 
 
     @Override
     public String toString() {
         return "Level{" +
-                "levelName='" + levelName + '\'' +
+                "level='" + level + '\'' +
+                ", attempts=" + attempts +
                 '}';
     }
 }
