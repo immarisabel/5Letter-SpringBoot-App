@@ -15,7 +15,6 @@ public enum Level {
         this.attempts = attempts;
     }
 
-
     public String getLevelName() {
         return levelName;
     }
@@ -25,7 +24,9 @@ public enum Level {
     }
 
     public static int setAttemptsPerLevel() {
-        return 10;
+
+            return Level.EASY.getAttempts();
+
     }
 
 
