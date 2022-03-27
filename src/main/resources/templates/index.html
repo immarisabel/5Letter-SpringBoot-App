@@ -42,7 +42,7 @@
         <div id="creditsNull" th:hidden="${credits} == null">
             <h3 th:text="'Hello ' + ${name} + '!'"></h3>
             <h3 th:text="'Level: '+ ${levelSelected}"></h3>
-            <h2 th:text="'Credits : '+ ${credits} + ' | Score: 1000'"></h2>
+            <h2 th:text="'Credits : '+ ${credits} + ' | Score: '+ ${score}"></h2>
             <h2 th:text="${attempt} + ' / ' + ${attemptStart}"></h2>
         </div>
         <h4 th:text="'Your guess was:'"  th:hidden="${attempt} == ${attemptStart}"></h4>

@@ -21,7 +21,7 @@ import java.util.List;
 
 @SuppressWarnings("unchecked")
 @Controller
-@SessionAttributes({"guess", "result", "attempt", "message", "credits", "word", "level", "name","score"})
+@SessionAttributes({"guess", "result", "attempt", "message", "credits", "word", "level", "name", "score"})
 
 public class GameController {
 
@@ -141,16 +141,31 @@ public class GameController {
         String guess = guessDTO.getGuess();
         String result = checkGuess.resultWord(wordToGuess, guess);
         boolean wordIsCorrect = isWordCorrectService.isTheWordCorrect(result, wordToGuess);
-        int startAttempts = (int) session.getAttribute(TOTAL_ATTEMPTS_CONSTANT);
         int score = (int) session.getAttribute(SCORE_CONSTANT);
         int scoreMultiplier = (int) request.getSession().getAttribute(SCORE_MULTIPLIER_CONSTANT);
         int wrongWord = gameDTO.getWrongWord();
         int initialScore = gameDTO.getStartScore();
+        int finalScorePerWord = initialScore * scoreMultiplier;
+        int startAttempts = (int) session.getAttribute(TOTAL_ATTEMPTS_CONSTANT);
 
         // Main Game Logic
 
         if (!wordIsCorrect) {
             String message = "";
+
+            if (credits == 0) {
+                message = "Game over!";
+                request.getSession().setAttribute(MESSAGE_CONSTANT, message);
+                request.getSession().setAttribute(SCORE_CONSTANT, score);
+                LOGGER.info(LogFormat.log() + "Final score: " + session.getAttribute(SCORE_CONSTANT));
+            }
+
+            message = "Wrong! Try again!";
+            request.getSession().setAttribute(MESSAGE_CONSTANT, message);
+            request.getSession().setAttribute(ATTEMPTS_CONSTANT, --attempts);
+            request.getSession().setAttribute(SCORE_CONSTANT, score - wrongWord);
+            LOGGER.info(LogFormat.log() + "Current score 1: " + session.getAttribute(SCORE_CONSTANT));
+
             if (attempts == 0) {
                 request.getSession().setAttribute(CREDITS_CONSTANT, --credits);
                 message = "Sorry, the word was: [ " + session.getAttribute(WORD_TO_GUESS_CONSTANT) + " ]";
@@ -158,14 +173,6 @@ public class GameController {
                 request.getSession().setAttribute(ATTEMPTS_CONSTANT, startAttempts);
                 request.getSession().setAttribute(WORD_TO_GUESS_CONSTANT, randomWord.selectRandomWord());
             }
-            if (credits == 0) {
-                message = "Game over!";
-                request.getSession().setAttribute(MESSAGE_CONSTANT, message);
-            }
-            message = "Wrong! Try again!";
-            request.getSession().setAttribute(MESSAGE_CONSTANT, message);
-            request.getSession().setAttribute(ATTEMPTS_CONSTANT, --attempts);
-            request.getSession().setAttribute(SCORE_MULTIPLIER_CONSTANT, score-wrongWord);
 
         } else {
             String message = "Correct! Guess another word!";
@@ -174,12 +181,14 @@ public class GameController {
             request.getSession().setAttribute(MESSAGE_CONSTANT, message);
             request.getSession().setAttribute(WORD_TO_GUESS_CONSTANT, wordToGuess);
             request.getSession().setAttribute(ATTEMPTS_CONSTANT, startAttempts);
-            request.getSession().setAttribute(SCORE_MULTIPLIER_CONSTANT, score+(initialScore*scoreMultiplier));
+            request.getSession().setAttribute(SCORE_CONSTANT, score + finalScorePerWord);
+            LOGGER.info(LogFormat.log() + "Current score 2: " + session.getAttribute(SCORE_CONSTANT));
 
         }
         request.getSession().setAttribute(GUESSED_WORD_CONSTANT, guess);
         request.getSession().setAttribute(RESULT_CONSTANT, result);
 
+        LOGGER.info(LogFormat.log() + "Current score 3: " + session.getAttribute(SCORE_CONSTANT));
         LOGGER.info(LogFormat.log() + "Attempts are now: " + session.getAttribute(ATTEMPTS_CONSTANT));
 
 
@@ -187,7 +196,7 @@ public class GameController {
     }
 
 
-     // EXCEPTION HANDLERS
+    // EXCEPTION HANDLERS
 
 
     @ExceptionHandler(value = ArrayIndexOutOfBoundsException.class)
