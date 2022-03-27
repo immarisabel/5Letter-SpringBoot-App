@@ -9,20 +9,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.List;
 
 
 @SuppressWarnings("unchecked")
 @Controller
-@Validated
 @SessionAttributes({"guess", "result", "attempt", "message", "credits", "word", "level", "name", "score"})
 
 public class GameController {
@@ -65,19 +61,7 @@ public class GameController {
                        GuessDTO guessDTO,
                        AttemptsDTO attemptsDTO,
                        CreditsDTO creditsDTO,
-                       GameDTO gameDTO,
-                       BindingResult result) {
-
-
-        if (result.hasErrors()) {
-
-            List<ObjectError> allErrors = result.getAllErrors();
-            for (ObjectError temp : allErrors) {
-                System.out.println(temp);
-            }
-            return "index";
-
-        }
+                       GameDTO gameDTO) {
 
 
         model.addAttribute("guess", session.getAttribute(GUESSED_WORD_CONSTANT));
@@ -98,14 +82,18 @@ public class GameController {
 
 
     @GetMapping(value = "/loadgame")
-    public String loadWord(Model model, final HttpSession session, final HttpServletRequest request,
-                           WordDTO wordDTO,
-                           AttemptsDTO attemptsDTO,
-                           CreditsDTO creditsDTO,
-                           @Valid @ModelAttribute("gameDTO") GameDTO gameDTO,
-                           BindingResult bindingResult
+    public String loadWord(
+            final HttpSession session, final HttpServletRequest request,
+            WordDTO wordDTO,
+            AttemptsDTO attemptsDTO,
+            CreditsDTO creditsDTO,
+            @Valid GameDTO gameDTO, BindingResult bindingResult, Model model
+
     ) throws IOException {
 
+        if (bindingResult.hasErrors()) {
+            return "index";
+        }
         String word = (String) request.getSession().getAttribute(WORD_TO_GUESS_CONSTANT);
 
         if (word == null) {
@@ -128,16 +116,16 @@ public class GameController {
 
 
     @PostMapping(value = "/guess")
-    public String guessWord(@Valid GuessDTO guessDTO,
-                            Model model,
-                            final HttpSession session,
-                            final HttpServletRequest request,
-                            WordDTO wordDTO,
-                            CreditsDTO creditsDTO,
-                            AttemptsDTO attemptsDTO,
-                            @Valid GameDTO gameDTO,
-                            BindingResult bindingResult
-                            ) throws IOException {
+    public String guessWord(
+            final HttpSession session,
+            final HttpServletRequest request,
+            WordDTO wordDTO,
+            CreditsDTO creditsDTO,
+            AttemptsDTO attemptsDTO,
+            GuessDTO guessDTO,
+            GameDTO gameDTO, BindingResult bindingResult,
+            Model model
+    ) throws IOException {
 
         if (bindingResult.hasErrors()) {
             return "index";

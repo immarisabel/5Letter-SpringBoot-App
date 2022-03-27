@@ -4,14 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 import nl.marisabel.Letters.services.Level;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class GameDTO {
 
     @Getter
     @Setter
-    @NotBlank
+    @NotNull
     private Level level;
 
     @Getter
@@ -20,7 +20,7 @@ public class GameDTO {
 
     @Getter
     @Setter
-    @NotBlank
+    @NotEmpty(message = "Name cannot be empty.")
     private String name;
 
     // SCORES

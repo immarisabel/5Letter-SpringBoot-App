@@ -31,7 +31,8 @@
                             th:value="${level.level}"></option>
                 </select>
             </p>
-            <p><input type="text" th:field="*{name}" placeholder="your name"/></p>
+            <p><input type="text" th:field="*{name}" placeholder="your name" id="name"/></p>
+            <p th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}" />
             <p><input type="submit" value="Start"/></p>
         </form>
     </div>
@@ -59,10 +60,7 @@
     <p>
     <form method="post" th:action="@{/guess}" th:object="${guessDTO}" th:hidden="${credits} == null">
         <input id="fields" type="text" th:field="*{guess}" placeholder="5letters"/>
-        <ul>
-            <li th:each="err : ${#fields.errors('guess')}" th:text="${err}"></li>
-        </ul>
-        <input type="submit" value="Guess" th:disabled="${credits} == 0"/>
+            <input type="submit" value="Guess" th:disabled="${credits} == 0"/>
     </form>
     </p>
 

@@ -22,16 +22,16 @@ import static org.junit.Assert.assertFalse;
 @WebMvcTest(GameController.class)
 class InputValidationTest {
 
-    private Validator validator = (Validator) Validation.buildDefaultValidatorFactory().getValidator();
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Before
-    public void setUp() {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        validator = (Validator) factory.getValidator();
-    }
+//    private Validator validator = (Validator) Validation.buildDefaultValidatorFactory().getValidator();
+//
+//    @Autowired
+//    private MockMvc mockMvc;
+//
+//    @Before
+//    public void setUp() {
+//        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+//        validator = (Validator) factory.getValidator();
+//    }
 
 }
 
