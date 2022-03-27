@@ -14,6 +14,7 @@ public class WordDTO {
 
     public void setWord(String word) {
         this.word = word;
+        System.out.println("new word set!");
     }
 
 

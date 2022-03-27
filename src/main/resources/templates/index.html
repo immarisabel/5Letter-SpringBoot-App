@@ -22,7 +22,7 @@
 <!--    Section to initialize game  -->
 
     <div th:hidden="${credits} != null">
-        <form method="post" th:action="@{/loadgame}" th:object="${gameDTO}" >
+        <form method="get" th:action="@{/loadgame}" th:object="${gameDTO}" >
             <p>
                 <select class="form-group" th:field="*{level}" id="dropDownList">
                     <option value="0">select level</option>

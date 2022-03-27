@@ -11,7 +11,6 @@ public class GameDTO {
         return level;
     }
 
-
     public void setLevel(Level level) {
         this.level = level;
     }
@@ -26,11 +25,4 @@ public class GameDTO {
     }
 
 
-    @Override
-    public String toString() {
-        return "GamePropertiesDTO{" +
-                "level=" + level +
-                ", attempts=" + attempts +
-                '}';
-    }
 }

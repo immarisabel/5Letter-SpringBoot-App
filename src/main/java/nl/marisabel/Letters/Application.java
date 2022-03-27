@@ -12,7 +12,6 @@ public class Application {
     }
 
     // Implementations and features
-    //TODO add level choice
     //TODO add name field for scoring purposes
     //TODO add score system
     //TODO implement hibernate JSP for processing and saving a score into a database

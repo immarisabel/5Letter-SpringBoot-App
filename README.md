@@ -9,7 +9,7 @@ After practicing a lot with the Twitter project. I decided to jump on this again
 I then created a new list on things I need to work on as of today:
 
 ## Implementations and features
-- [ ] add level choice (in progress)
+- [x] add level choice (27/3/22)
 - [ ] add name field for scoring purposes
 - [ ] add score system
 - [ ] implement hibernate JSP for processing and saving a score into a database
