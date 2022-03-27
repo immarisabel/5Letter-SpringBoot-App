@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import java.util.List;
 
 @SuppressWarnings("unchecked")
 @Controller
+@Validated
 @SessionAttributes({"guess", "result", "attempt", "message", "credits", "word", "level", "name", "score"})
 
 public class GameController {
@@ -57,7 +59,7 @@ public class GameController {
 
 
     @GetMapping(value = "/index")
-    public String home(@Valid final Model model,
+    public String home(Model model,
                        final HttpServletRequest request,
                        final HttpSession session,
                        GuessDTO guessDTO,
@@ -100,7 +102,8 @@ public class GameController {
                            WordDTO wordDTO,
                            AttemptsDTO attemptsDTO,
                            CreditsDTO creditsDTO,
-                           GameDTO gameDTO
+                           @Valid @ModelAttribute("gameDTO") GameDTO gameDTO,
+                           BindingResult bindingResult
     ) throws IOException {
 
         String word = (String) request.getSession().getAttribute(WORD_TO_GUESS_CONSTANT);
@@ -125,14 +128,20 @@ public class GameController {
 
 
     @PostMapping(value = "/guess")
-    public String guessWord(Model model,
+    public String guessWord(@Valid GuessDTO guessDTO,
+                            Model model,
                             final HttpSession session,
                             final HttpServletRequest request,
-                            GuessDTO guessDTO,
                             WordDTO wordDTO,
                             CreditsDTO creditsDTO,
                             AttemptsDTO attemptsDTO,
-                            GameDTO gameDTO) throws IOException {
+                            @Valid GameDTO gameDTO,
+                            BindingResult bindingResult
+                            ) throws IOException {
+
+        if (bindingResult.hasErrors()) {
+            return "index";
+        }
 
         // Variables
         int attempts = (int) session.getAttribute(ATTEMPTS_CONSTANT);

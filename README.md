@@ -10,13 +10,13 @@ I then created a new list on things I need to work on as of today:
 
 ## Implementations and features
 - [x] add level choice (27/3/22)
-- [x] add name field for scoring purposes
-- [ ] add score system
+- [x] add name field for scoring purposes (27/3/22)
+- [x] add score system (27/3/22)
 - [ ] implement hibernate JSP for processing and saving a score into a database
 - [ ] add highscores to view (top 5)
 
 ## Things to fix:
-- [ ] (D) fix the service tests
+- [x] (D) fix the service tests
 - [ ] (B) FIX how to get the error to display on Thymeleaf? Code seems right...
   - [ ]  find a way to make the length error only show when there is something typed. And empty only when empty.
 - [ ] (C) FIX why is it loading the guess x4 every time it loads index? Then error if null always shows.

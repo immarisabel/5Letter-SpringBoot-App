@@ -25,15 +25,6 @@ public class GameAttemptsTest {
 
 
 
-
-    @Test
-    @DisplayName("Attempts are initialized via init")
-    public void setAttemptsTest() {
-    }
-
-
-
-
     @Test
     @DisplayName("parse Level enum to find attempt int")
     public void LevelEnumToAttepmpts() throws IOException {

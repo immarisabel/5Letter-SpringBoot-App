@@ -12,7 +12,6 @@ public class Application {
     }
 
     // Implementations and features
-    //TODO add score system
     //TODO add count of words guessed
     //TODO add score multiplier according to words guessed
     //TODO implement hibernate JSP for processing and saving a score into a database
@@ -20,7 +19,6 @@ public class Application {
     //TODO allow multiple instances of the game? Is this necessary?
 
     // Other things to work on:
-    //TODO fix the tests
     //TODO (B) FIX how to get the error to display on Thymeleaf? Code seems right...
     //TODO (C) find a way to make the lenght error only show when there is something typed.
     //  And empty only when empty.

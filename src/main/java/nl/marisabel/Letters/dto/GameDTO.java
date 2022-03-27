@@ -4,10 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 import nl.marisabel.Letters.services.Level;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class GameDTO {
 
     @Getter
     @Setter
+    @NotBlank
     private Level level;
 
     @Getter
@@ -16,6 +20,7 @@ public class GameDTO {
 
     @Getter
     @Setter
+    @NotBlank
     private String name;
 
     // SCORES
