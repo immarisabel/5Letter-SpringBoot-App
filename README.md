@@ -10,7 +10,7 @@ I then created a new list on things I need to work on as of today:
 
 ## Implementations and features
 - [x] add level choice (27/3/22)
-- [ ] add name field for scoring purposes
+- [x] add name field for scoring purposes
 - [ ] add score system
 - [ ] implement hibernate JSP for processing and saving a score into a database
 - [ ] add highscores to view (top 5)

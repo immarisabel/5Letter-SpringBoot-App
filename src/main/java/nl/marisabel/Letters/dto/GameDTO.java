@@ -6,6 +6,7 @@ public class GameDTO {
 
     private Level level;
     private int attempts;
+    private String name;
 
     public Level getLevel() {
         return level;
@@ -19,10 +20,15 @@ public class GameDTO {
         return attempts;
     }
 
-
     public void setAttempts(int attempts) {
         this.attempts = attempts;
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 }

@@ -24,7 +24,7 @@ import java.util.List;
 
 @SuppressWarnings("unchecked")
 @Controller
-@SessionAttributes({"guess", "result", "attempt", "message", "credits", "word", "level"})
+@SessionAttributes({"guess", "result", "attempt", "message", "credits", "word", "level", "name"})
 
 public class GameController {
 
@@ -36,6 +36,8 @@ public class GameController {
     private static final String MESSAGE_CONSTANT = "MESSAGE";
     private static final String CREDITS_CONSTANT = "CREDITS";
     private static final String LEVEL_CONSTANT = "LEVEL_SELECTED";
+    private static final String NAME_CONSTANT = "NAME";
+
     private static final Logger LOGGER = LoggerFactory.getLogger(GameController.class);
 
     private final RandomWordService randomWord;
@@ -83,6 +85,8 @@ public class GameController {
         model.addAttribute("credits", session.getAttribute(CREDITS_CONSTANT));
         model.addAttribute("levelSelected", session.getAttribute(LEVEL_CONSTANT));
         model.addAttribute("attemptStart", session.getAttribute(TOTAL_ATTEMPTS_CONSTANT));
+        model.addAttribute("name", session.getAttribute(NAME_CONSTANT));
+
         model.addAttribute("level", Level.values());
 
         return "index";
@@ -100,6 +104,7 @@ public class GameController {
         String word = (String) request.getSession().getAttribute(WORD_TO_GUESS_CONSTANT);
 
         if (word == null) {
+            request.getSession().setAttribute(NAME_CONSTANT, gameDTO.getName());
             request.getSession().setAttribute(ATTEMPTS_CONSTANT, gameDTO.getLevel().getAttempts());
             request.getSession().setAttribute(WORD_TO_GUESS_CONSTANT, randomWord.selectRandomWord());
             request.getSession().setAttribute(CREDITS_CONSTANT, creditsDTO.getCredit());
