@@ -2,10 +2,7 @@ package nl.marisabel.Letters.controllers;
 
 
 import nl.marisabel.Letters.dto.*;
-import nl.marisabel.Letters.services.IsWordCorrectService;
-import nl.marisabel.Letters.services.Level;
-import nl.marisabel.Letters.services.RandomWordService;
-import nl.marisabel.Letters.services.WordCheckService;
+import nl.marisabel.Letters.services.*;
 import nl.marisabel.Letters.util.LogFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +21,7 @@ import java.util.List;
 
 @SuppressWarnings("unchecked")
 @Controller
-@SessionAttributes({"guess", "result", "attempt", "message", "credits", "word", "level", "name"})
+@SessionAttributes({"guess", "result", "attempt", "message", "credits", "word", "level", "name","score"})
 
 public class GameController {
 
@@ -37,6 +34,9 @@ public class GameController {
     private static final String CREDITS_CONSTANT = "CREDITS";
     private static final String LEVEL_CONSTANT = "LEVEL_SELECTED";
     private static final String NAME_CONSTANT = "NAME";
+    private static final String SCORE_CONSTANT = "SCORE";
+    private static final String SCORE_MULTIPLIER_CONSTANT = "SCORE_MULTIPLIER";
+
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GameController.class);
 
@@ -86,6 +86,8 @@ public class GameController {
         model.addAttribute("levelSelected", session.getAttribute(LEVEL_CONSTANT));
         model.addAttribute("attemptStart", session.getAttribute(TOTAL_ATTEMPTS_CONSTANT));
         model.addAttribute("name", session.getAttribute(NAME_CONSTANT));
+        model.addAttribute("score", session.getAttribute(SCORE_CONSTANT));
+
 
         model.addAttribute("level", Level.values());
 
@@ -110,7 +112,10 @@ public class GameController {
             request.getSession().setAttribute(CREDITS_CONSTANT, creditsDTO.getCredit());
             request.getSession().setAttribute(LEVEL_CONSTANT, gameDTO.getLevel().getLevel());
             request.getSession().setAttribute(TOTAL_ATTEMPTS_CONSTANT, gameDTO.getLevel().getAttempts());
+            request.getSession().setAttribute(SCORE_CONSTANT, gameDTO.getScore());
+            request.getSession().setAttribute(SCORE_MULTIPLIER_CONSTANT, gameDTO.getLevel().getMultiplier());
             wordDTO.setWord((String) session.getAttribute(WORD_TO_GUESS_CONSTANT));
+
             LOGGER.info(LogFormat.log() + " is word set? " + wordDTO.getWord());
         }
         model.addAttribute("message", "");
@@ -137,6 +142,10 @@ public class GameController {
         String result = checkGuess.resultWord(wordToGuess, guess);
         boolean wordIsCorrect = isWordCorrectService.isTheWordCorrect(result, wordToGuess);
         int startAttempts = (int) session.getAttribute(TOTAL_ATTEMPTS_CONSTANT);
+        int score = (int) session.getAttribute(SCORE_CONSTANT);
+        int scoreMultiplier = (int) request.getSession().getAttribute(SCORE_MULTIPLIER_CONSTANT);
+        int wrongWord = gameDTO.getWrongWord();
+        int initialScore = gameDTO.getStartScore();
 
         // Main Game Logic
 
@@ -156,6 +165,8 @@ public class GameController {
             message = "Wrong! Try again!";
             request.getSession().setAttribute(MESSAGE_CONSTANT, message);
             request.getSession().setAttribute(ATTEMPTS_CONSTANT, --attempts);
+            request.getSession().setAttribute(SCORE_MULTIPLIER_CONSTANT, score-wrongWord);
+
         } else {
             String message = "Correct! Guess another word!";
             wordToGuess = randomWord.selectRandomWord();
@@ -163,6 +174,8 @@ public class GameController {
             request.getSession().setAttribute(MESSAGE_CONSTANT, message);
             request.getSession().setAttribute(WORD_TO_GUESS_CONSTANT, wordToGuess);
             request.getSession().setAttribute(ATTEMPTS_CONSTANT, startAttempts);
+            request.getSession().setAttribute(SCORE_MULTIPLIER_CONSTANT, score+(initialScore*scoreMultiplier));
+
         }
         request.getSession().setAttribute(GUESSED_WORD_CONSTANT, guess);
         request.getSession().setAttribute(RESULT_CONSTANT, result);
