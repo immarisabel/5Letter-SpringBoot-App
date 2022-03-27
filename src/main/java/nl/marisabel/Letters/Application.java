@@ -13,6 +13,8 @@ public class Application {
 
     // Implementations and features
     //TODO add score system
+    //TODO add count of words guessed
+    //TODO add score multiplier according to words guessed
     //TODO implement hibernate JSP for processing and saving a score into a database
     //TODO add highscores to view (top 5)
 

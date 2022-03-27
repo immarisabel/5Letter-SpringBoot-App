@@ -138,7 +138,7 @@ public class GameController {
         boolean wordIsCorrect = isWordCorrectService.isTheWordCorrect(result, wordToGuess);
         int startAttempts = (int) session.getAttribute(TOTAL_ATTEMPTS_CONSTANT);
 
-        // Logic
+        // Main Game Logic
 
         if (!wordIsCorrect) {
             String message = "";
@@ -174,25 +174,25 @@ public class GameController {
     }
 
 
-    // EXCEPTION HANDLERS
+     // EXCEPTION HANDLERS
 
 
-//    @ExceptionHandler(value = ArrayIndexOutOfBoundsException.class)
-//    public String handleArrayIndexOutOfBoundsException(final Model model) {
-//
-//        String text = "ERROR: Could not check empty <<guess>>.";
-//        model.addAttribute("text", text);
-//        return "ExceptionPage";
-//    }
-//
-//
-//    @ExceptionHandler(value = NullPointerException.class)
-//    public String handleNullPointerException(final Model model) {
-//
-//        String text = "ERROR: Cannot compare words because <<word to guess>> is null";
-//        model.addAttribute("text", text);
-//        return "ExceptionPage";
-//    }
+    @ExceptionHandler(value = ArrayIndexOutOfBoundsException.class)
+    public String handleArrayIndexOutOfBoundsException(final Model model) {
+
+        String text = "ERROR: Could not check empty <<guess>>.";
+        model.addAttribute("text", text);
+        return "ExceptionPage";
+    }
+
+
+    @ExceptionHandler(value = NullPointerException.class)
+    public String handleNullPointerException(final Model model) {
+
+        String text = "ERROR: Cannot compare words because <<word to guess>> is null";
+        model.addAttribute("text", text);
+        return "ExceptionPage";
+    }
 
 
     @PostMapping(value = "/destroy")

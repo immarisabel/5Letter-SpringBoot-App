@@ -1,34 +1,26 @@
 package nl.marisabel.Letters.dto;
 
+import lombok.Getter;
+import lombok.Setter;
 import nl.marisabel.Letters.services.Level;
 
 public class GameDTO {
 
+    @Getter
+    @Setter
     private Level level;
+
+    @Getter
+    @Setter
     private int attempts;
+
+    @Getter
+    @Setter
     private String name;
 
-    public Level getLevel() {
-        return level;
-    }
+    @Getter
+    @Setter
+    private int score;
 
-    public void setLevel(Level level) {
-        this.level = level;
-    }
 
-    public int getAttempts() {
-        return attempts;
-    }
-
-    public void setAttempts(int attempts) {
-        this.attempts = attempts;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
