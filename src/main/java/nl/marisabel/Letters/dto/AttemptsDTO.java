@@ -1,28 +1,12 @@
 package nl.marisabel.Letters.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.springframework.stereotype.Service;
 
 @Service
+@Data
 public class AttemptsDTO {
 
     private int attempts;
 
-    public int getAttempts() {
-        return attempts;
-    }
-
-    public void setAttempts(int attempts) {
-        this.attempts = attempts;
-    }
-
-
-    @Override
-    public String toString() {
-
-        return "AttemptsDTO{" +
-                "attempts=" + attempts +
-                '}';
-    }
 }

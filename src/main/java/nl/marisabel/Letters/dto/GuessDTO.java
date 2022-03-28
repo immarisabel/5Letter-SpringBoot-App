@@ -14,8 +14,8 @@ public class GuessDTO {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GuessDTO.class);
 
-    @NotNull(message = "Please type a 5 letters word.")
-    @Size(min = 5, max = 5, message = "Please type a 5 letters word.")
+//    @NotNull(message = "Please type a 5 letters word.")
+//    @Size(min = 5, max = 5, message = "Please type a 5 letters word.")
     private String guess;
 
     public void setGuess(String guess) {

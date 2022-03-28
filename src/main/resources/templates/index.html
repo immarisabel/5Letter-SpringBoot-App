@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html lang="en" xmlns:th="www.thymeleaf.org">
 
 <head>
@@ -22,26 +22,39 @@
     <!--    Section to initialize game  -->
 
     <div th:hidden="${credits} != null">
-        <form method="get" th:action="@{/loadgame}" th:object="${gameDTO}">
+        <form action="#" th:action="@{/loadgame}" th:object="${gameDTO}" method="post">
             <p>
                 <select class="form-group" th:field="*{level}" id="dropDownList">
-                    <option value="0">select level</option>
                     <option th:each="level : ${level}"
                             th:text="${level.level}"
                             th:value="${level.level}"></option>
                 </select>
             </p>
-            <p><input type="text" th:field="*{name}" placeholder="your name" id="name"/></p>
-            <p th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}" />
+            <p class="alert alert-danger" th:if="${#fields.hasErrors('level')}" th:errors="*{level}"></p>
+            <p><input type="text" class="form-control" id="name" th:field="*{name}" th:placeholder="username" th:value="anonymous" /></p>
+            <p class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
             <p><input type="submit" value="Start"/></p>
         </form>
     </div>
+
+
+
 
     <!--    Section to update according to guess    -->
 
     <div id="container-two" th:hidden="${correct} == true">
         <div id="creditsNull" th:hidden="${credits} == null">
             <h3 th:text="'Hello ' + ${name} + '!'"></h3>
+
+            <!--    FORM TO GUESS THE WORD  -->
+            <p>
+            <form method="post" th:action="@{/guess}" th:object="${guessDTO}" th:hidden="${credits} == null">
+                <input id="guessField" type="text" th:field="*{guess}" placeholder="5letters"/>
+                <input type="submit" value="Guess" th:disabled="${credits} == 0"/>
+            </form>
+            </p>
+
+
             <h3 th:text="'Level: '+ ${levelSelected}"></h3>
             <h2 th:text="'Credits : '+ ${credits} + ' | Score: '+ ${score}"></h2>
             <h2 th:text="${attempt} + ' / ' + ${attemptStart}"></h2>
@@ -51,18 +64,10 @@
     </div>
     <b>
         <h4 th:text="${message}"></h4>
-
     </b>
 
     <h2 id="result" th:text="${result}" th:hidden="${credits} == 0"></h2>
 
-    <!--    FORM TO GUESS THE WORD  -->
-    <p>
-    <form method="post" th:action="@{/guess}" th:object="${guessDTO}" th:hidden="${credits} == null">
-        <input id="fields" type="text" th:field="*{guess}" placeholder="5letters"/>
-            <input type="submit" value="Guess" th:disabled="${credits} == 0"/>
-    </form>
-    </p>
 
 
     <!--    PLAY AGAIN BUTTON - deletes session -->

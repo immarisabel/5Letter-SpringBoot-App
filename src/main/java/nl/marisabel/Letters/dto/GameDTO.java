@@ -1,53 +1,31 @@
 package nl.marisabel.Letters.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import nl.marisabel.Letters.services.Level;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+@Data
 public class GameDTO {
 
-    @Getter
-    @Setter
-    @NotNull
+    @NotNull (message = "Please select a level")
     private Level level;
-
-    @Getter
-    @Setter
+    @NotNull (message = "Please select a level")
     private int attempts;
-
-    @Getter
-    @Setter
-    @NotEmpty(message = "Name cannot be empty.")
+    @NotNull(message = "Please type a name.")
+    @NotEmpty(message = "Please type a name.")
     private String name;
 
     // SCORES
 
-    @Getter
-    @Setter
     private int score = 100;
-    @Getter
-    @Setter
     private final int startScore = 100;
-    @Getter
-    @Setter
     private final int easyMultiplier = 1;
-    @Getter
-    @Setter
     private final int mediumMultiplier = 3;
-    @Getter
-    @Setter
     private final int hardMultiplier = 5;
-    @Getter
-    @Setter
     private final int fiveWordsCorrectMultiplier = 2;
-    @Getter
-    @Setter
     private final int tenWordsCorrectMultiplier = 4;
-    @Getter
-    @Setter
     private final int wrongWord = 10;
 
 

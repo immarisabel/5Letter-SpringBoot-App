@@ -1,8 +1,8 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Application" type="Application" factoryName="Application" nameIsGenerated="true">
+  <configuration default="false" name="TestApp" type="TestApp" factoryName="TestApp" nameIsGenerated="true">
     <option name="ALTERNATIVE_JRE_PATH" value="openjdk-16" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-    <option name="MAIN_CLASS_NAME" value="nl.marisabel.Letters.Application" />
+    <option name="MAIN_CLASS_NAME" value="nl.marisabel.Letters.TestApp" />
     <module name="5Letters" />
     <extension name="coverage">
       <pattern>
