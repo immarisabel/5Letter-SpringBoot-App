@@ -26,6 +26,9 @@ added dependency extra:
                 <artifactId>validation-api</artifactId>
             </dependency>
 
+
+For Blog:
+
 Spring MVC: Neither BindingResult nor plain target object for bean name 'OBJECTNAME' available as request attribute.
 
 Solution: @ModelAttribute("OBJECTNAME")
