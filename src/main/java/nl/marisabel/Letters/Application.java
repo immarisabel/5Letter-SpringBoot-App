@@ -19,9 +19,6 @@ public class Application {
     //TODO allow multiple instances of the game? Is this necessary?
 
     // Other things to work on:
-    //TODO (B) FIX how to get the error to display on Thymeleaf? Code seems right...
-    //TODO (C) find a way to make the lenght error only show when there is something typed.
-    //  And empty only when empty.
     //TODO (C) FIX why is it loading the guess x4 every time it loads index? Then error if null always shows.
     // Update 22/2/22 error is showing when @Valid is added to first method, and not loading NULL.
     // This is desired, so now I need to figure out how to NOT load it.
