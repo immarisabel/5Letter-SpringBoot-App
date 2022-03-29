@@ -19,9 +19,6 @@ public class Application {
     //TODO allow multiple instances of the game? Is this necessary?
 
     // Other things to work on:
-    //TODO (C) FIX why is it loading the guess x4 every time it loads index? Then error if null always shows.
-    // Update 22/2/22 error is showing when @Valid is added to first method, and not loading NULL.
-    // This is desired, so now I need to figure out how to NOT load it.
     //TODO (D) at the end: clean up all sessions requests into variables for readability
     //TODO (D) move all text to a property file for easy update and implementation
 
