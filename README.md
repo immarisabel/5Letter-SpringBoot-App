@@ -19,7 +19,5 @@ I then created a new list on things I need to work on as of today:
 - [x] (D) fix the service tests
 - [x] (B) FIX how to get the error to display on Thymeleaf? Code seems right... (28/3/22)
   - [x]  find a way to make the length error only show when there is something typed. And empty only when empty.
-- [ ] (C) FIX why is it loading the guess x4 every time it loads index? Then error if null always shows.
-    - Update 22/2/22 error is showing when @Valid is added to first method, and not loading NULL. This is desired, so now I need to figure out how to NOT load it.
-- [ ] (D) at the end: clean up all sessions requests into variables for readability
-- [ ] (D) move all text to a property file for easy update and implementation
+- [ ] (C) at the end: clean up all sessions requests into variables for readability
+- [ ] (C) move all text to a property file for easy update and implementation
