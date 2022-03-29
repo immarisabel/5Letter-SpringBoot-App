@@ -12,71 +12,71 @@
 </head>
 
 <body>
-<div id="container">
+<div class="row">
+    <div class="col-xs-12" align="center">
+        <!--    HEADER  -->
+        <h1 style="margin-top:10vh;">5Letter Word Game</h1>
+        <h5>AKA: Lingo.</h5>
+        <hr>
 
-    <!--    HEADER  -->
-    <h1 style="margin-top:10vh;">5Letter Word Game</h1>
-    <h5>AKA: Lingo.</h5>
-    <hr>
+        <!--        Set Up Game Form    -->
 
-    <!--    Section to initialize game  -->
-
-    <div th:hidden="${credits} != null">
-        <form action="#" th:action="@{/loadgame}" th:object="${gameDTO}" method="post">
-            <p>
-                <select class="form-group" th:field="*{level}" id="dropDownList">
-                    <option th:each="level : ${level}"
-                            th:text="${level.level}"
-                            th:value="${level.level}"></option>
-                </select>
-            </p>
-            <p class="alert alert-danger" th:if="${#fields.hasErrors('level')}" th:errors="*{level}"></p>
-            <p><input type="text" class="form-control" id="name" th:field="*{name}" th:placeholder="username" th:value="anonymous" /></p>
-            <p class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
-            <p><input type="submit" value="Start"/></p>
-        </form>
-    </div>
-
-
-
-
-    <!--    Section to update according to guess    -->
-
-    <div id="container-two" th:hidden="${correct} == true">
-        <div id="creditsNull" th:hidden="${credits} == null">
-            <h3 th:text="'Hello ' + ${name} + '!'"></h3>
-
-            <!--    FORM TO GUESS THE WORD  -->
-            <p>
-            <form method="post" th:action="@{/guess}" th:object="${guessDTO}" th:hidden="${credits} == null">
-                <input id="guessField" type="text" th:field="*{guess}" placeholder="5letters"/>
-                <input type="submit" value="Guess" th:disabled="${credits} == 0"/>
+        <div th:hidden="${credits} != null">
+            <form action="#" th:action="@{/loadgame}" th:object="${gameDTO}" method="post">
+                <p>
+                    <select class="form-group" th:field="*{level}" id="dropDownList">
+                        <option th:each="level : ${level}"
+                                th:text="${level.level}"
+                                th:value="${level.level}"></option>
+                    </select>
+                </p>
+                <p class="alert alert-danger" th:if="${#fields.hasErrors('level')}" th:errors="*{level}"></p>
+                <p><input type="text" class="form-control" id="name" th:field="*{name}" th:placeholder="username"
+                          th:value="anonymous"/></p>
+                <p class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+                <p><input type="submit" value="Start"/></p>
             </form>
-            </p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6" align="center">
+        <p>
+            <!--    TEXT under guess    - hide -->
+         <h4 th:text="${message}"></h4>
+        <h2 id="result" th:text="${result}" th:hidden="${credits} == 0"></h2>
 
+        <form method="post" th:action="@{/guess}" th:object="${guessDTO}" th:hidden="${credits} == null">
+            <input id="guessField" type="text" th:field="*{guess}" placeholder="5letters"/>
+            <p></p>
+            <p class="alert alert-danger" th:if="${#fields.hasErrors('guess')}" th:errors="*{guess}"></p>
+            <input type="submit" value="Guess" th:disabled="${credits} == 0"/>
+        </form>
 
+        </p>
+
+    </div>
+    <div class="col-xs-12 col-md-6" align="center">
+        <!--    These go on their own column    - always show after game setup  -->
+        <div th:hidden="${credits} == null">
+            <h3 th:text="'Hello ' + ${name} + '!'"></h3>
             <h3 th:text="'Level: '+ ${levelSelected}"></h3>
             <h2 th:text="'Credits : '+ ${credits} + ' | Score: '+ ${score}"></h2>
             <h2 th:text="${attempt} + ' / ' + ${attemptStart}"></h2>
         </div>
-        <h4 th:text="'Your guess was:'"  th:hidden="${attempt} == ${attemptStart}"></h4>
-        <h2 id="guess" th:text="${guess}" th:hidden="${attempt} == ${attemptStart}"></h2>
     </div>
-    <b>
-        <h4 th:text="${message}"></h4>
-    </b>
-
-    <h2 id="result" th:text="${result}" th:hidden="${credits} == 0"></h2>
-
-
-
-    <!--    PLAY AGAIN BUTTON - deletes session -->
-    <p>
-    <form method="post" th:action="@{/destroy}">
-        <input type="submit" value="Play Again" th:hidden="${credits} == null"/>
-    </form>
-    </p>
 </div>
+<div class="row" style="margin-top:10vh;">
+    <div class="col-xs-12" align="center">
+        <h4 th:text="'Your guess was:'" th:hidden="${attempt} == ${attemptStart}"></h4>
+        <h2 id="guess" th:text="${guess}" th:hidden="${attempt} == ${attemptStart}"></h2>
+
+        <form method="post" th:action="@{/destroy}">
+            <input type="submit" value="Play Again" th:hidden="${credits} == null"/>
+        </form>
+    </div>
+</div>
+
 
 </body>
 

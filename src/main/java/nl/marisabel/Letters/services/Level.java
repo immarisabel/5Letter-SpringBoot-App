@@ -7,7 +7,7 @@ public enum Level {
 
     EASY("EASY", 20, 1),
     MEDIUM("MEDIUM", 10, 3),
-    HARD("HARD", 5, 5);
+    HARD("HARD", 1, 5);
 
     private final String level;
     private final int attempts;

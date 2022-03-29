@@ -136,13 +136,13 @@ public class GameController {
             WordDTO wordDTO,
             CreditsDTO creditsDTO,
             AttemptsDTO attemptsDTO,
-            GuessDTO guessDTO,
-            GameDTO gameDTO, Errors errors,
+            GameDTO gameDTO,
+            @Valid GuessDTO guessDTO, BindingResult errors,
             Model model
     ) throws IOException {
 
         // error display
-        if ( null != errors && errors.getErrorCount() > 0 ) {
+        if ( errors.hasErrors() ) {
             return "index";
         }
 
@@ -165,13 +165,6 @@ public class GameController {
         if ( !wordIsCorrect ) {
             String message = "";
 
-            if ( credits == 0 ) {
-                message = "Game over!";
-                request.getSession().setAttribute( MESSAGE_CONSTANT, message );
-                request.getSession().setAttribute( SCORE_CONSTANT, score );
-                LOGGER.info( LogFormat.log() + "Final score: " + session.getAttribute( SCORE_CONSTANT ) );
-            }
-
             message = "Wrong! Try again!";
             request.getSession().setAttribute( MESSAGE_CONSTANT, message );
             request.getSession().setAttribute( ATTEMPTS_CONSTANT, --attempts );
@@ -184,6 +177,13 @@ public class GameController {
                 request.getSession().setAttribute( MESSAGE_CONSTANT, message );
                 request.getSession().setAttribute( ATTEMPTS_CONSTANT, startAttempts );
                 request.getSession().setAttribute( WORD_TO_GUESS_CONSTANT, randomWord.selectRandomWord() );
+            }
+
+            if ( credits == 0 ) {
+                message = "Game over!";
+                request.getSession().setAttribute( MESSAGE_CONSTANT, message );
+                request.getSession().setAttribute( SCORE_CONSTANT, score );
+                LOGGER.info( LogFormat.log() + "Final score: " + session.getAttribute( SCORE_CONSTANT ) );
             }
 
         }
