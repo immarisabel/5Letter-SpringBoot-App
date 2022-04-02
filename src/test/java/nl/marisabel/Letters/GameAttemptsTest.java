@@ -1,13 +1,8 @@
 package nl.marisabel.Letters;
 
-import nl.marisabel.Letters.dto.AttemptsDTO;
 import nl.marisabel.Letters.dto.GameDTO;
-import nl.marisabel.Letters.services.IsWordCorrectService;
-import nl.marisabel.Letters.dto.GuessDTO;
+import nl.marisabel.Letters.entity.Score;
 import nl.marisabel.Letters.services.Level;
-import nl.marisabel.Letters.services.WordCheckService;
-import nl.marisabel.Letters.dto.WordDTO;
-import nl.marisabel.Letters.util.LogFormat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -29,7 +24,7 @@ public class GameAttemptsTest {
     @DisplayName("parse Level enum to find attempt int")
     public void LevelEnumToAttepmpts() throws IOException {
 
-        GameDTO gameDTO = new GameDTO();
+        Score gameDTO = new Score();
         var level = Level.EASY;
         gameDTO.setLevel(level);
 

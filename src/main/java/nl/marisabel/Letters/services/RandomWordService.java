@@ -3,6 +3,7 @@ package nl.marisabel.Letters.services;
 import nl.marisabel.Letters.util.LogFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -15,7 +16,12 @@ import java.util.stream.Collectors;
 @Service
 public class RandomWordService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RandomWordService.class);
+
+    //    LOGGER Formatted (for debugging purposes)
+    private void log(String msg) {
+        LogFormat log = new LogFormat();
+        log.log(RandomWordService.class, msg);
+    }
 
     private String word;
 
@@ -39,7 +45,7 @@ public class RandomWordService {
 
         Random rand = new Random();
         String word = words.get(rand.nextInt(words.size()));
-        LOGGER.info(LogFormat.log() + " random word: " + word);
+        log(" random word: " + word);
 
         return word;
     }

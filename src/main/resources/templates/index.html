@@ -22,12 +22,12 @@
         <!--        Set Up Game Form    -->
 
         <div th:hidden="${credits} != null">
-            <form action="#" th:action="@{/loadgame}" th:object="${gameDTO}" method="post">
+            <form  th:action="@{/loadgame}" th:object="${score}" method="post">
                 <p>
                     <select class="form-group" th:field="*{level}" id="dropDownList">
-                        <option th:each="level : ${level}"
-                                th:text="${level.level}"
-                                th:value="${level.level}"></option>
+                        <option th:each="lvl : ${level}"
+                                th:text="${lvl.level}"
+                                th:value="${lvl.level}"></option>
                     </select>
                 </p>
                 <p class="alert alert-danger" th:if="${#fields.hasErrors('level')}" th:errors="*{level}"></p>
@@ -43,10 +43,11 @@
     <div class="col-md-6" align="center">
         <p>
             <!--    TEXT under guess    - hide -->
-         <h4 th:text="${message}"></h4>
+        <h4 th:text="${message}"></h4>
         <h2 id="result" th:text="${result}" th:hidden="${credits} == 0"></h2>
 
-        <form method="post" th:action="@{/guess}" th:object="${guessDTO}" th:hidden="${credits} == null">
+        <!--        GUESS FORM -->
+        <form  th:action="@{/guess}" th:object="${gameDTO}" method="post" th:hidden="${credits} == null">
             <input id="guessField" type="text" th:field="*{guess}" placeholder="5letters"/>
             <p></p>
             <p class="alert alert-danger" th:if="${#fields.hasErrors('guess')}" th:errors="*{guess}"></p>
@@ -61,7 +62,7 @@
         <div th:hidden="${credits} == null">
             <h3 th:text="'Hello ' + ${name} + '!'"></h3>
             <h3 th:text="'Level: '+ ${levelSelected}"></h3>
-            <h2 th:text="'Credits : '+ ${credits} + ' | Score: '+ ${score}"></h2>
+            <h2 th:text="'Credits : '+ ${credits} + ' | Score: '+ ${gameScore}"></h2>
             <h2 th:text="${attempt} + ' / ' + ${attemptStart}"></h2>
         </div>
     </div>

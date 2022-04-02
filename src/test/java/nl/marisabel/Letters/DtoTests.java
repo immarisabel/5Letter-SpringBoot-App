@@ -1,9 +1,6 @@
 package nl.marisabel.Letters;
 
-import nl.marisabel.Letters.dto.AttemptsDTO;
-import nl.marisabel.Letters.dto.CreditsDTO;
-import nl.marisabel.Letters.dto.GuessDTO;
-import nl.marisabel.Letters.dto.WordDTO;
+import nl.marisabel.Letters.dto.GameDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +11,7 @@ public class DtoTests {
     @Test
     @DisplayName("attempts = 9")
     public void testAttemptDto() {
-        AttemptsDTO attemptDto = new AttemptsDTO();
+        GameDTO attemptDto = new GameDTO();
         attemptDto.setAttempts(10);
         int attempts = attemptDto.getAttempts();
         attemptDto.setAttempts(--attempts);
@@ -24,7 +21,7 @@ public class DtoTests {
     @Test
     @DisplayName("word = house")
     public void testWordDto() {
-        WordDTO wordDTO = new WordDTO();
+        GameDTO wordDTO = new GameDTO();
         wordDTO.setWord("house");
         assertEquals(wordDTO.getWord(), "house");
     }
@@ -32,7 +29,7 @@ public class DtoTests {
     @Test
     @DisplayName("guess = house")
     public void testGuessDto() {
-        GuessDTO guessDTO = new GuessDTO();
+        GameDTO guessDTO = new GameDTO();
         guessDTO.setGuess("house");
         assertEquals(guessDTO.getGuess(), "house");
     }
@@ -40,7 +37,7 @@ public class DtoTests {
     @Test
     @DisplayName("Credits = 2")
     public void testCreditsDto() {
-        CreditsDTO creditsDTO = new CreditsDTO();
+        GameDTO creditsDTO = new GameDTO();
         int credit = creditsDTO.getCredit();
         assertEquals(--credit, 2);
     }

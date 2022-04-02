@@ -1,5 +1,6 @@
 package nl.marisabel.Letters.services;
 
+import nl.marisabel.Letters.util.LogFormat;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -7,17 +8,23 @@ import java.util.Objects;
 @Service
 public class IsWordCorrectService {
 
+    //    LOGGER Formatted (for debugging purposes)
+    private void log(String msg) {
+        LogFormat log = new LogFormat();
+        log.log(RandomWordService.class, msg);
+    }
+
     public boolean isTheWordCorrect(String result,
                                     String wordToGuess) {
 
 
         if (Objects.equals(wordToGuess, result)) {
-            System.out.println("Correct! Well done! Guess the next word.");
+           log("(✔✔✔) Correct! Well done! Guess the next word.");
             return true;
         }
 
         {
-            System.out.println("Wrong! Try again.");
+            log("(!!!!) Wrong! Try again.");
             return false;
         }
 
