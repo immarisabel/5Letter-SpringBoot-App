@@ -1,12 +1,12 @@
 package nl.marisabel.Letters.entity;
 
 import lombok.Data;
-import nl.marisabel.Letters.services.Level;
+import nl.marisabel.Letters.dto.Level;
 
 import javax.persistence.*;
 
 @Data
-@Entity(name = "Score")
+@Entity
 @Table(schema = "5Letters")
 public class Score {
     @Id
@@ -14,7 +14,8 @@ public class Score {
     @Column(nullable = false)
     private int id;
     @Column(nullable = false)
-    private String score;
-    private String name;
-    private Level level;
+    private int score;
+    private String name = "null_name";
+    private String level;
+
 }

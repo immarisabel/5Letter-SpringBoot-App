@@ -19,7 +19,7 @@ public class IsWordCorrectService {
 
 
         if (Objects.equals(wordToGuess, result)) {
-           log("(✔✔✔) Correct! Well done! Guess the next word.");
+           log("(OK) Correct! Well done! Guess the next word.");
             return true;
         }
 

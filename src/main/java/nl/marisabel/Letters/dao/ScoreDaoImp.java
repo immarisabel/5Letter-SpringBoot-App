@@ -9,8 +9,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static nl.marisabel.Letters.util.LogFormat.log;
+
 @Repository
-public class ScoreDaoImp implements ScoreDAO{
+public class ScoreDaoImp implements ScoreDAO {
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -18,15 +20,16 @@ public class ScoreDaoImp implements ScoreDAO{
     @Override
     public List<Score> getScore() {
         Session session = sessionFactory.openSession();
-        Query<Score> query = session.createQuery("", Score.class);
-        List<Score> score = query.getResultList();
-        score.forEach(System.out::println);
-        return score;
+        Query<Score> query = session.createQuery("from Score", Score.class);
+        List<Score> scores = query.getResultList();
+        scores.forEach(System.out::println);
+        return scores;
     }
 
     @Override
     public void saveScore(Score score) {
         Session session = sessionFactory.openSession();
         session.save(score);
+        log(ScoreDaoImp.class, "(OK) Session score saved : " + score);
     }
 }

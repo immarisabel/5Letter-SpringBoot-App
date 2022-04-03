@@ -3,14 +3,11 @@ package nl.marisabel.Letters.services;
 import nl.marisabel.Letters.util.LogFormat;
 import org.springframework.stereotype.Service;
 
+import static nl.marisabel.Letters.util.LogFormat.log;
+
 @Service
 public class WordCheckService {
 
-    //    LOGGER Formatted (for debugging purposes)
-private void log(String msg) {
-    LogFormat log = new LogFormat();
-    log.log(RandomWordService.class, msg);
-}
 
     // OK: desired behaviour: service not loading unless needed: OK!
 
@@ -24,7 +21,7 @@ private void log(String msg) {
             }
         }
 
-        log(String.valueOf(cArray));
+        log(WordCheckService.class, "RESULT:" + String.valueOf(cArray));
 
         return String.valueOf(cArray);
 

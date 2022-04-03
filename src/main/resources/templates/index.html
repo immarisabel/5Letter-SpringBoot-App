@@ -12,6 +12,7 @@
 </head>
 
 <body>
+<div class="container-sm">
 <div class="row">
     <div class="col-xs-12" align="center">
         <!--    HEADER  -->
@@ -22,15 +23,14 @@
         <!--        Set Up Game Form    -->
 
         <div th:hidden="${credits} != null">
-            <form  th:action="@{/loadgame}" th:object="${score}" method="post">
+            <form th:action="@{/loadgame}" th:object="${score}" method="post">
                 <p>
                     <select class="form-group" th:field="*{level}" id="dropDownList">
                         <option th:each="lvl : ${level}"
-                                th:text="${lvl.level}"
-                                th:value="${lvl.level}"></option>
+                                th:text="${lvl.levelName}"
+                                th:value="${lvl.levelName}"></option>
                     </select>
                 </p>
-                <p class="alert alert-danger" th:if="${#fields.hasErrors('level')}" th:errors="*{level}"></p>
                 <p><input type="text" class="form-control" id="name" th:field="*{name}" th:placeholder="username"
                           th:value="anonymous"/></p>
                 <p class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
@@ -39,6 +39,8 @@
         </div>
     </div>
 </div>
+
+
 <div class="row">
     <div class="col-md-6" align="center">
         <p>
@@ -47,7 +49,7 @@
         <h2 id="result" th:text="${result}" th:hidden="${credits} == 0"></h2>
 
         <!--        GUESS FORM -->
-        <form  th:action="@{/guess}" th:object="${gameDTO}" method="post" th:hidden="${credits} == null">
+        <form th:action="@{/guess}" th:object="${gameDTO}" method="post" th:hidden="${credits} == null">
             <input id="guessField" type="text" th:field="*{guess}" placeholder="5letters"/>
             <p></p>
             <p class="alert alert-danger" th:if="${#fields.hasErrors('guess')}" th:errors="*{guess}"></p>
@@ -75,9 +77,29 @@
         <form method="post" th:action="@{/destroy}">
             <input type="submit" value="Play Again" th:hidden="${credits} == null"/>
         </form>
+
+        <div>
+            <H3>High Scores</H3>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Score</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <!--        LOOP    -->
+                <tr th:each="score: ${score}">
+
+                    <td th:text="${score.score}" scope="row"></td>
+                    <td th:text="${score.name}" scope="row"></td>
+                    <td th:text="${score.level}" scope="row"></td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>
-
+</div>
 
 </body>
 
