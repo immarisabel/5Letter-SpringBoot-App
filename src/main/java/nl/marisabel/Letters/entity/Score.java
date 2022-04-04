@@ -1,8 +1,9 @@
 package nl.marisabel.Letters.entity;
 
 import lombok.Data;
-import nl.marisabel.Letters.services.Level;
+import nl.marisabel.Letters.dto.Level;
 
+import javax.annotation.Priority;
 import javax.persistence.*;
 
 @Data
@@ -14,7 +15,8 @@ public class Score {
     @Column(nullable = false)
     private int id;
     @Column(nullable = false)
-    private String score;
+    private int score;
     private String name;
-    private Level level;
+    private String selectedLevelName;
+
 }

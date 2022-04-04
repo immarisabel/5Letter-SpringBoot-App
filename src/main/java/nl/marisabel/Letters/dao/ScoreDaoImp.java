@@ -18,7 +18,7 @@ public class ScoreDaoImp implements ScoreDAO{
     @Override
     public List<Score> getScore() {
         Session session = sessionFactory.openSession();
-        Query<Score> query = session.createQuery("", Score.class);
+        Query<Score> query = session.createQuery("from Score", Score.class);
         List<Score> score = query.getResultList();
         score.forEach(System.out::println);
         return score;

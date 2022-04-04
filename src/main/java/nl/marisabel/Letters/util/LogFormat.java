@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class LogFormat {
 
 
-    public void log(Class<?> clazz, String txt) {
+    public static void log(Class<?> clazz, String txt) {
         Class<?> autoComputedCallingClass = Util.getCallingClass();
         Logger LOGGER = LoggerFactory.getLogger(clazz);
         LOGGER.info(":::::::::: " + txt);
@@ -18,13 +18,3 @@ public class LogFormat {
 }
 
 
-
-
-////////////// TO COPY PER CLASS
-
-
-////    LOGGER Formatted (for debugging purposes)
-//private void log(String msg) {
-//    LogFormat log = new LogFormat();
-//    log.log(RandomWordService.class, msg);
-//}

@@ -22,18 +22,18 @@
         <!--        Set Up Game Form    -->
 
         <div th:hidden="${credits} != null">
-            <form  th:action="@{/loadgame}" th:object="${score}" method="post">
+            <form  th:action="@{/loadgame}" th:object="${gameDTO}" method="post">
                 <p>
-                    <select class="form-group" th:field="*{level}" id="dropDownList">
-                        <option th:each="lvl : ${level}"
-                                th:text="${lvl.level}"
-                                th:value="${lvl.level}"></option>
+                    <select class="form-group" th:field="*{lvlName}" id="dropDownList">
+                        <option th:each="lvl : ${lvlName}"
+                                th:text="${lvl.lvlName}"
+                                th:value="${lvl.lvlName}">
+                        </option>
                     </select>
                 </p>
-                <p class="alert alert-danger" th:if="${#fields.hasErrors('level')}" th:errors="*{level}"></p>
-                <p><input type="text" class="form-control" id="name" th:field="*{name}" th:placeholder="username"
+                <p><input type="text" class="form-control" id="name" th:field="*{playerName}" th:placeholder="username"
                           th:value="anonymous"/></p>
-                <p class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+                <p class="alert alert-danger" th:if="${#fields.hasErrors('playerName')}" th:errors="*{playerName}"></p>
                 <p><input type="submit" value="Start"/></p>
             </form>
         </div>

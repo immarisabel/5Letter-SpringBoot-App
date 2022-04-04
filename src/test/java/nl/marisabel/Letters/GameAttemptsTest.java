@@ -1,8 +1,7 @@
 package nl.marisabel.Letters;
 
 import nl.marisabel.Letters.dto.GameDTO;
-import nl.marisabel.Letters.entity.Score;
-import nl.marisabel.Letters.services.Level;
+import nl.marisabel.Letters.dto.Level;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -19,17 +18,16 @@ public class GameAttemptsTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(GameAttemptsTest.class);
 
 
-
     @Test
     @DisplayName("parse Level enum to find attempt int")
     public void LevelEnumToAttepmpts() throws IOException {
 
-        Score gameDTO = new Score();
+        GameDTO gameDTO = new GameDTO();
         var level = Level.EASY;
-        gameDTO.setLevel(level);
+        gameDTO.setLvlName(level);
 
-        System.out.println(gameDTO.getLevel().getAttempts());
-        System.out.println(gameDTO.getLevel().getLevel());
+        System.out.println(gameDTO.getLvlName().getAttempts());
+        System.out.println(gameDTO.getLvlName().getLvlName());
 
     }
 
