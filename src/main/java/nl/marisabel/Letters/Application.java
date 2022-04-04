@@ -11,12 +11,14 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-
-    //TODO add high-scores to view (top 5) // change view according to level selection
+    // TO FIX NEXT
+    //TODO java.sql.SQLIntegrityConstraintViolationException: Column 'level' cannot be null -
+    // need to make sure controller is sending the NAME of the level NOT the attempt numbers
 
     // Implementations and features
     //TODO add count of words guessed
     //TODO add score multiplier according to words guessed
+    //TODO add highscores to view (top 5)
     //TODO allow multiple instances of the game? Is this necessary?
 
     // Other things to work on:

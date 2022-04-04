@@ -8,8 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static nl.marisabel.Letters.util.LogFormat.log;
-
 @Service
 public class ScoreSavingServiceImp implements ScoreSavingService{
 
@@ -18,8 +16,7 @@ public class ScoreSavingServiceImp implements ScoreSavingService{
 
     @Override
     @Transactional
-    public List<Score> getScores() {
-        log(ScoreSavingServiceImp.class,"Service: " + String.valueOf(scoreDao.getScore()));
+    public List<Score> getScore() {
         return scoreDao.getScore();
     }
 

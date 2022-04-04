@@ -12,9 +12,8 @@ I then created a new list on things I need to work on as of today:
 - [x] add level choice (27/3/22)
 - [x] add name field for scoring purposes (27/3/22)
 - [x] add score system (27/3/22)
-- [x] implement hibernate JSP for processing and saving a score into a database (3/4/22)
-  - this one was tricky. But I was looking at it the wrong way.
-- [ ] add high-scores to view (top 5) - WIP (retrieving String[] empty List. Also, not able to start a new game now for some reason... - 3/4/22)
+- [ ] implement hibernate JSP for processing and saving a score into a database
+- [ ] add highscores to view (top 5)
 
 ## Things to fix:
 - [x] (D) fix the service tests

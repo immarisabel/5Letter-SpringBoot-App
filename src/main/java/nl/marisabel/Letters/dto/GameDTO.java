@@ -1,6 +1,7 @@
 package nl.marisabel.Letters.dto;
 
 import lombok.Data;
+import nl.marisabel.Letters.services.Level;
 
 
 @Data
@@ -9,9 +10,7 @@ public class GameDTO {
     private int attempts;
     private String guess;
     private String word;
-    private int credit = 1;
-    private Level level;
-    private String name;
+    private int credit = 3;
 
     // SCORES
 

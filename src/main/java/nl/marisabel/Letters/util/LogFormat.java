@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class LogFormat {
 
 
-    public static void log(Class<?> clazz, String txt) {
+    public void log(Class<?> clazz, String txt) {
         Class<?> autoComputedCallingClass = Util.getCallingClass();
         Logger LOGGER = LoggerFactory.getLogger(clazz);
         LOGGER.info(":::::::::: " + txt);

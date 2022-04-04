@@ -1,4 +1,7 @@
-package nl.marisabel.Letters.dto;
+package nl.marisabel.Letters.services;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public enum Level {
@@ -7,20 +10,19 @@ public enum Level {
     MEDIUM("MEDIUM", 10, 3),
     HARD("HARD", 1, 5);
 
-
-    private final String levelName;
+    private final String level;
     private final int attempts;
     private final int multiplier;
 
-    Level(String levelName, int attempts, int multiplier) {
-        this.levelName = levelName;
+    Level(String level, int attempts, int multiplier) {
+        this.level = level;
         this.attempts = attempts;
         this.multiplier = multiplier;
     }
 
 
-    public String getLevelName() {
-        return levelName;
+    public String getLevel() {
+        return level;
     }
 
     public int getAttempts() {
