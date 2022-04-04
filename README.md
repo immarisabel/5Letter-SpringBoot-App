@@ -20,6 +20,7 @@ Finally, implemented Hibernate plus cleanup the view. The next step is organizin
 
 ![screenshoot](https://github.com/immarisabel/5Letter-SpringBoot-App/blob/main/img.png)
 
+![screenshoot](https://github.com/immarisabel/5Letter-SpringBoot-App/blob/main/img_1.png)
 
 #### Progress 3/25/22:
 After practicing a lot with the Twitter project. I decided to jump on this again. It took me a while to understand how to use DTO vs Sessions. But after playing around and looking at other code, I started to understand.
