@@ -18,6 +18,9 @@ Start date: OCTOBER 2021
 #### Progress 4/4/22:
 Finally, implemented Hibernate plus cleanup the view. The next step is organizing the High Score table and implementing Spring Security when I am done with the course.
 
+![screenshoot](https://github.com/immarisabel/imLazyTwitterWebApp/blob/master/screenshootp01tweet.PNG)
+
+
 #### Progress 3/25/22:
 After practicing a lot with the Twitter project. I decided to jump on this again. It took me a while to understand how to use DTO vs Sessions. But after playing around and looking at other code, I started to understand.
 
