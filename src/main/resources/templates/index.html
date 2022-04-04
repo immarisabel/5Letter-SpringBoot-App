@@ -12,17 +12,19 @@
 </head>
 
 <body>
-<div class="row">
+<div class="container-sm">
     <div class="col-xs-12" align="center">
         <!--    HEADER  -->
-        <h1 style="margin-top:10vh;">5Letter Word Game</h1>
+        <img src="https://marisabel.nl/wp-content/uploads/2020/11/avatar-e1606738130828-150x150.png"
+             style="margin-top:2vh;">
+        <h1 style="margin-top:1vh; color:hotpink;"><b>5Letter Word Game</b></h1>
         <h5>AKA: Lingo.</h5>
         <hr>
 
         <!--        Set Up Game Form    -->
 
         <div th:hidden="${credits} != null">
-            <form  th:action="@{/loadgame}" th:object="${gameDTO}" method="post">
+            <form th:action="@{/loadgame}" th:object="${gameDTO}" method="post">
                 <p>
                     <select class="form-group" th:field="*{lvlName}" id="dropDownList">
                         <option th:each="lvl : ${lvlName}"
@@ -31,69 +33,89 @@
                         </option>
                     </select>
                 </p>
-                <p><input type="text" class="form-control" id="name" th:field="*{playerName}" th:placeholder="username"
+                <p><input type="text" class="form-control" id="name" th:field="*{playerName}" th:placeholder="name"
                           th:value="anonymous"/></p>
                 <p class="alert alert-danger" th:if="${#fields.hasErrors('playerName')}" th:errors="*{playerName}"></p>
-                <p><input type="submit" value="Start"/></p>
+                <p><input type="submit" value="Start" class="btn btn-primary"/></p>
             </form>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-6" align="center">
-        <p>
-            <!--    TEXT under guess    - hide -->
-        <h4 th:text="${message}"></h4>
-        <h2 id="result" th:text="${result}" th:hidden="${credits} == 0"></h2>
 
-        <!--        GUESS FORM -->
-        <form  th:action="@{/guess}" th:object="${gameDTO}" method="post" th:hidden="${credits} == null">
-            <input id="guessField" type="text" th:field="*{guess}" placeholder="5letters"/>
             <p></p>
-            <p class="alert alert-danger" th:if="${#fields.hasErrors('guess')}" th:errors="*{guess}"></p>
-            <input type="submit" value="Guess" th:disabled="${credits} == 0"/>
-        </form>
 
-        </p>
+            <div class="card mb-4" th:hidden="${credits} != null">
 
-    </div>
-    <div class="col-xs-12 col-md-6" align="center">
-        <!--    These go on their own column    - always show after game setup  -->
-        <div th:hidden="${credits} == null">
-            <h3 th:text="'Hello ' + ${name} + '!'"></h3>
-            <h3 th:text="'Level: '+ ${levelSelected}"></h3>
-            <h2 th:text="'Credits : '+ ${credits} + ' | Score: '+ ${gameScore}"></h2>
-            <h2 th:text="${attempt} + ' / ' + ${attemptStart}"></h2>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <h3>High Scores</h3>
+                        <tr>
+                            <th>Name</th>
+                            <th>Score</th>
+                        </tr>
+                        </thead>
+                        <!--        LOOP    -->
+                        <tr th:each="scores: ${score}">
+                            <td th:text="${scores.name}" scope="row"></td>
+                            <td th:text="${scores.gameScore}" scope="row"></td>
+
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
         </div>
     </div>
-</div>
-<div class="row" style="margin-top:10vh;">
-    <div class="col-xs-12" align="center">
-        <h4 th:text="'Your guess was:'" th:hidden="${attempt} == ${attemptStart}"></h4>
-        <h2 id="guess" th:text="${guess}" th:hidden="${attempt} == ${attemptStart}"></h2>
+    <div class="row">
+        <div class="col-md-6" align="center">
+            <p>
+                <!--    TEXT under guess    - hide -->
+            <h4 th:text="${message}"></h4>
+            <h2 id="result" th:text="${result}" th:hidden="${credits} == 0"></h2>
 
-        <form method="post" th:action="@{/destroy}">
-            <input type="submit" value="Play Again" th:hidden="${credits} == null"/>
-        </form>
+            <!--        GUESS FORM -->
+            <form th:action="@{/guess}" th:object="${gameDTO}" method="post" th:hidden="${credits} == null">
+                <input id="guessField" type="text" th:field="*{guess}" placeholder="5letters"/>
+                <p></p>
+                <p class="alert alert-danger" th:if="${#fields.hasErrors('guess')}" th:errors="*{guess}"></p>
+                <input type="submit" value="Guess" th:disabled="${credits} == 0" class="btn btn-primary"/>
+            </form>
+
+            </p>
+
+        </div>
+        <div class="col-xs-12 col-md-6" align="center">
+            <!--    These go on their own column    - always show after game setup  -->
+            <div th:hidden="${credits} == null">
+                <h3 th:text="'Hello ' + ${name} + '!'"></h3>
+                <h3 th:text="'Level: '+ ${levelSelected}"></h3>
+                <h2 th:text="'Credits : '+ ${credits} + ' | Score: '+ ${gameScore}"></h2>
+                <h2 th:text="${attempt} + ' / ' + ${attemptStart}"></h2>
+            </div>
+        </div>
     </div>
+    <div class="row" style="margin-top:10vh;">
+        <div class="col-xs-12" align="center">
+            <h4 th:text="'Your guess was:'" th:hidden="${attempt} == ${attemptStart}"></h4>
+            <h2 id="guess" th:text="${guess}" th:hidden="${attempt} == ${attemptStart}"></h2>
 
+            <form method="post" th:action="@{/destroy}">
+                <input type="submit" value="Play Again" class="btn btn-danger" th:hidden="${credits} == null"/>
+            </form>
+
+
+        </div>
+
+    </div>
     <div>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Score</th>
-            </tr>
-            </thead>
-            <!--        LOOP    -->
-            <tr th:each="scores: ${score}">
 
-                <td th:text="${scores.name}" scope="row"></td>
-                <td th:text="${scores.gameScore}" scope="row"></td>
+        <h4>About 5Letter Word Game WebApp</h4>
+        Guess a word of 5 characters. There are only 100 words.
+        It began as my first project ever in Java. From just console, to now Spring Boot.
+        This is my 'canvas' app which I use to apply any new knowledge acquired trough courses.
+        The latest concepts involve Hibernate & Spring Boot as of April 2022.
+        Later implementations will involve Spring Security.
 
-            </tr>
-
-        </table>
 
     </div>
 </div>
