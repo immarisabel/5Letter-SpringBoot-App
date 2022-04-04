@@ -23,10 +23,10 @@
         <!--        Set Up Game Form    -->
 
         <div th:hidden="${credits} != null">
-            <form th:action="@{/loadgame}" th:object="${score}" method="post">
+            <form th:action="@{/loadgame}" th:object="${gameDTO}" method="post">
                 <p>
-                    <select class="form-group" th:field="*{level}" id="dropDownList">
-                        <option th:each="lvl : ${level}"
+                    <select class="form-group" th:field="*{levels}" id="dropDownList">
+                        <option th:each="lvl : ${levels}"
                                 th:text="${lvl.levelName}"
                                 th:value="${lvl.levelName}"></option>
                     </select>

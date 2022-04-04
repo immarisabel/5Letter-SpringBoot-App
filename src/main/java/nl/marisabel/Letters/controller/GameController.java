@@ -84,10 +84,10 @@ public class GameController {
         model.addAttribute("attemptStart", session.getAttribute(TOTAL_ATTEMPTS_CONSTANT));
         model.addAttribute("name", session.getAttribute(NAME_CONSTANT));
         model.addAttribute("gameScore", session.getAttribute(GAME_SCORE_CONSTANT));
-        model.addAttribute("level", Level.values());
+        model.addAttribute("levels", Level.values());
 
         List<Score> scores = scoreSavingService.getScores();
-        model.addAttribute("customer", scores);
+        model.addAttribute("scores", scores);
 
         return "index";
     }
@@ -111,7 +111,7 @@ public class GameController {
         String word = (String) request.getSession().getAttribute(WORD_TO_GUESS_CONSTANT);
 
         if (word == null) {
-            request.getSession().setAttribute(NAME_CONSTANT, score.getName());
+            request.getSession().setAttribute(NAME_CONSTANT, gameDTO.getName());
             request.getSession().setAttribute(ATTEMPTS_CONSTANT, gameDTO.getLevel().getAttempts());
             request.getSession().setAttribute(LEVEL_CONSTANT, gameDTO.getLevel().getLevelName());
             request.getSession().setAttribute(TOTAL_ATTEMPTS_CONSTANT, gameDTO.getLevel().getAttempts());
@@ -167,7 +167,7 @@ public class GameController {
 
 
         score.setName((String) session.getAttribute(NAME_CONSTANT));
-        score.setLevel((String) session.getAttribute(LEVEL_CONSTANT));
+        score.setLvl((String) session.getAttribute(LEVEL_CONSTANT));
         score.setScore((int) session.getAttribute(GAME_SCORE_CONSTANT));
         // check data for database updates
         log(GameController.class, "Controller: " + String.valueOf(score));

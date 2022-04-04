@@ -15,7 +15,7 @@ public class Score {
     private int id;
     @Column(nullable = false)
     private int score;
-    private String name = "null_name";
-    private String level;
+    private String name ="test";
+    private String lvl;
 
 }

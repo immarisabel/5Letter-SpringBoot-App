@@ -31,14 +31,5 @@ public enum Level {
         return multiplier;
     }
 
-    public static Level fromLevel(String levelName) {
-        for (Level level : Level.values()) {
-            if (level.getLevelName().equals(levelName)) {
-                return level;
-            }
-        }
-        throw new UnsupportedOperationException(
-                "The code " + levelName + " is not supported!");
-    }
 }
 

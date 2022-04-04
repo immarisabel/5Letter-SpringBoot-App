@@ -11,6 +11,7 @@ public class GameDTO {
     private String word;
     private int credit = 1;
     private Level level;
+    private String name;
 
     // SCORES
 

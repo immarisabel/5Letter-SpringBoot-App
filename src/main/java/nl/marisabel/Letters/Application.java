@@ -12,7 +12,7 @@ public class Application {
     }
 
 
-    //TODO add highscores to view (top 5)
+    //TODO add high-scores to view (top 5) // change view according to level selection
 
     // Implementations and features
     //TODO add count of words guessed
