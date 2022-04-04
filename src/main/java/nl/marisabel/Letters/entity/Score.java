@@ -15,7 +15,7 @@ public class Score {
     @Column(nullable = false)
     private int id;
     @Column(nullable = false)
-    private int score;
+    private int gameScore;
     private String name;
     private String selectedLevelName;
 

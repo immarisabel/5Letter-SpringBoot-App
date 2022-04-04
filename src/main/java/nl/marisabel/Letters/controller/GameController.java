@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 import static nl.marisabel.Letters.util.LogFormat.log;
 
@@ -61,6 +62,9 @@ public class GameController {
                        GameDTO gameDTO,
                        Score score) {
 
+        List<Score> scoreList = scoreSavingService.getScore();
+        model.addAttribute("score", scoreList);
+
         model.addAttribute("name", session.getAttribute(NAME_CONSTANT));
         model.addAttribute("levelSelected", session.getAttribute(SELECTED_LEVEL_CONSTANT));
         model.addAttribute("attempt", session.getAttribute(ATTEMPTS_CONSTANT));
@@ -102,6 +106,7 @@ public class GameController {
             gameDTO.setWord((String) session.getAttribute(WORD_TO_GUESS_CONSTANT));
         }
         model.addAttribute("message", "");
+
 
         return "redirect:/index";
     }
@@ -157,7 +162,7 @@ public class GameController {
                 request.getSession().setAttribute(MESSAGE_CONSTANT, message);
                 request.getSession().setAttribute(GAME_SCORE_CONSTANT, gameScore);
 //                DATABASE DATA
-                score.setScore(gameScore);
+                score.setGameScore(gameScore);
                 score.setName(name);
                 score.setSelectedLevelName(lvl);
                 scoreSavingService.saveScore(score);

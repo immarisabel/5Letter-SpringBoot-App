@@ -76,6 +76,26 @@
             <input type="submit" value="Play Again" th:hidden="${credits} == null"/>
         </form>
     </div>
+
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Score</th>
+            </tr>
+            </thead>
+            <!--        LOOP    -->
+            <tr th:each="scores: ${score}">
+
+                <td th:text="${scores.name}" scope="row"></td>
+                <td th:text="${scores.gameScore}" scope="row"></td>
+
+            </tr>
+
+        </table>
+
+    </div>
 </div>
 
 
