@@ -18,7 +18,7 @@ Start date: OCTOBER 2021
 #### Progress 4/4/22:
 Finally, implemented Hibernate plus cleanup the view. The next step is organizing the High Score table and implementing Spring Security when I am done with the course.
 
-![screenshoot](https://github.com/immarisabel/imLazyTwitterWebApp/blob/master/screenshootp01tweet.PNG)
+![screenshoot](https://github.com/immarisabel/5Letter-SpringBoot-App/blob/main/img.png)
 
 
 #### Progress 3/25/22:
