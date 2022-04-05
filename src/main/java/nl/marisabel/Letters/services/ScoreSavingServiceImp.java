@@ -18,8 +18,8 @@ public class ScoreSavingServiceImp implements ScoreSavingService{
 
     @Override
     @Transactional
-    public List<Score> getScore() {
-        return scoreDao.getScore();
+    public List<Score> getScore(int size, int page) {
+        return scoreDao.getScore(size, page);
     }
 
     @Override

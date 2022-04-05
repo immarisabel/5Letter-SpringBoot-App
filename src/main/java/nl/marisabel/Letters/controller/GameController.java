@@ -62,8 +62,7 @@ public class GameController {
                        GameDTO gameDTO,
                        Score score) {
 
-        List<Score> scoreList = scoreSavingService.getScore();
-        model.addAttribute("score", scoreList);
+
 
         model.addAttribute("name", session.getAttribute(NAME_CONSTANT));
         model.addAttribute("levelSelected", session.getAttribute(SELECTED_LEVEL_CONSTANT));
@@ -209,6 +208,25 @@ public class GameController {
 //        return "ExceptionPage";
 //    }
 
+    //  BUTTONS
+    @PostMapping(value = "/save")
+    public String giveUpAndSaveScore(final HttpSession session,
+                                     final HttpServletRequest request,
+                                     @ModelAttribute("score") Score score) {
+        score.setGameScore((Integer) session.getAttribute(GAME_SCORE_CONSTANT));
+        score.setName((String) session.getAttribute(NAME_CONSTANT));
+        score.setSelectedLevelName((String) session.getAttribute(SELECTED_LEVEL_CONSTANT));
+        scoreSavingService.saveScore(score);
+        request.getSession().invalidate();
+        return "index";
+    }
+
+    @GetMapping(value = "/scores")
+    public String seeScores(final HttpServletRequest request, Model model) {
+        List<Score> scoreList = scoreSavingService.getScore(5,1);
+        model.addAttribute("score", scoreList);
+        return "scores";
+    }
 
     // CLOSE SESSION
 

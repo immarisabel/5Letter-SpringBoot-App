@@ -1,0 +1,64 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html lang="en" xmlns:th="www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>5Letters</title>
+    <link th:href="@{/bootstrap.min.css}" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+<div class="container-sm">
+    <div class="col-xs-12" align="center">
+        <!--    HEADER  -->
+        <img src="https://marisabel.nl/wp-content/uploads/2020/11/avatar-e1606738130828-150x150.png"
+             style="margin-top:2vh;">
+        <h1 style="margin-top:1vh; color:hotpink;"><b>5Letter Word Game</b></h1>
+        <h5>AKA: Lingo.</h5>
+        <hr>
+
+    </div>
+
+
+        <form method="post" th:action="@{/index}">
+            <input type="submit" value="home" class="btn btn-primary"/>
+        </form>
+    <p></p>
+
+
+
+    <div class="col-xs-12" align="center">
+
+            <div class="card mb-4" th:hidden="${credits} != null">
+
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <h3>High Scores</h3>
+                        <tr>
+                            <th>Name</th>
+                            <th>Score</th>
+                        </tr>
+                        </thead>
+                        <!--        LOOP    -->
+                        <tr th:each="scores: ${score}">
+                            <td th:text="${scores.name}" scope="row"></td>
+                            <td th:text="${scores.gameScore}" scope="row"></td>
+
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

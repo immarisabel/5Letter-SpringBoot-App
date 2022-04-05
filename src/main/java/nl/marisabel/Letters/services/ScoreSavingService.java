@@ -7,6 +7,6 @@ import java.util.List;
 public interface ScoreSavingService{
 
 
-    public List<Score> getScore();
+    public List<Score> getScore(int size, int page);
     public void saveScore(Score score);
 }
