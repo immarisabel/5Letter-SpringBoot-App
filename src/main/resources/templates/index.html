@@ -64,7 +64,7 @@
 
         <div class="col-md-6" align="center">
             <p>
-                <!--    TEXT under guess    - hide -->
+                <!--    TEXT under guess   -->
             <h4 th:text="${message}"></h4>
             <h2 id="result" th:text="${result}" th:hidden="${credits} == 0"></h2>
 
@@ -82,28 +82,28 @@
 
     </div>
     <div class="row" style="margin-top:10vh;">
-<center>
-        <div class="row justify-content-center">
-            <div class="col col-lg-2 align-items-center">
-                <form method="post" th:action="@{/destroy}">
-                    <input type="submit" value="play again" class="btn btn-danger" th:hidden="${credits} == null"/>
-                </form>
-                <p></p>
-            </div>
-
-            <div class="col-md-auto align-items-center" width="50%">
-                <h4 th:text="'Your guess was:'" th:hidden="${attempt} == ${attemptStart}"></h4>
-                <h2 id="guess" th:text="${guess}" th:hidden="${attempt} == ${attemptStart}"></h2>
-                <p></p>
-            </div>
-            <div class="col col-lg-2 align-items-center">
-                <form method="post" th:action="@{/save}">
-                    <input type="submit" value="i'm tired" class="btn btn-danger" th:hidden="${credits} == null"/>
+        <center>
+            <div class="row justify-content-center">
+                <div class="col col-lg-2 align-items-center">
+                    <form method="post" th:action="@{/destroy}">
+                        <input type="submit" value="play again" class="btn btn-danger" th:hidden="${credits} == null"/>
+                    </form>
                     <p></p>
-                </form>
+                </div>
+
+                <div class="col-md-auto align-items-center" width="50%">
+                    <h4 th:text="'Your guess was:'" th:hidden="${attempt} == ${attemptStart}"></h4>
+                    <h2 id="guess" th:text="${guess}" th:hidden="${attempt} == ${attemptStart}"></h2>
+                    <p></p>
+                </div>
+                <div class="col col-lg-2 align-items-center">
+                    <form method="post" th:action="@{/save}">
+                        <input type="submit" value="i'm tired" class="btn btn-danger" th:hidden="${credits} == null"/>
+                        <p></p>
+                    </form>
+                </div>
             </div>
-        </div>
-</center>
+        </center>
 
         <div style="margin-top:2vh;">
 

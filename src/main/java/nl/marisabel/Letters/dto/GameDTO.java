@@ -2,15 +2,21 @@ package nl.marisabel.Letters.dto;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 
 @Data
 public class GameDTO {
 
     private int attempts;
+    @NotBlank (message = " type a word")
+    @Size(min=5, max=5, message = "use 5 characters")
     private String guess;
     private String word;
     private int credit = 1;
     private Level lvlName;
+    @NotBlank (message = "how should we call you?")
     private String playerName;
 
     // SCORES

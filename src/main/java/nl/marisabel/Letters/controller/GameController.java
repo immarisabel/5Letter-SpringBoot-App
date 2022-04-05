@@ -7,10 +7,12 @@ import nl.marisabel.Letters.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -33,7 +35,6 @@ public class GameController {
     private static final String GAME_SCORE_CONSTANT = "GAME_SCORE";
     private static final String SCORE_MULTIPLIER_CONSTANT = "SCORE_MULTIPLIER";
 
-
     @Autowired
     private RandomWordService randomWord;
     @Autowired
@@ -53,7 +54,7 @@ public class GameController {
         return new Score();
     }
 
-    // GAME METHODS
+//   GAME METHODS
 
     @GetMapping(value = "/index")
     public String home(Model model,
@@ -62,17 +63,13 @@ public class GameController {
                        GameDTO gameDTO,
                        Score score) {
 
-
-
         model.addAttribute("name", session.getAttribute(NAME_CONSTANT));
         model.addAttribute("levelSelected", session.getAttribute(SELECTED_LEVEL_CONSTANT));
         model.addAttribute("attempt", session.getAttribute(ATTEMPTS_CONSTANT));
         model.addAttribute("credits", session.getAttribute(CREDITS_CONSTANT));
         model.addAttribute("attemptStart", session.getAttribute(TOTAL_ATTEMPTS_CONSTANT));
-
         model.addAttribute("guess", session.getAttribute(GUESSED_WORD_CONSTANT));
         model.addAttribute("result", session.getAttribute(RESULT_CONSTANT));
-
         model.addAttribute("message", session.getAttribute(MESSAGE_CONSTANT));
         model.addAttribute("gameScore", session.getAttribute(GAME_SCORE_CONSTANT));
 
@@ -85,12 +82,30 @@ public class GameController {
     public String loadWord(
             final HttpSession session, final HttpServletRequest request,
             @ModelAttribute("score") Score score,
-            GameDTO gameDTO,
+            @Valid GameDTO gameDTO, BindingResult bindingResult,
             Model model
     ) throws IOException {
 
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("lvlName", Level.values());
 
-        // set up new game
+            model.addAttribute("name", session.getAttribute(NAME_CONSTANT));
+            model.addAttribute("levelSelected", session.getAttribute(SELECTED_LEVEL_CONSTANT));
+            model.addAttribute("attempt", session.getAttribute(ATTEMPTS_CONSTANT));
+            model.addAttribute("credits", session.getAttribute(CREDITS_CONSTANT));
+            model.addAttribute("attemptStart", session.getAttribute(TOTAL_ATTEMPTS_CONSTANT));
+
+            model.addAttribute("guess", session.getAttribute(GUESSED_WORD_CONSTANT));
+            model.addAttribute("result", session.getAttribute(RESULT_CONSTANT));
+
+            model.addAttribute("message", session.getAttribute(MESSAGE_CONSTANT));
+            model.addAttribute("gameScore", session.getAttribute(GAME_SCORE_CONSTANT));
+
+            return "index";
+        }
+
+        //  NEW GAME
+
         String word = (String) request.getSession().getAttribute(WORD_TO_GUESS_CONSTANT);
 
         if (word == null) {
@@ -116,10 +131,13 @@ public class GameController {
             final HttpSession session,
             final HttpServletRequest request,
             @ModelAttribute("score") Score score,
-            GameDTO gameDTO
-    ) throws IOException {
+            @Valid GameDTO gameDTO, BindingResult bindingResult) throws IOException {
 
-        // Variables
+        if (bindingResult.hasErrors()) {
+            return "index";
+        }
+
+        // variables
         int attempts = (int) session.getAttribute(ATTEMPTS_CONSTANT);
         int credits = (int) session.getAttribute(CREDITS_CONSTANT);
         int startAttempts = (int) session.getAttribute(TOTAL_ATTEMPTS_CONSTANT);
@@ -137,7 +155,7 @@ public class GameController {
         int initialScore = gameDTO.getStartScore();
         int finalScorePerWord = initialScore * scoreMultiplier;
 
-        // Main Game Logic
+        //   GAME LOGIC
 
         if (!wordIsCorrect) {
             String message = "";
@@ -160,7 +178,8 @@ public class GameController {
                 message = "Game over!";
                 request.getSession().setAttribute(MESSAGE_CONSTANT, message);
                 request.getSession().setAttribute(GAME_SCORE_CONSTANT, gameScore);
-//                DATABASE DATA
+
+                //   SAVE SCORE
                 score.setGameScore(gameScore);
                 score.setName(name);
                 score.setSelectedLevelName(lvl);
@@ -188,27 +207,8 @@ public class GameController {
         return "redirect:/index";
     }
 
-
-    // EXCEPTION HANDLERS
-
-//    @ExceptionHandler(value = ArrayIndexOutOfBoundsException.class)
-//    public String handleArrayIndexOutOfBoundsException(final Model model) {
-//
-//        String text = "ERROR: Could not check empty <<guess>>.";
-//        model.addAttribute("text", text);
-//        return "ExceptionPage";
-//    }
-//
-//
-//    @ExceptionHandler(value = NullPointerException.class)
-//    public String handleNullPointerException(final Model model) {
-//
-//        String text = "ERROR: Cannot compare words because <<word to guess>> is null";
-//        model.addAttribute("text", text);
-//        return "ExceptionPage";
-//    }
-
     //  BUTTONS
+
     @PostMapping(value = "/save")
     public String giveUpAndSaveScore(final HttpSession session,
                                      final HttpServletRequest request,
@@ -223,12 +223,12 @@ public class GameController {
 
     @GetMapping(value = "/scores")
     public String seeScores(final HttpServletRequest request, Model model) {
-        List<Score> scoreList = scoreSavingService.getScore(5,1);
+        List<Score> scoreList = scoreSavingService.getScore(5, 1);
         model.addAttribute("score", scoreList);
         return "scores";
     }
 
-    // CLOSE SESSION
+    //  CLOSE SESSION
 
     @PostMapping(value = "/destroy")
     public String restartGame(final HttpServletRequest request) {
@@ -238,5 +238,26 @@ public class GameController {
         request.getSession().invalidate();
         return "redirect:/index";
     }
+
+
+    //  EXCEPTION HANDLERS
+
+    @ExceptionHandler(value = ArrayIndexOutOfBoundsException.class)
+    public String handleArrayIndexOutOfBoundsException(final Model model) {
+
+        String text = "ERROR: Could not check empty <<guess>>.";
+        model.addAttribute("text", text);
+        return "ExceptionPage";
+    }
+
+
+    @ExceptionHandler(value = NullPointerException.class)
+    public String handleNullPointerException(final Model model) {
+
+        String text = "ERROR: Cannot compare words because <<word to guess>> is null";
+        model.addAttribute("text", text);
+        return "ExceptionPage";
+    }
+
 
 }
