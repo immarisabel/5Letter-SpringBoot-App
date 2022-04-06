@@ -7,15 +7,16 @@ import nl.marisabel.Letters.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
 import static nl.marisabel.Letters.util.LogFormat.log;
-
 
 @Controller
 @SessionAttributes({"guess", "word", "result", "level", "attempt", "message", "credits", "name", "gameScore"})
@@ -56,11 +57,11 @@ public class GameController {
     // GAME METHODS
 
     @GetMapping(value = "/index")
-    public String home(Model model,
+    public String home(final HttpSession session,
                        final HttpServletRequest request,
-                       final HttpSession session,
+                       @ModelAttribute("score") Score score,
                        GameDTO gameDTO,
-                       Score score) {
+                       Model model) {
 
         model.addAttribute("name", session.getAttribute(NAME_CONSTANT));
         model.addAttribute("levelSelected", session.getAttribute(SELECTED_LEVEL_CONSTANT));
@@ -82,9 +83,15 @@ public class GameController {
             final HttpSession session,
             final HttpServletRequest request,
             @ModelAttribute("score") Score score,
-            GameDTO gameDTO,
+            GameDTO gameDTO, BindingResult bindingResult,
             Model model
     ) throws IOException {
+
+//        if (bindingResult.hasErrors()) {
+//            model.addAttribute("lvlName", Level.values());
+//            return "index";
+//        }
+
 
         // set up new game
         String word = (String) request.getSession().getAttribute(WORD_TO_GUESS_CONSTANT);
@@ -111,8 +118,12 @@ public class GameController {
             final HttpSession session,
             final HttpServletRequest request,
             @ModelAttribute("score") Score score,
-            GameDTO gameDTO
+            GameDTO gameDTO, BindingResult bindingResult
     ) throws IOException {
+//
+//        if (bindingResult.hasErrors()) {
+//            return "index";
+//        }
 
         // Variables
         int attempts = (int) session.getAttribute(ATTEMPTS_CONSTANT);
@@ -218,9 +229,8 @@ public class GameController {
     }
 
     @GetMapping(value = "/scores")
-    public String seeScores(final HttpServletRequest request, Model model,GameDTO gameDTO) {
-
-        List<Score> scoreList = scoreSavingService.getScore(5,1);
+    public String seeScores(final HttpServletRequest request, Model model, GameDTO gameDTO) {
+        List<Score> scoreList = scoreSavingService.getScore(5, 1);
         model.addAttribute("score", scoreList);
         return "scores";
     }
@@ -229,8 +239,6 @@ public class GameController {
 
     @PostMapping(value = "/destroy")
     public String restartGame(final HttpServletRequest request) {
-
-
         log(GameController.class, " Session closing. Removing the data.");
         request.getSession().invalidate();
         return "redirect:/index";

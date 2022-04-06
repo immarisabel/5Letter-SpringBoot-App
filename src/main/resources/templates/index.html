@@ -40,8 +40,8 @@
                         </option>
                     </select>
                 </p>
-                <p><input type="text"  id="name" th:field="*{playerName}" th:placeholder="name"
-                          th:value="anonymous"/></p>
+                <p><input type="text" id="name" th:field="*{playerName}" th:placeholder="name" th:value="anonymous"/>
+                </p>
                 <p class="alert alert-danger" th:if="${#fields.hasErrors('playerName')}" th:errors="*{playerName}"></p>
                 <p><input type="submit" value="Start" class="btn btn-primary"/></p>
             </form>
@@ -81,42 +81,38 @@
         </div>
 
     </div>
-    <div class="row" style="margin-top:10vh;">
-            <div class="row justify-content-center">
-                <div class="col col-lg-2 align-items-center">
-                    <form method="post" th:action="@{/destroy}">
-                        <input type="submit" value="play again" class="btn btn-danger" th:hidden="${credits} == null"/>
-                    </form>
-                    <p></p>
-                </div>
+    <div class="row" style="margin-top:5vh;">
 
-                <div class="col-md-auto align-items-center" width="50%">
-                    <h4 th:text="'Your guess was:'" th:hidden="${attempt} == ${attemptStart}"></h4>
-                    <h2 id="guess" th:text="${guess}" th:hidden="${attempt} == ${attemptStart}"></h2>
-                    <p></p>
-                </div>
-                <div class="col col-lg-2 align-items-center">
-                    <form method="post" th:action="@{/save}">
-                        <input type="submit" value="i'm tired" class="btn btn-danger" th:hidden="${credits} == null"/>
-                        <p></p>
-                    </form>
-                </div>
-            </div>
-
+        <div class="col col-lg-2 text-center">
+            <form method="post" th:action="@{/destroy}">
+                <input type="submit" value="play again" class="btn btn-danger" th:hidden="${credits} == null"/>
+            </form>
+        </div>
+        <div class="col-6 col-md-auto text-center">
+            <h4 th:text="'Your guess was:'" th:hidden="${attempt} == ${attemptStart}"></h4>
+            <h2 id="guess" th:text="${guess}" th:hidden="${attempt} == ${attemptStart}"></h2>
+        </div>
+        <div class="col col-lg-2 text-center">
+            <form method="post" th:action="@{/save}">
+                <input type="submit" value="i'm tired" class="btn btn-danger" th:hidden="${credits} == null"/>
+                <p></p>
+            </form>
         </div>
 
     </div>
-    <div>
 
-        <h4>About 5Letter Word Game WebApp</h4>
-        Guess a word of 5 characters. There are only 100 words.
-        It began as my first project ever in Java. From just console, to now Spring Boot.
-        This is my 'canvas' app which I use to apply any new knowledge acquired trough courses.
-        The latest concepts involve Hibernate & Spring Boot as of April 2022.
-        Later implementations will involve Spring Security.
+</div>
+<div style="margin-top:10vh;">
+
+    <h4>About 5Letter Word Game WebApp</h4>
+    Guess a word of 5 characters. There are only 100 words.
+    It began as my first project ever in Java. From just console, to now Spring Boot.
+    This is my 'canvas' app which I use to apply any new knowledge acquired trough courses.
+    The latest concepts involve Hibernate & Spring Boot as of April 2022.
+    Later implementations will involve Spring Security.
 
 
-    </div>
+</div>
 
 
 </body>
