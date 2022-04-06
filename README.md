@@ -33,10 +33,11 @@ I then created a new list on things I need to work on as of today:
 - [x] add score system (27/3/22)
 - [x] implement hibernate JSP for processing and saving a score into a database
 - [x] add highscores to view (top 5) - need to limit, order and sort in level. But for now this will do.
+- [ ] fix validation
+- [ ] move game to own page and start page only for name and level
 
 ## Things to fix:
 - [x] (D) fix the service tests
 - [x] (B) FIX how to get the error to display on Thymeleaf? Code seems right... (28/3/22)
   - [x]  find a way to make the length error only show when there is something typed. And empty only when empty.
-- [ ] (C) at the end: clean up all sessions requests into variables for readability
 - [ ] (C) move all text to a property file for easy update and implementation
