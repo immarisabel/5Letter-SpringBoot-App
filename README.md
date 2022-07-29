@@ -41,3 +41,5 @@ I then created a new list on things I need to work on as of today:
 - [x] (B) FIX how to get the error to display on Thymeleaf? Code seems right... (28/3/22)
   - [x]  find a way to make the length error only show when there is something typed. And empty only when empty.
 - [ ] (C) move all text to a property file for easy update and implementation
+
+Database from https://remotemysql.com/databases.php

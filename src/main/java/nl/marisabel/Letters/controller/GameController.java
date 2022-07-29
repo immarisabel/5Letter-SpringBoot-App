@@ -56,7 +56,7 @@ public class GameController {
 
     // GAME METHODS
 
-    @GetMapping(value = "/index")
+    @GetMapping(value = "/")
     public String home(final HttpSession session,
                        final HttpServletRequest request,
                        @ModelAttribute("score") Score score,
@@ -109,7 +109,7 @@ public class GameController {
         }
         model.addAttribute("message", "");
 
-        return "redirect:/index";
+        return "redirect:/";
     }
 
 
@@ -191,7 +191,7 @@ public class GameController {
 
         log(GameController.class, "Attempts are now: " + session.getAttribute(ATTEMPTS_CONSTANT));
 
-        return "redirect:/index";
+        return "redirect:/";
     }
 
 
@@ -241,7 +241,7 @@ public class GameController {
     public String restartGame(final HttpServletRequest request) {
         log(GameController.class, " Session closing. Removing the data.");
         request.getSession().invalidate();
-        return "redirect:/index";
+        return "redirect:/";
     }
 
 }
